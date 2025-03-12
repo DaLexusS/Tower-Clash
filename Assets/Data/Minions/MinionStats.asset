@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee2a8c6b4ea7cb4ba60796ddf00248f, type: 3}
-  m_Name: TowerStats
+  m_Script: {fileID: 11500000, guid: a90bab8e0c8a9144b86b0e8ad2a0dfe1, type: 3}
+  m_Name: MinionStats
   m_EditorClassIdentifier: 
-  Health: 30
-  Damage: 3
-  Range: 10
-  AttackCoolDown: 1
-  MinionSpawnTimeCooldown: 3
+  Health: 5
+  Damage: 1
+  AttackRange: 2
+  AttackCooldown: 0.5
+  WalkSpeed: 1

@@ -10,4 +10,5 @@ public class TowerStats : ScriptableObject
     [SerializeField] public float Damage;
     [SerializeField] public float Range;
     [SerializeField] public float AttackCoolDown;
+    [SerializeField] public float MinionSpawnTimeCooldown;
 }

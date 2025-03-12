@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class BaseHealthManager : MonoBehaviour, IDamageable
 {
-    [SerializeField] BaseHealthStats healthStats;
+    [SerializeField] public BaseHealthStats healthStats;
+    [SerializeField] public bool isAlive = true;
 
     public int Health;
     public int MaxHealth;
