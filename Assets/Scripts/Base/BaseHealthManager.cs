@@ -24,12 +24,10 @@ public class BaseHealthManager : MonoBehaviour, IDamageable
 
         if (Health <= 0) { OnDied(); }
     }
-
     public void OnDied()
     {
-
+        isAlive = false;
+        //TEMP
+        Destroy(gameObject);
     }
-    //Check on zero
-
-    //Event to ui
 }

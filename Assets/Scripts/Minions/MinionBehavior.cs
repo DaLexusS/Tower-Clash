@@ -9,6 +9,8 @@ public class MinionBehavior : MonoBehaviour, IDamageable
     [SerializeField] public GameObject targetTower;
     [SerializeField] public GameObject targetBase;
     [SerializeField] public GameObject enemyFolder;
+    [SerializeField] public GameObject lane;
+    [SerializeField] public Rigidbody2D minionRigid;
 
     public int health;
     public int maxHealth;
@@ -16,8 +18,13 @@ public class MinionBehavior : MonoBehaviour, IDamageable
     public float attackRange;
     public float attackCooldown;
     public float walkSpeed;
+    public float preAttackTime;
+    public FirstAttackDelayRange firstAttackCooldown;
+    public bool IsAlive = true;
 
     private float lastAttackTime = 0f;
+    private float firstAttackDelayTime;
+    private bool hasAttackedOnce = false;
 
     private GameObject targetEnemy = null;
     private TowerHealthManager enemyTowerHealthManager;
@@ -30,16 +37,10 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         attackRange = minionStats.AttackRange;
         walkSpeed = minionStats.WalkSpeed;
         attackCooldown = minionStats.AttackCooldown;
+        firstAttackCooldown = minionStats.FirstAttackDelay;
+        preAttackTime = minionStats.PreAttackTime;
     }
 
-    private Color HexToColor(string hex)
-    {
-        hex = hex.Replace("#", "");
-        byte r = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
-        byte g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
-        byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
-        return new Color32(r, g, b, 255);
-    }
     private void Start()
     {
         if (targetTower != null)
@@ -51,6 +52,8 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         {
             baseHealthManager = targetBase.GetComponent<BaseHealthManager>();
         }
+
+        firstAttackDelayTime = Time.time + UnityEngine.Random.Range(firstAttackCooldown.min, firstAttackCooldown.max);
     }
 
     private void Update()
@@ -64,6 +67,7 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         {
             enemyTowerHealthManager = targetTower.GetComponent<TowerHealthManager>();
         }
+
 
         if (targetBase == null || enemyFolder == null) { return; }
         if (!baseHealthManager.isAlive && !enemyTowerHealthManager.isAlive) { return; }
@@ -97,7 +101,7 @@ public class MinionBehavior : MonoBehaviour, IDamageable
     {
         Vector3 targetPosition;
 
-        if (targetEnemy)
+        if (targetEnemy && targetEnemy.GetComponent<MinionBehavior>().lane == lane)
         {
             targetPosition = targetEnemy.transform.position;
         }
@@ -107,12 +111,14 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         }
         else
         {
+            Debug.Log("base");
             targetPosition = targetBase.transform.position;
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, walkSpeed * Time.deltaTime);
-
         Vector3 direction = (targetPosition - transform.position).normalized;
+
+        minionRigid.velocity = direction * walkSpeed;
+
         if (direction != Vector3.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -122,27 +128,40 @@ public class MinionBehavior : MonoBehaviour, IDamageable
 
     private void Attack()
     {
-        if (Time.time - lastAttackTime < attackCooldown) return;
+        if (!hasAttackedOnce)
+        {
+            if (Time.time < firstAttackDelayTime) return;
+            hasAttackedOnce = true;
+        }
+        else
+        {
+            if (Time.time - lastAttackTime < attackCooldown) return;
+        }
 
         lastAttackTime = Time.time;
 
-        if (targetEnemy != null && Vector3.Distance(transform.position, targetEnemy.transform.position) <= attackRange)
+        StartCoroutine(PreAttackDelay());
+    }
+
+    private IEnumerator PreAttackDelay()
+    {
+        yield return new WaitForSeconds(preAttackTime);
+
+        if (targetEnemy != null && Vector3.Distance(transform.position, targetEnemy.transform.position) <= attackRange && IsAlive)
         {
-            Debug.Log("aaaa");
             targetEnemy.GetComponent<IDamageable>()?.TakeDamage((int)damage);
         }
         else if (enemyTowerHealthManager != null && enemyTowerHealthManager.isAlive &&
-                 Vector3.Distance(transform.position, targetTower.transform.position) <= attackRange)
+                  Vector3.Distance(transform.position, targetTower.transform.position) <= attackRange + 1 && IsAlive)
         {
             enemyTowerHealthManager.TakeDamage((int)damage);
         }
-        else if (baseHealthManager != null && baseHealthManager.isAlive &&
-                 Vector3.Distance(transform.position, targetBase.transform.position) <= attackRange)
+        else if(baseHealthManager != null && baseHealthManager.isAlive &&
+                 Vector3.Distance(transform.position, targetBase.transform.position) <= attackRange + 2 && IsAlive)
         {
             baseHealthManager.TakeDamage((int)damage);
         }
     }
-
     public void TakeDamage(int damage)
     {
         health = math.max(0, health - damage);
@@ -151,6 +170,8 @@ public class MinionBehavior : MonoBehaviour, IDamageable
     }
     public void OnDied()
     {
+        //TEMP
+        IsAlive = false;
         Destroy(gameObject);
     }
 }

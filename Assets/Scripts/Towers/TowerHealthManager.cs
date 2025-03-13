@@ -23,10 +23,15 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
+        Health = Mathf.Max(0, Health - damage);
 
+        if (Health <= 0) { OnDied(); }
     }
     public void OnDied()
     {
-
+        isAlive = false;
+        gameObject.SetActive(false);
+        //TEMP
+        //Destroy(gameObject);
     }
 }

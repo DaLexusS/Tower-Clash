@@ -10,6 +10,7 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] public TowerStats towerStats;
     [SerializeField] public GameObject targetTower;
     [SerializeField] public GameObject targetBase;
+    [SerializeField] public GameObject lane;
 
     private float minionSpawnTime;
     private float lastTick;
@@ -48,6 +49,7 @@ public class EnemySpawn : MonoBehaviour
         minionBehavior.targetBase = targetBase;
         minionBehavior.targetTower = targetTower;
         minionBehavior.enemyFolder = enemyMinionFolder;
+        minionBehavior.lane = lane;
     }
 
     private bool CanMinionSpawn()
