@@ -15,6 +15,6 @@ public class ArrowTower : BaseTower
 
     protected override void Attack(Transform target)
     {
-        Debug.Log($"{TowerName} fires a cannonball at {target.name}!");
+        Debug.Log($"{TowerName} fires at {target.name}!");
     }
 }
