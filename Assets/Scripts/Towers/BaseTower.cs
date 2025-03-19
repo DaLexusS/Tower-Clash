@@ -12,9 +12,12 @@ public abstract class BaseTower : MonoBehaviour
 
     private float lastShotTime = -Mathf.Infinity;
 
+    [SerializeField] protected GameObject bulletPrefab;
+
     public virtual void Upgrade()
     {
         Level++;
+        //TEMP 
         FireRate *= 1.1f;
         BaseDamage *= 1.2f;
         Range *= 1.05f;
@@ -53,9 +56,18 @@ public abstract class BaseTower : MonoBehaviour
         if (enemy != null && CanAttack())
         {
             lastShotTime = Time.time;
-            Attack(enemy.transform);
+
+            SpawnBullet(enemy.transform);
         }
     }
 
+    protected abstract void SpawnBullet(Transform target);
+
+    public void OnBulletHit(Transform target)
+    {
+        Attack(target);
+    }
+
     protected abstract void Attack(Transform target);
+
 }
