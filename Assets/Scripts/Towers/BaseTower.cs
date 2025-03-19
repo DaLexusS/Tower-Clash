@@ -1,69 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseTower
+public abstract class BaseTower : MonoBehaviour
 {
-    public string TowerName {  get; protected set; }
-    public int Level { get; protected set; } = 1; 
+    public string TowerName { get; protected set; }
+    public int Level { get; protected set; } = 1;
     public float FireRate { get; protected set; }
     public float BaseDamage { get; protected set; }
     public float Range { get; protected set; }
     public int UpgradeCost { get; protected set; }
+    public GameObject EnemyFolder { get; protected set; }
 
     private float lastShotTime = -Mathf.Infinity;
-
-    public BaseTower(string name, float fireRate, float damage, float range, int upgradeCost)
-    {
-        TowerName = name;
-        FireRate = fireRate;
-        BaseDamage = damage;
-        Range = range;
-        UpgradeCost = upgradeCost;
-    }
 
     public virtual void Upgrade()
     {
         Level++;
-        //Upgrades
-        //fire rate *= 1.5
+        FireRate *= 1.1f;
+        BaseDamage *= 1.2f;
+        Range *= 1.05f;
+        UpgradeCost = (int)(UpgradeCost * 1.5f);
     }
 
-    public Transform FindClosestEnemy(List<Transform> enemies)
+    public GameObject CheckForEnemyInRange()
     {
-        Transform closestEnemy = null;
-        float minDistance = Mathf.Infinity;
+        if (!EnemyFolder) return null;
 
-        foreach (Transform enemy in enemies)
+        Transform closestEnemy = null;
+        float closestDistance = Range;
+        Vector3 currentPosition = transform.position;
+
+        foreach (Transform enemy in EnemyFolder.transform)
         {
-            float distance = Vector3.Distance(GetTurretPosition(), enemy.position);
-            if (distance < minDistance && distance <= Range)
+            float distance = Vector3.Distance(currentPosition, enemy.position);
+            if (distance <= Range && distance < closestDistance)
             {
-                minDistance = distance;
+                closestDistance = distance;
                 closestEnemy = enemy;
             }
         }
 
-        return closestEnemy;
+        return closestEnemy != null ? closestEnemy.gameObject : null;
     }
+
     public bool CanAttack()
     {
         return Time.time >= lastShotTime + (1f / FireRate);
     }
 
-    public void TryAttack(List<Transform> enemies)
+    private void Update()
     {
-        if (!CanAttack()) return;
-
-        Transform target = FindClosestEnemy(enemies);
-        if (target != null)
+        GameObject enemy = CheckForEnemyInRange();
+        if (enemy != null && CanAttack())
         {
             lastShotTime = Time.time;
-            Attack(target);
+            Attack(enemy.transform);
         }
     }
 
     protected abstract void Attack(Transform target);
-
-    protected abstract Vector3 GetTurretPosition();
 }
