@@ -111,7 +111,6 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         }
         else
         {
-            Debug.Log("base");
             targetPosition = targetBase.transform.position;
         }
 
