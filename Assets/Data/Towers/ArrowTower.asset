@@ -17,7 +17,8 @@ MonoBehaviour:
   Health: 30
   Damage: 1
   FireRate: 1
-  Range: 4
-  UpgradeCost: 150
+  Range: 2.5
+  UpgradeCost: 7
   AttackCoolDown: 1
   MinionSpawnTimeCooldown: 3
+  UpgradeCostPerLevel: 070000000d00000014000000

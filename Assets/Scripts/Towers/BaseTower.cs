@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseTower : MonoBehaviour
@@ -7,6 +8,7 @@ public abstract class BaseTower : MonoBehaviour
     public float FireRate { get; protected set; }
     public float BaseDamage { get; protected set; }
     public float Range { get; protected set; }
+    public List<int> UpgradeCostPerLevel { get; protected set; }
     public int UpgradeCost { get; protected set; }
     public GameObject EnemyFolder { get; protected set; }
 
@@ -17,11 +19,6 @@ public abstract class BaseTower : MonoBehaviour
     public virtual void Upgrade()
     {
         Level++;
-        //TEMP 
-        FireRate *= 1.1f;
-        BaseDamage *= 1.2f;
-        Range *= 1.05f;
-        UpgradeCost = (int)(UpgradeCost * 1.5f);
     }
 
     public GameObject CheckForEnemyInRange()

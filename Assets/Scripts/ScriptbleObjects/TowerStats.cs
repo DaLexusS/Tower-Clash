@@ -15,4 +15,5 @@ public class TowerStats : ScriptableObject
     [SerializeField] public int UpgradeCost;
     [SerializeField] public float AttackCoolDown;
     [SerializeField] public float MinionSpawnTimeCooldown;
+    [SerializeField] public List<int> UpgradeCostPerLevel;
 }
