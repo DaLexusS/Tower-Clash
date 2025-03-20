@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MinionBehavior : MonoBehaviour, IDamageable
 {
+    public static UnityAction<int> onEnemyMinionKilled;
     [SerializeField] public MinionStats minionStats;
     [SerializeField] public GameObject targetTower;
     [SerializeField] public GameObject targetBase;
     [SerializeField] public GameObject enemyFolder;
     [SerializeField] public GameObject lane;
     [SerializeField] public Rigidbody2D minionRigid;
+    [SerializeField] public bool IsEnemy = false;
 
     public int health;
     public int maxHealth;
@@ -170,6 +173,11 @@ public class MinionBehavior : MonoBehaviour, IDamageable
     public void OnDied()
     {
         //TEMP
+        if(IsEnemy)
+        {
+            onEnemyMinionKilled.Invoke(5);
+        }
+
         IsAlive = false;
         Destroy(gameObject);
     }

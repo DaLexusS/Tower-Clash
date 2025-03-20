@@ -47,7 +47,7 @@ public abstract class BaseTower : MonoBehaviour
 
     public bool CanAttack()
     {
-        return Time.time >= lastShotTime + (1f / FireRate);
+        return Time.time >= lastShotTime + FireRate;
     }
 
     private void Update()

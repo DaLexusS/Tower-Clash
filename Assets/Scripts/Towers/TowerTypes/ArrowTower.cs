@@ -6,13 +6,15 @@ public class ArrowTower : BaseTower
     [SerializeField] GameObject arrowPrefab;
     [SerializeField] GameObject projectileFolder;
 
+    [SerializeField] public TowerStats towerStats;
+
     private void Start()
     {
-        TowerName = "Arrow";
-        FireRate = 0.5f;
-        BaseDamage = 50f;
-        Range = 10f;
-        UpgradeCost = 150;
+        TowerName = towerStats.TowerName;
+        FireRate = towerStats.FireRate;
+        BaseDamage = towerStats.Damage;
+        Range = towerStats.Range;
+        UpgradeCost = towerStats.UpgradeCost;
         EnemyFolder = enemyFolder;
     }
 
@@ -35,6 +37,7 @@ public class ArrowTower : BaseTower
 
     protected override void Attack(Transform target)
     {
-        Debug.Log($"{TowerName} fires an arrow at {target.name} and deals {BaseDamage} damage!");
+        //Debug.Log($"{TowerName} fires an arrow at {target.name} and deals {BaseDamage} damage!");
+
     }
 }

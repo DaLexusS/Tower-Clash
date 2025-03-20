@@ -12,6 +12,9 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] public GameObject targetBase;
     [SerializeField] public GameObject lane;
 
+    [SerializeField] public Color minionColor;
+    [SerializeField] public bool isEnemy;
+
     private float minionSpawnTime;
     private float lastTick;
 
@@ -45,11 +48,25 @@ public class EnemySpawn : MonoBehaviour
 
         GameObject cloneMinion = Instantiate(minion, spawnPos, minion.transform.rotation, minionFolder.transform);
         MinionBehavior minionBehavior = cloneMinion.GetComponent<MinionBehavior>();
-
+        ColorMinion(cloneMinion);
+        minionBehavior.IsEnemy = isEnemy;
         minionBehavior.targetBase = targetBase;
         minionBehavior.targetTower = targetTower;
         minionBehavior.enemyFolder = enemyMinionFolder;
         minionBehavior.lane = lane;
+    }
+
+    public void ColorMinion(GameObject minion)
+    {
+        Transform visual = minion.transform.Find("Visual");
+        if (visual != null)
+        {
+            SpriteRenderer sr = visual.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.color = minionColor;
+            }
+        }
     }
 
     private bool CanMinionSpawn()
