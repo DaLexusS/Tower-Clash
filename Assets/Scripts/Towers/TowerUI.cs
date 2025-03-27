@@ -10,6 +10,7 @@ public class TowerUI : MonoBehaviour
     public static UnityAction<bool, float> onUpgradeProgress;
     public static UnityAction onUpgradeFinished;
     public static UnityAction onNoMoneyForUpgrade;
+    public static UnityAction<BaseTower> onUpdateStats;
     [SerializeField] public PlayerManager player;
     [SerializeField] public BaseTower towerStats;
     [SerializeField] public Image mark;
@@ -18,11 +19,14 @@ public class TowerUI : MonoBehaviour
     [SerializeField] public GameObject towerVisual;
     [SerializeField] public float tapCooldown = 0.01f;
     [SerializeField] public float holdTimeToUpgrade = 1;
+
     private SpriteRenderer spriteRenderer;
-    private float lastTap;
     private RectTransform panelRect;
+
     private bool inHold = false;
+
     private float holdTime = 0;
+    private float lastTap;
     private void Awake()
     {
         spriteRenderer = towerVisual.GetComponent<SpriteRenderer>();
@@ -43,6 +47,11 @@ public class TowerUI : MonoBehaviour
     private void OnDisable()
     {
         PlayerManager.onCoinsUpdated -= isUpgradeAvailable;
+    }
+
+    private void Start()
+    {
+        onUpdateStats?.Invoke(towerStats);
     }
 
     public void isUpgradeAvailable(int amount)
@@ -102,6 +111,7 @@ public class TowerUI : MonoBehaviour
                                 upgradeSlider.gameObject.SetActive(false);
                                 onUpgradeFinished?.Invoke();
                                 onTowerUpgradePressed?.Invoke(towerStats, upgradePanel.gameObject);
+                                onUpdateStats?.Invoke(towerStats);
                             }
                         }
                     }
