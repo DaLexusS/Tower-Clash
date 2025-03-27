@@ -7,19 +7,28 @@ using UnityEngine.UI;
 public class TowerUI : MonoBehaviour
 {
     public static UnityAction<BaseTower, GameObject> onTowerUpgradePressed;
+    public static UnityAction<bool, float> onUpgradeProgress;
+    public static UnityAction onUpgradeFinished;
+    public static UnityAction onNoMoneyForUpgrade;
+    [SerializeField] public PlayerManager player;
     [SerializeField] public BaseTower towerStats;
     [SerializeField] public Image mark;
     [SerializeField] public Image upgradePanel;
+    [SerializeField] public Slider upgradeSlider;
     [SerializeField] public GameObject towerVisual;
-    [SerializeField] public float tapCooldown = 1f;
+    [SerializeField] public float tapCooldown = 0.01f;
+    [SerializeField] public float holdTimeToUpgrade = 1;
     private SpriteRenderer spriteRenderer;
     private float lastTap;
     private RectTransform panelRect;
+    private bool inHold = false;
+    private float holdTime = 0;
     private void Awake()
     {
         spriteRenderer = towerVisual.GetComponent<SpriteRenderer>();
         panelRect = upgradePanel.GetComponent<RectTransform>();
         lastTap = Time.time;
+        holdTime = Time.time;
     }
 
     private void Update()
@@ -41,25 +50,82 @@ public class TowerUI : MonoBehaviour
         mark.gameObject.SetActive(amount > towerStats.UpgradeCost);
     }
 
-    void CheckTapOnSprite()
+    private void CheckTapOnSprite()
     {
-        if (Time.time < lastTap) { return; }
-
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (Input.touchCount > 0)
         {
-            Vector2 touchPosition = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            Touch touch = Input.GetTouch(0);
+            Vector2 touchWorldPos = Camera.main.ScreenToWorldPoint(touch.position);
 
-            bool tapOnTower = spriteRenderer != null && spriteRenderer.bounds.Contains(touchPosition);
-            bool tapOnPanel = IsTapOnPanel(Input.GetTouch(0).position);
+            bool onTower = spriteRenderer != null && spriteRenderer.bounds.Contains(touchWorldPos);
+            bool onPanel = IsTapOnPanel(touch.position);
 
-            if (tapOnTower)
+            switch (touch.phase)
             {
-                lastTap = Time.time + tapCooldown;
-                upgradePanel.gameObject.SetActive(true);
-            }
-            else if (!tapOnPanel)
-            {
-                upgradePanel.gameObject.SetActive(false);
+                case TouchPhase.Began:
+                    if (onTower)
+                    {
+                        inHold = true;
+                        holdTime = 0;
+                    }
+                    break;
+
+                case TouchPhase.Stationary:
+                case TouchPhase.Moved:
+                    if (inHold)
+                    {
+                        holdTime += Time.deltaTime;
+
+                        if (holdTime >= 0.20f && player.currentCoins < towerStats.UpgradeCost)
+                        {
+                            onNoMoneyForUpgrade?.Invoke();
+                            return;
+                        }
+
+                        if (holdTime >= 0.20f && !upgradeSlider.gameObject.activeSelf)
+                        {
+                            
+                            upgradeSlider.gameObject.SetActive(true);
+                            upgradeSlider.value = 0;
+                        }
+
+                        if (upgradeSlider.gameObject.activeSelf)
+                        {
+                            float progress = Mathf.Clamp01((holdTime - 0.25f) / holdTimeToUpgrade);
+                            upgradeSlider.value = progress;
+
+                            onUpgradeProgress?.Invoke(true, progress);
+
+                            if (progress >= 1f)
+                            {
+                                inHold = false;
+                                upgradeSlider.gameObject.SetActive(false);
+                                onUpgradeFinished?.Invoke();
+                                onTowerUpgradePressed?.Invoke(towerStats, upgradePanel.gameObject);
+                            }
+                        }
+                    }
+                    break;
+
+                case TouchPhase.Ended:
+                case TouchPhase.Canceled:
+                    if (inHold)
+                    {
+                        if (holdTime < 0.25f && onTower)
+                        {
+                            upgradePanel.gameObject.SetActive(true);
+                        }
+
+                        inHold = false;
+                        holdTime = 0;
+                        upgradeSlider.gameObject.SetActive(false);
+                        onUpgradeProgress?.Invoke(false, 0);
+                    }
+                    else if (!onPanel)
+                    {
+                        upgradePanel.gameObject.SetActive(false);
+                    }
+                    break;
             }
         }
     }
@@ -73,8 +139,10 @@ public class TowerUI : MonoBehaviour
         return false;
     }
 
+
+    /*   On press on the button
     public void onUpgradePressed()
     {
         onTowerUpgradePressed.Invoke(towerStats, upgradePanel.gameObject);
-    }
+    }*/
 }

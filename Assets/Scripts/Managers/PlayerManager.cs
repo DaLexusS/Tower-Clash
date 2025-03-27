@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
     public static UnityAction<int> onCoinsUpdated;
     [SerializeField] PlayerDataStructure playerData;
 
-    private int currentCoins;
+    public int currentCoins { get; set; }
 
     private void Awake()
     {
@@ -37,7 +37,7 @@ public class PlayerManager : MonoBehaviour
     public void onUpgradePressed(BaseTower tower, GameObject ui)
     {
         if (currentCoins < tower.UpgradeCost) { return; }
-        //Temp here, later invoke to update text stats
+        
         ui.SetActive(false);
 
         currentCoins -= tower.UpgradeCost;
