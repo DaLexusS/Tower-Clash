@@ -50,18 +50,28 @@ public class TowerUI : MonoBehaviour
         PlayerManager.onCoinsUpdated -= isUpgradeAvailable;
     }
 
-    private void Start()
-    {
-        onUpdateStats?.Invoke(towerStats);
-    }
-
     public void isUpgradeAvailable(int amount)
     {
-        if(towerStats.Level == towerStats.UpgradeCostPerLevel.Count)
-        {
+        if (IsMaxLevel()) 
+        { 
+            mark.gameObject.SetActive(false);
             return;
         }
-        mark.gameObject.SetActive(amount >= towerStats.UpgradeCostPerLevel[towerStats.Level]);
+
+        if (amount >= towerStats.UpgradeCostPerLevel[towerStats.Level])
+        {
+            mark.gameObject.SetActive(true);
+        }
+        else
+        {
+            mark.gameObject.SetActive(false);
+        }
+    }
+
+    private bool IsMaxLevel()
+    {
+        if (towerStats.Level >= towerStats.UpgradeCostPerLevel.Count) { return true; }
+        else { return false; }
     }
 
     private void CheckTapOnSprite()
@@ -90,7 +100,7 @@ public class TowerUI : MonoBehaviour
                     {
                         holdTime += Time.deltaTime;
 
-                        if (holdTime >= 0.20f && player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
+                        if (!IsMaxLevel() && holdTime >= 0.20f && player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
                         {
                             onNoMoneyForUpgrade?.Invoke();
                             return;
@@ -98,6 +108,7 @@ public class TowerUI : MonoBehaviour
 
                         if (holdTime >= 0.20f && !upgradeSlider.gameObject.activeSelf)
                         {
+                            if (IsMaxLevel()) { return; }
                             upgradeSlider.gameObject.SetActive(true);
                             upgradeSlider.value = 0;
                         }

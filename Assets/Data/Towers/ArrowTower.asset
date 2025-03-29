@@ -20,7 +20,7 @@ MonoBehaviour:
   UpgradeCostPerLevel: 070000000d00000014000000
   DamagePerLevel:
   - 1
-  - 12
+  - 2
   - 3
   - 4
   FireRatePerLevel:
