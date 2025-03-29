@@ -57,6 +57,10 @@ public class TowerUI : MonoBehaviour
 
     public void isUpgradeAvailable(int amount)
     {
+        if(towerStats.Level == towerStats.UpgradeCostPerLevel.Count)
+        {
+            return;
+        }
         mark.gameObject.SetActive(amount >= towerStats.UpgradeCostPerLevel[towerStats.Level]);
     }
 

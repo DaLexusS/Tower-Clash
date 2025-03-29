@@ -24,7 +24,6 @@ public class ArrowTower : BaseTower
         base.Upgrade();
 
         if (Level > UpgradeCostPerLevel.Count - 1){ return; }
-        BaseDamage[Level] += 10;
     }
 
     protected override void SpawnBullet(Transform target)

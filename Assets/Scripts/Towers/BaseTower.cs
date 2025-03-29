@@ -17,6 +17,10 @@ public abstract class BaseTower : MonoBehaviour
 
     public virtual void Upgrade()
     {
+        if (Level == UpgradeCostPerLevel.Count)
+        {
+            return;
+        }
         Level++;
     }
 

@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,7 +7,7 @@ using UnityEngine;
 public class UpdateCoins : MonoBehaviour
 {
     [SerializeField] TMP_Text coinsText;
-    [SerializeField] TMP_Text coinsErrorText;
+    [SerializeField] MMF_Player errorTextPlayer;
 
     private void OnEnable()
     {
@@ -28,13 +29,6 @@ public class UpdateCoins : MonoBehaviour
 
     public void NoMoneyEvent()
     {
-        StartCoroutine(noCoinsText());
-    }
-
-    private IEnumerator noCoinsText()
-    {
-        coinsErrorText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2);
-        coinsErrorText.gameObject.SetActive(false);
+        errorTextPlayer.PlayFeedbacks();
     }
 }
