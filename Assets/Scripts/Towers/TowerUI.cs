@@ -7,10 +7,11 @@ using UnityEngine.UI;
 public class TowerUI : MonoBehaviour
 {
     public static UnityAction<BaseTower, GameObject> onTowerUpgradePressed;
+    public static UnityAction<BaseTower> onUpdateStats;
     public static UnityAction<bool, float> onUpgradeProgress;
     public static UnityAction onUpgradeFinished;
     public static UnityAction onNoMoneyForUpgrade;
-    public static UnityAction<BaseTower> onUpdateStats;
+
     [SerializeField] public PlayerManager player;
     [SerializeField] public BaseTower towerStats;
     [SerializeField] public Image mark;
@@ -56,7 +57,7 @@ public class TowerUI : MonoBehaviour
 
     public void isUpgradeAvailable(int amount)
     {
-        mark.gameObject.SetActive(amount > towerStats.UpgradeCost);
+        mark.gameObject.SetActive(amount >= towerStats.UpgradeCostPerLevel[towerStats.Level]);
     }
 
     private void CheckTapOnSprite()
@@ -85,7 +86,7 @@ public class TowerUI : MonoBehaviour
                     {
                         holdTime += Time.deltaTime;
 
-                        if (holdTime >= 0.20f && player.currentCoins < towerStats.UpgradeCost)
+                        if (holdTime >= 0.20f && player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
                         {
                             onNoMoneyForUpgrade?.Invoke();
                             return;
@@ -93,7 +94,6 @@ public class TowerUI : MonoBehaviour
 
                         if (holdTime >= 0.20f && !upgradeSlider.gameObject.activeSelf)
                         {
-                            
                             upgradeSlider.gameObject.SetActive(true);
                             upgradeSlider.value = 0;
                         }
@@ -111,7 +111,7 @@ public class TowerUI : MonoBehaviour
                                 upgradeSlider.gameObject.SetActive(false);
                                 onUpgradeFinished?.Invoke();
                                 onTowerUpgradePressed?.Invoke(towerStats, upgradePanel.gameObject);
-                                onUpdateStats?.Invoke(towerStats);
+                                
                             }
                         }
                     }
@@ -123,6 +123,7 @@ public class TowerUI : MonoBehaviour
                     {
                         if (holdTime < 0.25f && onTower)
                         {
+                            onUpdateStats?.Invoke(towerStats);
                             upgradePanel.gameObject.SetActive(true);
                         }
 
@@ -148,11 +149,4 @@ public class TowerUI : MonoBehaviour
         }
         return false;
     }
-
-
-    /*   On press on the button
-    public void onUpgradePressed()
-    {
-        onTowerUpgradePressed.Invoke(towerStats, upgradePanel.gameObject);
-    }*/
 }

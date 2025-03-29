@@ -15,10 +15,18 @@ MonoBehaviour:
   TowerName: ArrowTower
   Level: 0
   Health: 30
-  Damage: 1
-  FireRate: 1
-  Range: 2.5
-  UpgradeCost: 7
   AttackCoolDown: 1
   MinionSpawnTimeCooldown: 3
   UpgradeCostPerLevel: 070000000d00000014000000
+  DamagePerLevel:
+  - 1
+  - 12
+  - 3
+  FireRatePerLevel:
+  - 1
+  - 0.9
+  - 0.5
+  RangePerLevel:
+  - 2
+  - 3
+  - 4

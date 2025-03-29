@@ -5,11 +5,10 @@ public abstract class BaseTower : MonoBehaviour
 {
     public string TowerName { get; protected set; }
     public int Level { get; protected set; } = 1;
-    public float FireRate { get; protected set; }
-    public float BaseDamage { get; protected set; }
-    public float Range { get; protected set; }
+    public List<float> FireRate { get; protected set; }
+    public List<float> BaseDamage { get; protected set; }
+    public List<float> Range { get; protected set; }
     public List<int> UpgradeCostPerLevel { get; protected set; }
-    public int UpgradeCost { get; protected set; }
     public GameObject EnemyFolder { get; protected set; }
 
     private float lastShotTime = -Mathf.Infinity;
@@ -26,13 +25,13 @@ public abstract class BaseTower : MonoBehaviour
         if (!EnemyFolder) return null;
 
         Transform closestEnemy = null;
-        float closestDistance = Range;
+        float closestDistance = Range[Level];
         Vector3 currentPosition = transform.position;
 
         foreach (Transform enemy in EnemyFolder.transform)
         {
             float distance = Vector3.Distance(currentPosition, enemy.position);
-            if (distance <= Range && distance < closestDistance)
+            if (distance <= Range[Level] && distance < closestDistance)
             {
                 closestDistance = distance;
                 closestEnemy = enemy;
@@ -44,7 +43,7 @@ public abstract class BaseTower : MonoBehaviour
 
     public bool CanAttack()
     {
-        return Time.time >= lastShotTime + FireRate;
+        return Time.time >= lastShotTime + FireRate[Level];
     }
 
     private void Update()

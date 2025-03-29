@@ -5,21 +5,18 @@ public class ArrowTower : BaseTower
     [SerializeField] GameObject enemyFolder;
     [SerializeField] GameObject arrowPrefab;
     [SerializeField] GameObject projectileFolder;
-
     [SerializeField] public TowerStats towerStats;
-    [SerializeField] public float testDamage;
 
     private void Start()
     {
         TowerName = towerStats.TowerName;
         Level = towerStats.Level;
-        FireRate = towerStats.FireRate;
-        BaseDamage = towerStats.Damage;
-        Range = towerStats.Range;
+
+        FireRate = towerStats.FireRatePerLevel;
+        BaseDamage = towerStats.DamagePerLevel;
+        Range = towerStats.RangePerLevel;
         UpgradeCostPerLevel = towerStats.UpgradeCostPerLevel;
-        UpgradeCost = UpgradeCostPerLevel[Level];
         EnemyFolder = enemyFolder;
-        testDamage = BaseDamage;
     }
 
     public override void Upgrade()
@@ -27,9 +24,7 @@ public class ArrowTower : BaseTower
         base.Upgrade();
 
         if (Level > UpgradeCostPerLevel.Count - 1){ return; }
-        UpgradeCost = UpgradeCostPerLevel[Level];
-        BaseDamage += 10;
-        testDamage = BaseDamage;
+        BaseDamage[Level] += 10;
     }
 
     protected override void SpawnBullet(Transform target)
@@ -41,17 +36,16 @@ public class ArrowTower : BaseTower
         }
 
         GameObject bulletInstance = Instantiate(arrowPrefab, transform.position, Quaternion.identity, projectileFolder.transform);
-        Bullet bulletScript = bulletInstance.GetComponent<Bullet>();
+        Bullet bulletScript = bulletInstance.GetComponent<Bullet>(); // Instead of getting component turn bulletinstance into bullet 
 
         if (bulletScript != null)
         {
-            bulletScript.InitBullet(target, 4f, BaseDamage, this);
+            bulletScript.InitBullet(target, 4f, BaseDamage[Level], this);
         }
     }
 
     protected override void Attack(Transform target)
     {
         //Debug.Log($"{TowerName} fires an arrow at {target.name} and deals {BaseDamage} damage!");
-
     }
 }
