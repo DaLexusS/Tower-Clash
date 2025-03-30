@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3061877744680718227, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
+  FightLane: {fileID: 0}
   enemyFolder: {fileID: 0}
   arrowPrefab: {fileID: 3061877744680718227, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
   projectileFolder: {fileID: 0}
@@ -631,6 +632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3061877744680718227, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
+  FightLane: {fileID: 4359062393824258278}
   enemyFolder: {fileID: 0}
   arrowPrefab: {fileID: 3061877744680718227, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
   projectileFolder: {fileID: 0}

@@ -10,7 +10,8 @@ public abstract class BaseTower : MonoBehaviour
     public List<float> Range { get; protected set; }
     public List<int> UpgradeCostPerLevel { get; protected set; }
     public GameObject EnemyFolder { get; protected set; }
-
+    public GameObject Lane { get; protected set; }
+    
     private float lastShotTime = -Mathf.Infinity;
 
     [SerializeField] protected GameObject bulletPrefab;
@@ -35,7 +36,7 @@ public abstract class BaseTower : MonoBehaviour
         foreach (Transform enemy in EnemyFolder.transform)
         {
             float distance = Vector3.Distance(currentPosition, enemy.position);
-            if (distance <= Range[Level] && distance < closestDistance)
+            if (distance <= Range[Level] && distance < closestDistance && enemy.gameObject.GetComponent<MinionBehavior>().lane == Lane)
             {
                 closestDistance = distance;
                 closestEnemy = enemy;

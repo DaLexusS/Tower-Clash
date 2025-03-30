@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class ArrowTower : BaseTower
 {
+
+    [SerializeField] GameObject FightLane;
     [SerializeField] GameObject enemyFolder;
     [SerializeField] GameObject arrowPrefab;
     [SerializeField] GameObject projectileFolder;
@@ -17,6 +19,7 @@ public class ArrowTower : BaseTower
         Range = towerStats.RangePerLevel;
         UpgradeCostPerLevel = towerStats.UpgradeCostPerLevel;
         EnemyFolder = enemyFolder;
+        Lane = FightLane;
     }
 
     public override void Upgrade()
