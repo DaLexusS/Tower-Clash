@@ -7,7 +7,7 @@ public class UpdateStatsUi : MonoBehaviour
     [SerializeField] public TMP_Text damage;
     [SerializeField] public TMP_Text fireRate;
     [SerializeField] public TMP_Text range;
-
+    [SerializeField] public TMP_Text price;
     private void OnEnable()
     {
         TowerUI.onUpdateStats += UpdateStats;
@@ -25,17 +25,19 @@ public class UpdateStatsUi : MonoBehaviour
         float currentDamage = towerStats.BaseDamage[levelIndex];
         float currentFireRate = towerStats.FireRate[levelIndex];
         float currentRange = towerStats.Range[levelIndex];
-
+        
         if (levelIndex >= towerStats.UpgradeCostPerLevel.Count)
         {
             level.text = $"<color=green>Max Level</color>";
             damage.text = $"<color=green>Damage : {currentDamage}</color>";
             fireRate.text = $"<color=green>Fire Rate : {currentFireRate}</color>";
             range.text = $"<color=green>Range : {currentRange}</color>";
+            price.text = $"<color=green>Price : MAXED</color>";
         }
         else
         {
             level.text = $"<color=white>Level: {levelIndex}</color>";
+            price.text = $"<color=yellow>Price: {towerStats.UpgradeCostPerLevel[levelIndex]}G</color>";
 
             string damageText = $"<color=white>Damage: {currentDamage}</color>";
             if (levelIndex + 1 < towerStats.BaseDamage.Count)
