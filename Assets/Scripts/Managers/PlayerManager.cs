@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerManager : MonoBehaviour
 {
     public static UnityAction<int> onCoinsUpdated;
+    public static UnityAction onNoMoneyForUpgrade;
     [SerializeField] PlayerDataStructure playerData;
 
     public int currentCoins { get; set; }
@@ -34,16 +36,29 @@ public class PlayerManager : MonoBehaviour
         onCoinsUpdated.Invoke(currentCoins);
     }
 
+    public void TryBuy(int price)
+    {
+        if (currentCoins < price)
+        {
+            onNoMoneyForUpgrade.Invoke();
+        }
+        else
+        {
+            currentCoins -= price;
+        }
+
+        onCoinsUpdated.Invoke(currentCoins);
+    }
+
     public void onUpgradePressed(BaseTower tower, GameObject ui)
     {
         if(tower.Level == tower.UpgradeCostPerLevel.Count) { return; }
         if (currentCoins < tower.UpgradeCostPerLevel[tower.Level]) { return; }
-        
         ui.SetActive(false);
 
-        currentCoins -= tower.UpgradeCostPerLevel[tower.Level];
+        int towerUpgradePrice = tower.UpgradeCostPerLevel[tower.Level];
 
-        onCoinsUpdated.Invoke(currentCoins);
+        TryBuy(towerUpgradePrice);
 
         tower.Upgrade();
     }

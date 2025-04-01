@@ -10,7 +10,7 @@ public class TowerUI : MonoBehaviour
     public static UnityAction<BaseTower> onUpdateStats;
     public static UnityAction<bool, float> onUpgradeProgress;
     public static UnityAction onUpgradeFinished;
-    public static UnityAction onNoMoneyForUpgrade;
+    public static UnityAction onUpgradeToExpensive;
 
     [SerializeField] public PlayerManager player;
     [SerializeField] public BaseTower towerStats;
@@ -102,7 +102,11 @@ public class TowerUI : MonoBehaviour
 
                         if (!IsMaxLevel() && holdTime >= 0.20f && player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
                         {
-                            onNoMoneyForUpgrade?.Invoke();
+                            if (onUpgradeToExpensive == null)
+                            {
+                                return;
+                            }
+                            onUpgradeToExpensive.Invoke();
                             return;
                         }
 

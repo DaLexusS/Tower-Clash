@@ -12,13 +12,15 @@ public class UpdateCoins : MonoBehaviour
     private void OnEnable()
     {
         PlayerManager.onCoinsUpdated += UpdateCoinsText;
-        TowerUI.onNoMoneyForUpgrade += NoMoneyEvent;
+        PlayerManager.onNoMoneyForUpgrade += NoMoneyEvent;
+        TowerUI.onUpgradeToExpensive += NoMoneyEvent;
     }
 
     private void OnDisable()
     {
         PlayerManager.onCoinsUpdated -= UpdateCoinsText;
-        TowerUI.onNoMoneyForUpgrade -= NoMoneyEvent;
+        PlayerManager.onNoMoneyForUpgrade -= NoMoneyEvent;
+        TowerUI.onUpgradeToExpensive -= NoMoneyEvent;
     }
 
     public void UpdateCoinsText(int value)
