@@ -1,8 +1,7 @@
 using MoreMountains.Feedbacks;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class SummonUi : MonoBehaviour
 {
@@ -14,6 +13,10 @@ public class SummonUi : MonoBehaviour
     [SerializeField] public GameObject summonUnit1;
     [SerializeField] public GameObject summonUnit2;
     [SerializeField] public GameObject summonUnit3;
+
+    [SerializeField] public TMP_Text summon1PriceText;
+    [SerializeField] public TMP_Text summon2PriceText;
+    [SerializeField] public TMP_Text summon3PriceText;
 
     [SerializeField] public GameObject Spawner1;
     [SerializeField] public GameObject Spawner2;
@@ -34,6 +37,13 @@ public class SummonUi : MonoBehaviour
     private float lastPressTick = 0;
 
     private GameObject unitToSpawn;
+
+    private void Awake()
+    {
+        summon1PriceText.text = $"G{testPrice}";
+        summon2PriceText.text = $"G{testPrice}";
+        summon3PriceText.text = $"G{testPrice}";
+    }
 
     public void onPressed(int id)
     {
