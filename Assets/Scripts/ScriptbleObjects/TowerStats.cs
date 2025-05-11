@@ -16,4 +16,9 @@ public class TowerStats : ScriptableObject
     [SerializeField] public List<float> DamagePerLevel;
     [SerializeField] public List<float> FireRatePerLevel;
     [SerializeField] public List<float> RangePerLevel;
+
+    [Header("Summon Data")]
+    [SerializeField] public Sprite SummonIcon;
+    [SerializeField] public int SummonPrice;
+    [SerializeField] public GameObject Summon;
 }

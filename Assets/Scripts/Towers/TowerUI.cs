@@ -12,8 +12,9 @@ public class TowerUI : MonoBehaviour
     public static UnityAction onUpgradeFinished;
     public static UnityAction onUpgradeToExpensive;
 
-    [SerializeField] public PlayerManager player;
-    [SerializeField] public BaseTower towerStats;
+    private PlayerManager Player;
+    private BaseTower towerStats = null;
+
     [SerializeField] public Image mark;
     [SerializeField] public Image upgradePanel;
     [SerializeField] public Slider upgradeSlider;
@@ -28,6 +29,12 @@ public class TowerUI : MonoBehaviour
 
     private float holdTime = 0;
     private float lastTap;
+
+    public void Init(PlayerManager player, BaseTower tower)
+    {
+        Player = player;
+        towerStats = tower;
+    }
     private void Awake()
     {
         spriteRenderer = towerVisual.GetComponent<SpriteRenderer>();
@@ -38,6 +45,10 @@ public class TowerUI : MonoBehaviour
 
     private void Update()
     {
+        if (towerStats == null)
+        {
+            return;
+        }
         CheckTapOnSprite();
     }
 
@@ -100,7 +111,7 @@ public class TowerUI : MonoBehaviour
                     {
                         holdTime += Time.deltaTime;
 
-                        if (!IsMaxLevel() && holdTime >= 0.20f && player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
+                        if (!IsMaxLevel() && holdTime >= 0.20f && Player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
                         {
                             if (onUpgradeToExpensive == null)
                             {

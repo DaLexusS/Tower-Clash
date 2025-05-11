@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,6 +6,7 @@ using UnityEngine.Events;
 public class MinionBehavior : MonoBehaviour, IDamageable
 {
     public static UnityAction<int> onEnemyMinionKilled;
+    public static UnityAction<MinionBehavior, bool> onEnemyWipedFromList;
     [SerializeField] public MinionStats minionStats;
     [SerializeField] public GameObject targetTower;
     [SerializeField] public GameObject targetBase;
@@ -15,8 +15,11 @@ public class MinionBehavior : MonoBehaviour, IDamageable
     [SerializeField] public Rigidbody2D minionRigid;
     [SerializeField] public bool IsEnemy = false;
 
+    [SerializeField] public SpriteRenderer MinionSprite;
+
     public int health;
     public int maxHealth;
+    public int deathValue;
     public float damage;
     public float attackRange;
     public float attackCooldown;
@@ -42,6 +45,7 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         attackCooldown = minionStats.AttackCooldown;
         firstAttackCooldown = minionStats.FirstAttackDelay;
         preAttackTime = minionStats.PreAttackTime;
+        deathValue = minionStats.DeathValue;
     }
 
     private void Start()
@@ -78,6 +82,11 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         targetEnemy = CheckForEnemyInRange();
         WalkTowardsTarget();
         Attack();
+    }
+
+    public void ColorMinions(Color color)
+    {
+        MinionSprite.color = color;
     }
 
     private GameObject CheckForEnemyInRange()
@@ -172,13 +181,15 @@ public class MinionBehavior : MonoBehaviour, IDamageable
     }
     public void OnDied()
     {
-        //TEMP
         if(IsEnemy)
         {
-            onEnemyMinionKilled.Invoke(5);
+            onEnemyMinionKilled.Invoke(deathValue);
         }
 
         IsAlive = false;
+
+        onEnemyWipedFromList.Invoke(this, IsEnemy);
+
         Destroy(gameObject);
     }
 }

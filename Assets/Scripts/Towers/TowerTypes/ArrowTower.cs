@@ -2,24 +2,23 @@ using UnityEngine;
 
 public class ArrowTower : BaseTower
 {
-
-    [SerializeField] GameObject FightLane;
-    [SerializeField] GameObject enemyFolder;
-    [SerializeField] GameObject arrowPrefab;
-    [SerializeField] GameObject projectileFolder;
+    [SerializeField] Bullet arrowPrefab;
     [SerializeField] public TowerStats towerStats;
+    [SerializeField] public Renderer minionSpawnBounds;
 
     private void Start()
     {
         TowerName = towerStats.TowerName;
         Level = towerStats.Level;
+        MinionSpawnTimeCooldown = towerStats.MinionSpawnTimeCooldown;
 
         FireRate = towerStats.FireRatePerLevel;
         BaseDamage = towerStats.DamagePerLevel;
         Range = towerStats.RangePerLevel;
         UpgradeCostPerLevel = towerStats.UpgradeCostPerLevel;
-        EnemyFolder = enemyFolder;
-        Lane = FightLane;
+
+        MinionSpawnBounds = minionSpawnBounds;
+
     }
 
     public override void Upgrade()
@@ -37,17 +36,13 @@ public class ArrowTower : BaseTower
             return;
         }
 
-        GameObject bulletInstance = Instantiate(arrowPrefab, transform.position, Quaternion.identity, projectileFolder.transform);
-        Bullet bulletScript = bulletInstance.GetComponent<Bullet>(); // Instead of getting component turn bulletinstance into bullet 
+        Bullet bulletInstance = Instantiate(arrowPrefab, transform.position, Quaternion.identity, ProjectileParent.transform);
 
-        if (bulletScript != null)
-        {
-            bulletScript.InitBullet(target, 4f, BaseDamage[Level], this);
-        }
+        bulletInstance.InitBullet(target, 4f, BaseDamage[Level], this);
     }
 
     protected override void Attack(Transform target)
     {
-        //Debug.Log($"{TowerName} fires an arrow at {target.name} and deals {BaseDamage} damage!");
+        
     }
 }

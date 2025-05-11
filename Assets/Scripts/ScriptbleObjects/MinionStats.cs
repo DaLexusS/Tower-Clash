@@ -21,4 +21,5 @@ public class MinionStats : ScriptableObject
     [SerializeField] public float WalkSpeed;
     [SerializeField] public float PreAttackTime;
     [SerializeField] public FirstAttackDelayRange FirstAttackDelay;
+    [SerializeField] public int DeathValue;
 }

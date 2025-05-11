@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using static EnumLists;
 
 public abstract class BaseTower : MonoBehaviour
 {
@@ -9,12 +11,20 @@ public abstract class BaseTower : MonoBehaviour
     public List<float> BaseDamage { get; protected set; }
     public List<float> Range { get; protected set; }
     public List<int> UpgradeCostPerLevel { get; protected set; }
-    public GameObject EnemyFolder { get; protected set; }
-    public GameObject Lane { get; protected set; }
-    
-    private float lastShotTime = -Mathf.Infinity;
+    public float MinionSpawnTimeCooldown { get; protected set; }
+    public GameObject ProjectileParent { get; protected set; }
+    public GameObject Summon { get; protected set; }
+    public Renderer MinionSpawnBounds { get; protected set; }
+    public Image SummonIcon { get; protected set; }
+    public TowerType TowerTypeCheck;
 
-    [SerializeField] protected GameObject bulletPrefab;
+    public bool Alive = true;
+
+    [SerializeField] public GameObject EnemyFolder;
+
+    private GameObject Lane;
+
+    private float lastShotTime = -Mathf.Infinity;
 
     public virtual void Upgrade()
     {
@@ -23,6 +33,13 @@ public abstract class BaseTower : MonoBehaviour
             return;
         }
         Level++;
+    }
+    
+    public void Init(GameObject lane, GameObject projectileParent, GameObject unitFolder)
+    {
+        EnemyFolder = unitFolder;
+        Lane = lane;
+        ProjectileParent = projectileParent;
     }
 
     public GameObject CheckForEnemyInRange()
@@ -70,5 +87,4 @@ public abstract class BaseTower : MonoBehaviour
     }
 
     protected abstract void Attack(Transform target);
-
 }

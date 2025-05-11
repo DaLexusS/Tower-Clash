@@ -6,7 +6,7 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] public GameObject spawnPoint;
     [SerializeField] public GameObject minion;
     [SerializeField] public GameObject minionFolder;
-    [SerializeField] public GameObject enemyMinionFolder;
+   
     [SerializeField] public TowerStats towerStats;
     [SerializeField] public GameObject targetTower;
     [SerializeField] public GameObject targetBase;
@@ -18,9 +18,12 @@ public class EnemySpawn : MonoBehaviour
     private float minionSpawnTime;
     private float lastTick;
 
+    public GameObject enemyMinionFolder;
+
     private Renderer LaneRenderer;
 
     private TowerHealthManager towerManager;
+
 
     private void Awake()
     {
