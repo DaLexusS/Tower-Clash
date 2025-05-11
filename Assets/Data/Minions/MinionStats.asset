@@ -21,3 +21,4 @@ MonoBehaviour:
   FirstAttackDelay:
     min: 0.4
     max: 0.7
+  DeathValue: 5

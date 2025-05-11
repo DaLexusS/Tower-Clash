@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class TowerUI : MonoBehaviour
 {
     public static UnityAction<BaseTower, GameObject> onTowerUpgradePressed;
-    public static UnityAction<BaseTower> onUpdateStats;
+    //public static UnityAction<BaseTower> onUpdateStats;
     public static UnityAction<bool, float> onUpgradeProgress;
     public static UnityAction onUpgradeFinished;
     public static UnityAction onUpgradeToExpensive;
@@ -21,6 +21,7 @@ public class TowerUI : MonoBehaviour
     [SerializeField] public GameObject towerVisual;
     [SerializeField] public float tapCooldown = 0.01f;
     [SerializeField] public float holdTimeToUpgrade = 1;
+    [SerializeField] public UpdateStatsUi UpdateStats;
 
     private SpriteRenderer spriteRenderer;
     private RectTransform panelRect;
@@ -60,11 +61,13 @@ public class TowerUI : MonoBehaviour
     {
         PlayerManager.onCoinsUpdated -= isUpgradeAvailable;
     }
-
     public void isUpgradeAvailable(int amount)
     {
-        if (IsMaxLevel()) 
-        { 
+        if (towerStats == null || towerStats.UpgradeCostPerLevel == null || towerStats.UpgradeCostPerLevel.Count == 0)
+            return;
+
+        if (IsMaxLevel())
+        {
             mark.gameObject.SetActive(false);
             return;
         }
@@ -81,8 +84,10 @@ public class TowerUI : MonoBehaviour
 
     private bool IsMaxLevel()
     {
-        if (towerStats.Level >= towerStats.UpgradeCostPerLevel.Count) { return true; }
-        else { return false; }
+        if (towerStats == null || towerStats.UpgradeCostPerLevel == null || towerStats.UpgradeCostPerLevel.Count == 0)
+            return true;
+
+        return towerStats.Level >= towerStats.UpgradeCostPerLevel.Count;
     }
 
     private void CheckTapOnSprite()
@@ -153,7 +158,8 @@ public class TowerUI : MonoBehaviour
                     {
                         if (holdTime < 0.25f && onTower)
                         {
-                            onUpdateStats?.Invoke(towerStats);
+                            //onUpdateStats?.Invoke(towerStats);
+                            UpdateStats.UpdateStats(towerStats);
                             upgradePanel.gameObject.SetActive(true);
                         }
 

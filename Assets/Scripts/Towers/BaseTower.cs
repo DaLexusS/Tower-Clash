@@ -13,16 +13,19 @@ public abstract class BaseTower : MonoBehaviour
     public List<int> UpgradeCostPerLevel { get; protected set; }
     public float MinionSpawnTimeCooldown { get; protected set; }
     public GameObject ProjectileParent { get; protected set; }
-    public GameObject Summon { get; protected set; }
+    public MinionBehavior Summon { get; protected set; }
+    public GameObject TargetBase { get; protected set; }
+    public GameObject TargetTower { get; protected set; }
     public Renderer MinionSpawnBounds { get; protected set; }
-    public Image SummonIcon { get; protected set; }
+    public Sprite SummonIcon { get; protected set; }
+    public int SummonPrice { get; protected set; }
     public TowerType TowerTypeCheck;
 
     public bool Alive = true;
 
     [SerializeField] public GameObject EnemyFolder;
-
-    private GameObject Lane;
+    [SerializeField] public GameObject PlayerFolder;
+    [SerializeField] public GameObject Lane;
 
     private float lastShotTime = -Mathf.Infinity;
 
@@ -35,11 +38,14 @@ public abstract class BaseTower : MonoBehaviour
         Level++;
     }
     
-    public void Init(GameObject lane, GameObject projectileParent, GameObject unitFolder)
+    public void Init(GameObject lane, GameObject projectileParent, GameObject unitFolder, GameObject playerUnitFolder, GameObject targetBase, GameObject targetTower)
     {
+        PlayerFolder = playerUnitFolder;
         EnemyFolder = unitFolder;
         Lane = lane;
         ProjectileParent = projectileParent;
+        TargetTower = targetTower;
+        TargetBase = targetBase;
     }
 
     public GameObject CheckForEnemyInRange()

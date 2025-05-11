@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ee2a8c6b4ea7cb4ba60796ddf00248f, type: 3}
-  m_Name: ArrowTower
+  m_Name: SkillISUE
   m_EditorClassIdentifier: 
   TowerName: ArrowTower
   Level: 0
@@ -33,6 +33,6 @@ MonoBehaviour:
   - 2.5
   - 3
   - 3.5
-  SummonIcon: {fileID: 21300000, guid: 6fd0b649401ca5b419a5ebf5df170c0f, type: 3}
-  SummonPrice: 20
+  SummonIcon: {fileID: 21300002, guid: 358b5d9f23bc9413e87c9948acc67ee1, type: 3}
+  SummonPrice: 30
   Summon: {fileID: 8253371140858089765, guid: 56e2a2a7eb2044c48bbd30195c017157, type: 3}

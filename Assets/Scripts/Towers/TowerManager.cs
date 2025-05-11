@@ -24,6 +24,9 @@ public class TowerManager : MonoBehaviour
     [SerializeField] public List<GameObject> Lanes;
     [SerializeField] public GameObject projectileParent;
     [SerializeField] public PlayerManager playerManager;
+    [SerializeField] public SummonUi summonUi;
+    [SerializeField] public GameObject playerBase;
+    [SerializeField] public GameObject enemyBase;
 
     private List<Transform> playerTowerSpawns;
     private List<Transform> enemyTowerSpawns;
@@ -52,7 +55,11 @@ public class TowerManager : MonoBehaviour
         activeTowers = new List<BaseTower>();
         PreLoadSpawnPoints();
         InitTowers();
-        
+    }
+
+    private void Start()
+    {
+        UpdateUi();
     }
 
     private void Update()
@@ -136,6 +143,12 @@ public class TowerManager : MonoBehaviour
         }
     }
 
+    private void UpdateUi()
+    {
+        List<BaseTower> spawnedPlayerTowers = activeTowers.FindAll(t => t.TowerTypeCheck == EnumLists.TowerType.Player);
+        summonUi.Init(spawnedPlayerTowers);
+    }
+
      private void InitTowers()
     {
         int laneCount = Mathf.Min(
@@ -173,8 +186,8 @@ public class TowerManager : MonoBehaviour
             if (playerUnits == null) playerUnits = new List<Transform>();
             if (enemyUnits == null) enemyUnits = new List<Transform>();
 
-            playerTower.Init(lane, projectileParent, enemyMinionParent);
-            enemyTower.Init(lane, projectileParent, playerMinionParent);
+            playerTower.Init(lane, projectileParent, enemyMinionParent, playerMinionParent, enemyTower.gameObject, enemyBase);
+            enemyTower.Init(lane, projectileParent, playerMinionParent, enemyMinionParent, playerBase, playerTower.gameObject);
 
             towerLanes[i] = new LaneTowers(playerTower, enemyTower);
             activeTowers.Add(playerTower);
@@ -192,5 +205,7 @@ public class TowerManager : MonoBehaviour
                 towerUI.Init(playerManager, tower);
             }
         }
+
+        //UpdateUi();
     }
 }

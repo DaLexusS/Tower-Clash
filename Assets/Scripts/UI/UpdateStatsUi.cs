@@ -8,6 +8,8 @@ public class UpdateStatsUi : MonoBehaviour
     [SerializeField] public TMP_Text fireRate;
     [SerializeField] public TMP_Text range;
     [SerializeField] public TMP_Text price;
+
+    /*
     private void OnEnable()
     {
         TowerUI.onUpdateStats += UpdateStats;
@@ -17,7 +19,7 @@ public class UpdateStatsUi : MonoBehaviour
     {
        TowerUI.onUpdateStats -= UpdateStats;
     }
-
+    */
     public void UpdateStats(BaseTower towerStats)
     {
 

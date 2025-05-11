@@ -65,19 +65,21 @@ public class MinionBehavior : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        if (targetTower == null)
-        {
-            return;
-        }
+        if (targetTower == null || targetBase == null || enemyFolder == null) return;
 
-        if (enemyTowerHealthManager == null && targetTower != null)
+        if (enemyTowerHealthManager == null)
         {
             enemyTowerHealthManager = targetTower.GetComponent<TowerHealthManager>();
+            if (enemyTowerHealthManager == null) return;
         }
 
+        if (baseHealthManager == null)
+        {
+            baseHealthManager = targetBase.GetComponent<BaseHealthManager>();
+            if (baseHealthManager == null) return;
+        }
 
-        if (targetBase == null || enemyFolder == null) { return; }
-        if (!baseHealthManager.isAlive && !enemyTowerHealthManager.isAlive) { return; }
+        if (!baseHealthManager.isAlive && !enemyTowerHealthManager.isAlive) return;
 
         targetEnemy = CheckForEnemyInRange();
         WalkTowardsTarget();

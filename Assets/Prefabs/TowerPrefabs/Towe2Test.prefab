@@ -1353,7 +1353,7 @@ GameObject:
   - component: {fileID: 5240556486531005110}
   - component: {fileID: 4613578245372031678}
   m_Layer: 0
-  m_Name: Tower
+  m_Name: Towe2Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1390,7 +1390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7108ada0dd097ea4397edb7d82608d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TowerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
+  TowerStats: {fileID: 11400000, guid: 7a21ac76b84428644acb87e84c957114, type: 2}
   isAlive: 1
   MaxHealth: 0
   Health: 0
@@ -1410,7 +1410,7 @@ MonoBehaviour:
   Alive: 1
   EnemyFolder: {fileID: 0}
   arrowPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
-  towerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
+  towerStats: {fileID: 11400000, guid: 7a21ac76b84428644acb87e84c957114, type: 2}
   minionSpawnBounds: {fileID: 1797804846689096834}
 --- !u!114 &4613578245372031678
 MonoBehaviour:

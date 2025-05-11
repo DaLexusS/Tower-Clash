@@ -20,5 +20,5 @@ public class TowerStats : ScriptableObject
     [Header("Summon Data")]
     [SerializeField] public Sprite SummonIcon;
     [SerializeField] public int SummonPrice;
-    [SerializeField] public GameObject Summon;
+    [SerializeField] public MinionBehavior Summon;
 }

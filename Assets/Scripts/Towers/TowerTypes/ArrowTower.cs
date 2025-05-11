@@ -6,7 +6,7 @@ public class ArrowTower : BaseTower
     [SerializeField] public TowerStats towerStats;
     [SerializeField] public Renderer minionSpawnBounds;
 
-    private void Start()
+    public void Awake()
     {
         TowerName = towerStats.TowerName;
         Level = towerStats.Level;
@@ -19,6 +19,9 @@ public class ArrowTower : BaseTower
 
         MinionSpawnBounds = minionSpawnBounds;
 
+        SummonIcon = towerStats.SummonIcon;
+        SummonPrice = towerStats.SummonPrice;
+        Summon = towerStats.Summon;
     }
 
     public override void Upgrade()
