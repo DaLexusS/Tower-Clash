@@ -2546,7 +2546,7 @@ MonoBehaviour:
   playerTowerList:
   - {fileID: 5240556486531005110, guid: 43fb049de7f02734cb06ca7ae77a5bf5, type: 3}
   - {fileID: 5240556486531005110, guid: 43fb049de7f02734cb06ca7ae77a5bf5, type: 3}
-  - {fileID: 5240556486531005110, guid: 592d677c738ee3440ab56b1c4de059ac, type: 3}
+  - {fileID: 5240556486531005110, guid: 43fb049de7f02734cb06ca7ae77a5bf5, type: 3}
   enemyTowerList:
   - {fileID: 5504324809985394208, guid: 6589c3fbfe7a08e499b218b5f5e8aa59, type: 3}
   - {fileID: 5504324809985394208, guid: 6589c3fbfe7a08e499b218b5f5e8aa59, type: 3}
