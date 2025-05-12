@@ -1,32 +1,33 @@
-using AllIn1SpriteShader;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.Events;
 
 public class UpdateRadialClipping : MonoBehaviour
 {
     [SerializeField] public Material material;
 
-    private void OnEnable()
+    static public UnityAction<float> OnUpdateRadial;
+    static public UnityAction OnResetRadial;
+
+    private void Awake()
     {
-        
+        OnUpdateRadial += SetRadial;
+        OnResetRadial += ResetRadial;
+        ResetRadial();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        
+        OnUpdateRadial -= SetRadial;
+        OnResetRadial -= ResetRadial;
     }
 
-    public void UpdateRadial(int value)
+    private void SetRadial(float value)
     {
-        Debug.Log(value);
-        material.SetFloat("_ClipRadial", value);
+        material.SetFloat("_RadialClip", value);
     }
 
-    public void ResetRadial()
+    private void ResetRadial()
     {
-        Debug.Log(0);
-        material.SetFloat("_ClipRadial", 0);
+        material.SetFloat("_RadialClip", 360);
     }
 }

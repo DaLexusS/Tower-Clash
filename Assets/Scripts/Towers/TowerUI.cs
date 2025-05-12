@@ -17,7 +17,8 @@ public class TowerUI : MonoBehaviour
 
     [SerializeField] public Image mark;
     [SerializeField] public Image upgradePanel;
-    [SerializeField] public Slider upgradeSlider;
+    //[SerializeField] public Slider upgradeSlider;
+    
     [SerializeField] public GameObject towerVisual;
     [SerializeField] public float tapCooldown = 0.01f;
     [SerializeField] public float holdTimeToUpgrade = 1;
@@ -118,35 +119,25 @@ public class TowerUI : MonoBehaviour
 
                         if (!IsMaxLevel() && holdTime >= 0.20f && Player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
                         {
-                            if (onUpgradeToExpensive == null)
-                            {
-                                return;
-                            }
+                            if (onUpgradeToExpensive == null) return;
                             onUpgradeToExpensive.Invoke();
                             return;
                         }
 
-                        if (holdTime >= 0.20f && !upgradeSlider.gameObject.activeSelf)
-                        {
-                            if (IsMaxLevel()) { return; }
-                            upgradeSlider.gameObject.SetActive(true);
-                            upgradeSlider.value = 0;
-                        }
-
-                        if (upgradeSlider.gameObject.activeSelf)
+                        if (holdTime >= 0.20f)
                         {
                             float progress = Mathf.Clamp01((holdTime - 0.25f) / holdTimeToUpgrade);
-                            upgradeSlider.value = progress;
+                            float radialValue = Mathf.Lerp(360f, 0f, progress);
 
+                            UpdateRadialClipping.OnUpdateRadial.Invoke(radialValue);
                             onUpgradeProgress?.Invoke(true, progress);
 
                             if (progress >= 1f)
                             {
                                 inHold = false;
-                                upgradeSlider.gameObject.SetActive(false);
+                                UpdateRadialClipping.OnResetRadial.Invoke();
                                 onUpgradeFinished?.Invoke();
                                 onTowerUpgradePressed?.Invoke(towerStats, upgradePanel.gameObject);
-                                
                             }
                         }
                     }
@@ -158,14 +149,13 @@ public class TowerUI : MonoBehaviour
                     {
                         if (holdTime < 0.25f && onTower)
                         {
-                            //onUpdateStats?.Invoke(towerStats);
                             UpdateStats.UpdateStats(towerStats);
                             upgradePanel.gameObject.SetActive(true);
                         }
 
                         inHold = false;
                         holdTime = 0;
-                        upgradeSlider.gameObject.SetActive(false);
+                        UpdateRadialClipping.OnResetRadial?.Invoke();
                         onUpgradeProgress?.Invoke(false, 0);
                     }
                     else if (!onPanel)
@@ -176,6 +166,7 @@ public class TowerUI : MonoBehaviour
             }
         }
     }
+
 
     bool IsTapOnPanel(Vector2 screenPosition)
     {
