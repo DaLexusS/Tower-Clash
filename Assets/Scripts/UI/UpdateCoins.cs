@@ -26,7 +26,7 @@ public class UpdateCoins : MonoBehaviour
     public void UpdateCoinsText(int value)
     {
         string coinsToString = value.ToString();
-        coinsText.text = $"{coinsToString} G";
+        coinsText.text = $"{coinsToString}";
     }
 
     public void NoMoneyEvent()

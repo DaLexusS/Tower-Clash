@@ -17,12 +17,12 @@ public class MinionManager : MonoBehaviour
     public void SpawnMinion(Renderer spawnBounds, EnumLists.TowerType towerType, GameObject targetTower, GameObject lane)
     {
         Vector2 spawnPos = GetRandomPointInsideBounds(spawnBounds);
-
+        Quaternion desiredRotation = Quaternion.Euler(0, 0, 0);
         MinionBehavior minionClone;
 
         if (towerType == EnumLists.TowerType.Player)
         {
-            minionClone = Instantiate(Minion, spawnPos, Minion.transform.rotation, playerUnitsParent.transform);
+            minionClone = Instantiate(Minion, spawnPos, desiredRotation, playerUnitsParent.transform);
             minionClone.ColorMinions(playerColor);
             minionClone.IsEnemy = false;
             minionClone.targetBase = enemyBase;
@@ -30,7 +30,7 @@ public class MinionManager : MonoBehaviour
         }
         else
         {
-            minionClone = Instantiate(Minion, spawnPos, Minion.transform.rotation, enemyUnitsParent.transform);
+            minionClone = Instantiate(Minion, spawnPos, desiredRotation, enemyUnitsParent.transform);
             minionClone.ColorMinions(enemyColor);
             minionClone.IsEnemy = true;
             minionClone.targetBase = playerBase;
@@ -40,6 +40,7 @@ public class MinionManager : MonoBehaviour
         minionClone.targetTower = targetTower;
         
         minionClone.lane = lane;
+        minionClone.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
     Vector2 GetRandomPointInsideBounds(Renderer renderer)

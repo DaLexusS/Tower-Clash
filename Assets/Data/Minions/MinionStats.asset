@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 5
   Damage: 1
-  AttackRange: 0.5
+  AttackRange: 1.5
   AttackCooldown: 0.3
   WalkSpeed: 0.7
   PreAttackTime: 0.2

@@ -31,6 +31,8 @@ public class MinionBehavior : MonoBehaviour, IDamageable
     private float lastAttackTime = 0f;
     private float firstAttackDelayTime;
     private bool hasAttackedOnce = false;
+    private bool isStopped = false;
+    private float stopUntil = 0f;
 
     private GameObject targetEnemy = null;
     private TowerHealthManager enemyTowerHealthManager;
@@ -65,6 +67,19 @@ public class MinionBehavior : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        if (isStopped)
+        {
+            if (Time.time >= stopUntil)
+            {
+                isStopped = false;
+            }
+            else
+            {
+                minionRigid.velocity = Vector2.zero;
+                return;
+            }
+        }
+
         if (targetTower == null || targetBase == null || enemyFolder == null) return;
 
         if (enemyTowerHealthManager == null)
@@ -86,6 +101,12 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         Attack();
     }
 
+    public void StopForSeconds(float duration)
+    {
+        isStopped = true;
+        stopUntil = Time.time + duration;
+        minionRigid.velocity = Vector2.zero;
+    }
     public void ColorMinions(Color color)
     {
         MinionSprite.color = color;
@@ -134,8 +155,8 @@ public class MinionBehavior : MonoBehaviour, IDamageable
 
         if (direction != Vector3.zero)
         {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+           // transform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 

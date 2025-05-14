@@ -13,7 +13,7 @@ public abstract class BaseTower : MonoBehaviour
     public List<int> UpgradeCostPerLevel { get; protected set; }
     public float MinionSpawnTimeCooldown { get; protected set; }
     public GameObject ProjectileParent { get; protected set; }
-    public MinionBehavior Summon { get; protected set; }
+    public SummonBase Summon { get; protected set; }
     public GameObject TargetBase { get; protected set; }
     public GameObject TargetTower { get; protected set; }
     public Renderer MinionSpawnBounds { get; protected set; }
