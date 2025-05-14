@@ -4,6 +4,7 @@ using UnityEngine;
 public class BaseHealthManager : MonoBehaviour, IDamageable
 {
     [SerializeField] public BaseHealthStats healthStats;
+    [SerializeField] public GameObject hitPoint;
     [SerializeField] public bool isAlive = true;
 
     public int Health;

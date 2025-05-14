@@ -5,6 +5,7 @@ using UnityEngine;
 public class TowerHealthManager : MonoBehaviour, IDamageable
 {
     [SerializeField] public TowerStats TowerStats;
+    [SerializeField] public GameObject hitPoint;
     [SerializeField] public bool isAlive = true;
 
     public int MaxHealth;

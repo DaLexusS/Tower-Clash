@@ -10,14 +10,16 @@ public class Summon_Shotgun : SummonBase
     {
         SummonStats = summonStats;
         Rigid_body = rigidbody2;
-        MaxHealth = summonStats.Health;
-        Health = summonStats.Health;
-        Damage = summonStats.Damage;
+        Level = summonStats.Level;
+        MaxHealth = summonStats.HealthPerLevel;
+        Health = summonStats.HealthPerLevel[Level];
+        Damage = summonStats.DamagePerLevel;
         Value = summonStats.DeathValue;
-        AttackRange = summonStats.AttackRange;
-        WalkSpeed = summonStats.WalkSpeed;
+        AttackRange = summonStats.AttackRangePerLevel;
+        AttackCoolDown = summonStats.AttackCooldownPerLevel;
+        WalkSpeed = summonStats.WalkSpeedPerLevel;
         FirstAttackCooldown = summonStats.FirstAttackDelay;
-        PreAttackTime = summonStats.PreAttackTime;
+        PreAttackTime = summonStats.PreAttackTimePerLevel;
 
         base.Init(towerData);
     }

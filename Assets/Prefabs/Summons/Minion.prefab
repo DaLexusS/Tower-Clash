@@ -123,7 +123,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6614630850224300532}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -226,6 +226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsAlive: 1
-  summonStats: {fileID: 11400000, guid: 9262e541eadd50a45bc2a0acdfb66649, type: 2}
+  IsEnemy: 0
+  Lane: {fileID: 0}
+  summonStats: {fileID: 11400000, guid: c8503c99cd312644cadd7f786abf388c, type: 2}
   rigidbody2: {fileID: 3341532622225977169}
   visualSprite: {fileID: 918636987699841023}

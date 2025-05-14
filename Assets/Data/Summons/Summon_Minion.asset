@@ -12,13 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d915a81570ea9214e83ae4939901de51, type: 3}
   m_Name: Summon_Minion
   m_EditorClassIdentifier: 
-  Health: 5
-  Damage: 1
-  AttackRange: 1.5
-  AttackCooldown: 0.3
-  WalkSpeed: 1
-  PreAttackTime: 0.2
+  Level: 0
+  DeathValue: 5
+  HealthPerLevel: 05000000
+  DamagePerLevel: 02000000
+  WalkSpeedPerLevel:
+  - 1.5
+  AttackRangePerLevel:
+  - 1.5
+  PreAttackTimePerLevel:
+  - 1
+  AttackCooldownPerLevel:
+  - 0.1
   FirstAttackDelay:
     min: 0
     max: 0
-  DeathValue: 5

@@ -12,13 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d915a81570ea9214e83ae4939901de51, type: 3}
   m_Name: Summon_Shotgun
   m_EditorClassIdentifier: 
-  Health: 5
-  Damage: 1
-  AttackRange: 1.5
-  AttackCooldown: 0.5
-  WalkSpeed: 1.5
-  PreAttackTime: 1
+  Level: 0
+  DeathValue: 5
+  HealthPerLevel: 140000001e0000002800000032000000
+  DamagePerLevel: 08000000100000001a00000026000000
+  WalkSpeedPerLevel:
+  - 2
+  - 2
+  - 2
+  - 2
+  AttackRangePerLevel:
+  - 5
+  - 5
+  - 5
+  - 5
+  PreAttackTimePerLevel:
+  - 2
+  - 2
+  - 2
+  - 2
+  AttackCooldownPerLevel:
+  - 2
+  - 1.9
+  - 1.8
+  - 0.17
   FirstAttackDelay:
     min: 0
     max: 0
-  DeathValue: 10
