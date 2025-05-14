@@ -5,9 +5,6 @@ using UnityEngine.Events;
 
 public class SummonUnit : MonoBehaviour
 {
-    [SerializeField] public GameObject targetBase;
-    [SerializeField] public GameObject enemyMinionFolder;
-
     private void OnEnable()
     {
         SummonUi.onSummonPressed += SpawnUnit;

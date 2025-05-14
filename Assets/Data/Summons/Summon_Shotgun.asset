@@ -9,15 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a90bab8e0c8a9144b86b0e8ad2a0dfe1, type: 3}
-  m_Name: SummonStats
+  m_Script: {fileID: 11500000, guid: d915a81570ea9214e83ae4939901de51, type: 3}
+  m_Name: Summon_Shotgun
   m_EditorClassIdentifier: 
-  Health: 0
-  Damage: 0
-  AttackRange: 0
-  AttackCooldown: 0
-  WalkSpeed: 0
-  PreAttackTime: 0
+  Health: 5
+  Damage: 1
+  AttackRange: 1.5
+  AttackCooldown: 0.5
+  WalkSpeed: 3
+  PreAttackTime: 0.2
   FirstAttackDelay:
     min: 0
     max: 0
+  DeathValue: 10

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,11 +56,6 @@ public class TowerManager : MonoBehaviour
         activeTowers = new List<BaseTower>();
         PreLoadSpawnPoints();
         InitTowers();
-    }
-
-    private void Start()
-    {
-        UpdateUi();
     }
 
     private void Update()
@@ -145,11 +141,11 @@ public class TowerManager : MonoBehaviour
 
     private void UpdateUi()
     {
-        List<BaseTower> spawnedPlayerTowers = activeTowers.FindAll(t => t.TowerTypeCheck == EnumLists.TowerType.Player);
-        summonUi.Init(spawnedPlayerTowers);
+        List<BaseTower> realPlayerTowers = GetPlayerTowers();
+        summonUi.Init(realPlayerTowers);
     }
 
-     private void InitTowers()
+    private void InitTowers()
     {
         int laneCount = Mathf.Min(
             playerTowerList.Count, 
@@ -186,7 +182,7 @@ public class TowerManager : MonoBehaviour
             if (playerUnits == null) playerUnits = new List<Transform>();
             if (enemyUnits == null) enemyUnits = new List<Transform>();
 
-            playerTower.Init(lane, projectileParent, enemyMinionParent, playerMinionParent, enemyTower.gameObject, enemyBase);
+            playerTower.Init(lane, projectileParent, enemyMinionParent, playerMinionParent, enemyBase, enemyTower.gameObject);
             enemyTower.Init(lane, projectileParent, playerMinionParent, enemyMinionParent, playerBase, playerTower.gameObject);
 
             towerLanes[i] = new LaneTowers(playerTower, enemyTower);
@@ -199,13 +195,21 @@ public class TowerManager : MonoBehaviour
 
         foreach (BaseTower tower in activeTowers)
         {
-            if(tower.TowerTypeCheck == EnumLists.TowerType.Player)
+            if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
             {
                 TowerUI towerUI = tower.GetComponent<TowerUI>();
                 towerUI.Init(playerManager, tower);
             }
         }
 
-        //UpdateUi();
+        // Now all components are confirmed
+        UpdateUi();
     }
+
+    public List<BaseTower> GetPlayerTowers()
+    {
+        return activeTowers.FindAll(t => t.TowerTypeCheck == EnumLists.TowerType.Player);
+    }
+
+
 }

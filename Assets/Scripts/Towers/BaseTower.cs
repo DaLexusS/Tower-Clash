@@ -14,8 +14,8 @@ public abstract class BaseTower : MonoBehaviour
     public float MinionSpawnTimeCooldown { get; protected set; }
     public GameObject ProjectileParent { get; protected set; }
     public SummonBase Summon { get; protected set; }
-    public GameObject TargetBase { get; protected set; }
-    public GameObject TargetTower { get; protected set; }
+    [SerializeField] public GameObject TargetBase { get; protected set; }
+    [SerializeField] public GameObject TargetTower { get; protected set; }
     public Renderer MinionSpawnBounds { get; protected set; }
     public Sprite SummonIcon { get; protected set; }
     public int SummonPrice { get; protected set; }

@@ -22,6 +22,7 @@ public class SummonUi : MonoBehaviour
     [Range(0.05f, 2f)]
     [SerializeField] public float pressCooldown = 0.1f;
 
+
     private bool Pressed = false;
     private float lastPressTick = 0;
     public void Init(List<BaseTower> playerTowers)
@@ -54,15 +55,17 @@ public class SummonUi : MonoBehaviour
             {
                 if (!canBePressed()) return;
 
-                if (playerManager.currentCoins < playerTowers[capturedIndex].SummonPrice)
+                var tower = playerTowers[capturedIndex];
+
+                if (playerManager.currentCoins < tower.SummonPrice)
                 {
-                    playerManager.TryBuy(playerTowers[capturedIndex].SummonPrice);
+                    playerManager.TryBuy(tower.SummonPrice);
                     return;
                 }
 
-                OnSummonButtonPressed(playerTowers[capturedIndex]);
+                OnSummonButtonPressed(tower);
 
-                playerManager.TryBuy(playerTowers[capturedIndex].SummonPrice);
+                playerManager.TryBuy(tower.SummonPrice);
                 Pressed = false;
                 visualPlayer.StopFeedbacks();
                 mainUi.SetActive(false);
