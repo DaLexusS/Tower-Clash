@@ -1,10 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public abstract class SummonBase : MonoBehaviour, IDamageable
 {
     public SummonStats SummonStats { get; protected set; }
     public Rigidbody2D Rigid_body { get; protected set; }
+    public SpriteRenderer SpriteVisual { get; protected set; }
     public int MaxHealth { get; protected set; }
     public int Health { get; protected set; }
     public int Damage { get; protected set; }
@@ -25,13 +26,14 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     private GameObject TargetTower;
     private GameObject EnemyParent;
     private GameObject PlayerParent;
-    private GameObject Lane;
+    public GameObject Lane;
 
     private float lastAttackTime = 0f;
     private float firstAttackDelayTime;
     private bool isStopped = false;
     private bool Loaded = false;
     private bool hasAttackedOnce = false;
+    private bool isAttacking = false;
 
     public virtual void Init(BaseTower towerData)
     {
@@ -43,6 +45,16 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         EnemyTowerHealthManager = TargetTower?.GetComponent<TowerHealthManager>();
         EnemyBaseHealthManager = TargetBase?.GetComponent<BaseHealthManager>();
+
+        if (EnemyTowerHealthManager == null)
+        {
+            Debug.LogWarning($"[Init] TowerHealthManager is MISSING on {TargetTower?.name}");
+        }
+
+        if (EnemyBaseHealthManager == null)
+        {
+            Debug.LogWarning($"[Init] BaseHealthManager is MISSING on {TargetBase?.name}");
+        }
 
         firstAttackDelayTime = Time.time + Random.Range(FirstAttackCooldown.min, FirstAttackCooldown.max);
         Loaded = true;
@@ -115,6 +127,8 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     private void Attack()
     {
+        if (isAttacking) return;
+
         if (!hasAttackedOnce)
         {
             if (Time.time < firstAttackDelayTime) return;
@@ -125,15 +139,19 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             if (Time.time - lastAttackTime < AttackCoolDown) return;
         }
 
-        lastAttackTime = Time.time;
         StartCoroutine(PreAttackDelay());
     }
 
     private IEnumerator PreAttackDelay()
     {
+        isAttacking = true;
         yield return new WaitForSeconds(PreAttackTime);
 
-        if (!IsAlive) yield break;
+        if (!IsAlive)
+        {
+            isAttacking = false;
+            yield break;
+        }
 
         if (targetEnemy != null && targetEnemy.IsAlive &&
             Vector3.Distance(transform.position, targetEnemy.transform.position) <= AttackRange)
@@ -150,7 +168,11 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         {
             EnemyBaseHealthManager.TakeDamage(Damage);
         }
+
+        lastAttackTime = Time.time;
+        isAttacking = false;
     }
+
 
     public virtual void TakeDamage(int amount)
     {
@@ -164,5 +186,10 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         Destroy(gameObject);
 
         IsAlive = false;
+    }
+
+    public virtual void ColorSummon(Color color)
+    {
+        SpriteVisual.color = color;
     }
 }

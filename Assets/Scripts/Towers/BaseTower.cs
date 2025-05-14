@@ -59,7 +59,7 @@ public abstract class BaseTower : MonoBehaviour
         foreach (Transform enemy in EnemyFolder.transform)
         {
             float distance = Vector3.Distance(currentPosition, enemy.position);
-            if (distance <= Range[Level] && distance < closestDistance && enemy.gameObject.GetComponent<MinionBehavior>().lane == Lane)
+            if (distance <= Range[Level] && distance < closestDistance && enemy.gameObject.GetComponent<SummonBase>().Lane == Lane)
             {
                 closestDistance = distance;
                 closestEnemy = enemy;

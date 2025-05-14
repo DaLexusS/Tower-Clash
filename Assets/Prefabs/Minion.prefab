@@ -161,7 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3169113472720434340}
   - component: {fileID: 3341532622225977169}
-  - component: {fileID: 2095121523136191662}
+  - component: {fileID: 6109227029386824633}
   m_Layer: 0
   m_Name: Minion
   m_TagString: Untagged
@@ -213,7 +213,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2095121523136191662
+--- !u!114 &6109227029386824633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,26 +222,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9061980688468620666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 623b31b28f8dcbd48a84c8da0ac6b2b4, type: 3}
+  m_Script: {fileID: 11500000, guid: e9c4bf3c1d8d52444b70bc54ec708238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minionStats: {fileID: 11400000, guid: 39ec9ac3c42ed394ea1cd1f4c7e3f570, type: 2}
-  targetTower: {fileID: 0}
-  targetBase: {fileID: 0}
-  enemyFolder: {fileID: 0}
-  lane: {fileID: 0}
-  minionRigid: {fileID: 3341532622225977169}
-  IsEnemy: 0
-  MinionSprite: {fileID: 918636987699841023}
-  health: 0
-  maxHealth: 0
-  deathValue: 0
-  damage: 0
-  attackRange: 0
-  attackCooldown: 0
-  walkSpeed: 0
-  preAttackTime: 0
-  firstAttackCooldown:
-    min: 0
-    max: 0
   IsAlive: 1
+  summonStats: {fileID: 11400000, guid: 9262e541eadd50a45bc2a0acdfb66649, type: 2}
+  rigidbody2: {fileID: 3341532622225977169}
+  visualSprite: {fileID: 918636987699841023}

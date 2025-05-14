@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public class Summon_Shotgun : SummonBase
+public class Summon_Minion : SummonBase
 {
     [SerializeField] public SummonStats summonStats;
 
     [SerializeField] public Rigidbody2D rigidbody2;
+
+    [SerializeField] public SpriteRenderer visualSprite;
 
     public override void Init(BaseTower towerData)
     {
@@ -18,7 +20,13 @@ public class Summon_Shotgun : SummonBase
         WalkSpeed = summonStats.WalkSpeed;
         FirstAttackCooldown = summonStats.FirstAttackDelay;
         PreAttackTime = summonStats.PreAttackTime;
+        SpriteVisual = visualSprite;
 
         base.Init(towerData);
+    }
+
+    public override void ColorSummon(Color color)
+    {
+        base.ColorSummon(color);
     }
 }

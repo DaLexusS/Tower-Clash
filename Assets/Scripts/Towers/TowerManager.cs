@@ -69,24 +69,14 @@ public class TowerManager : MonoBehaviour
 
             if (playerTower != null && Time.time >= towerSpawnTimers[playerTower])
             {
-                minionManager.SpawnMinion(
-                    playerTower.MinionSpawnBounds,
-                    playerTower.TowerTypeCheck,
-                    enemyTower.gameObject,
-                    lane
-                );
+                minionManager.SpawnMinion(playerTower);
 
                 towerSpawnTimers[playerTower] = Time.time + playerTower.MinionSpawnTimeCooldown;
             }
 
             if (enemyTower != null && Time.time >= towerSpawnTimers[enemyTower])
             {
-                minionManager.SpawnMinion(
-                    enemyTower.MinionSpawnBounds,
-                    enemyTower.TowerTypeCheck,
-                    playerTower.gameObject,
-                    lane
-                );
+                minionManager.SpawnMinion(enemyTower);
 
                 towerSpawnTimers[enemyTower] = Time.time + enemyTower.MinionSpawnTimeCooldown;
             }

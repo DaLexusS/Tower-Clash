@@ -16,8 +16,8 @@ MonoBehaviour:
   Damage: 1
   AttackRange: 1.5
   AttackCooldown: 0.5
-  WalkSpeed: 3
-  PreAttackTime: 0.2
+  WalkSpeed: 1.5
+  PreAttackTime: 1
   FirstAttackDelay:
     min: 0
     max: 0
