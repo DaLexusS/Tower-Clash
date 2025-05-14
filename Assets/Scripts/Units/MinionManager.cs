@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class MinionManager : MonoBehaviour
 {
-    [SerializeField] public SummonBase Minion;
+    [SerializeField] public SummonBase PlayerMinion;
+    [SerializeField] public SummonBase EnemyMinion;
     [SerializeField] public GameObject unitParent;
 
     [SerializeField] public GameObject playerBase;
@@ -18,8 +19,18 @@ public class MinionManager : MonoBehaviour
     {
         Vector2 spawnPos = GetRandomPointInsideBounds(tower.MinionSpawnBounds);
 
-        SummonBase summonClone = Instantiate(Minion, spawnPos, Minion.transform.rotation, tower.PlayerFolder.transform);
-        summonClone.Init(tower);
+        if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
+        {
+            SummonBase summonClone = Instantiate(PlayerMinion, spawnPos, PlayerMinion.transform.rotation, tower.PlayerFolder.transform);
+            summonClone.Init(tower);
+        }
+        else
+        {
+            SummonBase summonClone = Instantiate(EnemyMinion, spawnPos, EnemyMinion.transform.rotation, tower.PlayerFolder.transform);
+            summonClone.Init(tower);
+            summonClone.IsEnemy = true;
+        }
+        
     }
 
     Vector2 GetRandomPointInsideBounds(Renderer renderer)

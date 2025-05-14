@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,7 +11,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        MinionBehavior.onEnemyMinionKilled += GiveCoins;
+        // MinionBehavior.onEnemyMinionKilled += GiveCoins;
+        SummonBase.RewardOnSummonDeath += GiveCoins;
         TowerUI.onTowerUpgradePressed += onUpgradePressed;
         currentCoins = playerData.Coins;
     }
@@ -26,7 +24,8 @@ public class PlayerManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        MinionBehavior.onEnemyMinionKilled -= GiveCoins;
+        SummonBase.RewardOnSummonDeath -= GiveCoins;
+        //MinionBehavior.onEnemyMinionKilled -= GiveCoins;
         TowerUI.onTowerUpgradePressed -= onUpgradePressed;
     }
     public void GiveCoins(int amount)

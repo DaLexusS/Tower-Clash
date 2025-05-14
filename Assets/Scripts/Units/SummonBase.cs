@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class SummonBase : MonoBehaviour, IDamageable
 {
+    public static UnityAction<int> RewardOnSummonDeath;
     public SummonStats SummonStats { get; protected set; }
     public Rigidbody2D Rigid_body { get; protected set; }
     public SpriteRenderer SpriteVisual { get; protected set; }
@@ -17,6 +19,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public float AttackCoolDown { get; protected set; }
 
     public bool IsAlive = true;
+    public bool IsEnemy = false;
 
     private TowerHealthManager EnemyTowerHealthManager;
     private BaseHealthManager EnemyBaseHealthManager;
@@ -184,6 +187,11 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public virtual void OnDied()
     {
         Destroy(gameObject);
+
+        if (IsEnemy)
+        {
+            RewardOnSummonDeath.Invoke(Value);
+        }
 
         IsAlive = false;
     }

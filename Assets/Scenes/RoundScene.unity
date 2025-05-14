@@ -2759,7 +2759,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93f44dfb71597894ea2ca1b36b9c9625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Minion: {fileID: 6109227029386824633, guid: 5bb61c0f5c540c342ac43b8eb3c8c509, type: 3}
+  PlayerMinion: {fileID: 6109227029386824633, guid: f47805979c8a9214ab171e6c9a771342, type: 3}
+  EnemyMinion: {fileID: 6109227029386824633, guid: 5bb61c0f5c540c342ac43b8eb3c8c509, type: 3}
   unitParent: {fileID: 948555390}
   playerBase: {fileID: 113296296}
   enemyBase: {fileID: 1921106504}

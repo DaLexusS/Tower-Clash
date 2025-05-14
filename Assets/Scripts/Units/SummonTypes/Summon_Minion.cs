@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class Summon_Minion : SummonBase
 {
     [SerializeField] public SummonStats summonStats;
