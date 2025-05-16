@@ -24,22 +24,22 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public bool IsEnemy = false;
     public GameObject Lane;
 
-    private TowerHealthManager EnemyTowerHealthManager;
-    private BaseHealthManager EnemyBaseHealthManager;
+    public TowerHealthManager EnemyTowerHealthManager;
+    public BaseHealthManager EnemyBaseHealthManager;
     private GameObject TargetBase;
     private GameObject TargetTower;
     private GameObject EnemyParent;
     private GameObject PlayerParent;
 
-    private SummonBase targetEnemy;
-    private GameObject currentTarget;
-    private Vector2 movementDirection;
-    private float lastAttackTime = 0f;
-    private float firstAttackDelayTime;
-    private bool hasAttackedOnce = false;
-    private bool isAttacking = false;
-    private Coroutine attackCoroutine;
-    private bool initialized = false;
+    public SummonBase targetEnemy;
+    public GameObject currentTarget;
+    public Vector2 movementDirection;
+    public float lastAttackTime = 0f;
+    public float firstAttackDelayTime;
+    public bool hasAttackedOnce = false;
+    public bool isAttacking = false;
+    public Coroutine attackCoroutine;
+    public bool initialized = false;
 
     void Awake()
     {
@@ -151,7 +151,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         attackCoroutine = StartCoroutine(PerformAttack());
     }
 
-    private IEnumerator PerformAttack()
+    public virtual IEnumerator PerformAttack()
     {
         isAttacking = true;
         hasAttackedOnce = true;
@@ -180,7 +180,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         ResetAfterAttack(originalVelocity);
     }
 
-    private void ResetAfterAttack(Vector2 originalVelocity)
+    public void ResetAfterAttack(Vector2 originalVelocity)
     {
         isAttacking = false;
 
@@ -222,10 +222,9 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     private void OnDrawGizmosSelected()
     {
-        // Always draw attack range, regardless of initialization
         if (AttackRange != null && AttackRange.Count > 0)
         {
-            int drawLevel = initialized ? Level : 0; // Use level 0 if not initialized
+            int drawLevel = initialized ? Level : 0;
             if (drawLevel < AttackRange.Count)
             {
                 Gizmos.color = Color.red;
@@ -233,7 +232,6 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             }
         }
 
-        // Draw target line if we have one
         if (currentTarget != null)
         {
             Gizmos.color = Color.green;
@@ -241,16 +239,20 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         }
     }
 
-    // Add this for constant gizmo drawing (not just when selected)
+    protected float GetDistanceToTarget()
+    {
+        if (currentTarget == null) return Mathf.Infinity;
+        return Vector3.Distance(transform.position, currentTarget.transform.position);
+    }
+
     private void OnDrawGizmos()
     {
-        // Draw a smaller, less prominent range indicator always visible
         if (AttackRange != null && AttackRange.Count > 0)
         {
             int drawLevel = initialized ? Level : 0;
             if (drawLevel < AttackRange.Count)
             {
-                Gizmos.color = new Color(1, 0, 0, 0.3f); // Semi-transparent red
+                Gizmos.color = new Color(1, 0, 0, 0.3f);
                 Gizmos.DrawWireSphere(transform.position, AttackRange[drawLevel]);
             }
         }

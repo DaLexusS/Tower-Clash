@@ -228,5 +228,17 @@ MonoBehaviour:
   IsAlive: 1
   IsEnemy: 0
   Lane: {fileID: 0}
+  EnemyTowerHealthManager: {fileID: 0}
+  EnemyBaseHealthManager: {fileID: 0}
+  targetEnemy: {fileID: 0}
+  currentTarget: {fileID: 0}
+  movementDirection: {x: 0, y: 0}
+  lastAttackTime: 0
+  firstAttackDelayTime: 0
+  hasAttackedOnce: 0
+  isAttacking: 0
+  initialized: 0
   summonStats: {fileID: 11400000, guid: 9262e541eadd50a45bc2a0acdfb66649, type: 2}
   rigidbody2: {fileID: 3341532622225977169}
+  BulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
+  BulletParent: {fileID: 0}

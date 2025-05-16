@@ -43,11 +43,13 @@ public class TowerManager : MonoBehaviour
     private void OnEnable()
     {
         MinionBehavior.onEnemyWipedFromList += UpdateMinionDeath;
+        TowerHealthManager.onTowerDied += TowerDestroyed;
     }
 
     private void OnDisable()
     {
         MinionBehavior.onEnemyWipedFromList -= UpdateMinionDeath;
+        TowerHealthManager.onTowerDied -= TowerDestroyed;
     }
 
     private void Awake()
@@ -55,6 +57,29 @@ public class TowerManager : MonoBehaviour
         activeTowers = new List<BaseTower>();
         PreLoadSpawnPoints();
         InitTowers();
+    }
+
+    private void TowerDestroyed(BaseTower tower)
+    {
+        if (towerSpawnTimers.ContainsKey(tower))
+            towerSpawnTimers.Remove(tower);
+
+        if (activeTowers.Contains(tower))
+            activeTowers.Remove(tower);
+
+        foreach (var kvp in towerLanes)
+        {
+            if (kvp.Value.playerTower == tower)
+            {
+                kvp.Value.playerTower = null;
+                break;
+            }
+            else if (kvp.Value.enemyTower == tower)
+            {
+                kvp.Value.enemyTower = null;
+                break;
+            }
+        }
     }
 
     private void Update()

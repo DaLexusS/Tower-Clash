@@ -3,35 +3,31 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private BaseTower tower;
-    private float bulletDamage;
+    private float Speed;
+    private float Damage;
     private Transform targetEnemy;
 
-    public void InitBullet(Transform target, float speed, float damage, BaseTower parentTower)
+    public void InitBullet(Transform target, float speed, float damage)
     {
-        tower = parentTower;
-        bulletDamage = damage;
         targetEnemy = target;
-        StartCoroutine(MoveToTarget(target, speed));
+        Speed = speed;
+        Damage = damage;
+        StartCoroutine(MoveToTarget());
     }
 
-    private IEnumerator MoveToTarget(Transform target, float speed)
+    private IEnumerator MoveToTarget()
     {
-        Vector3 lastTargetLocation = target.position;
+        Vector3 lastTargetLocation = targetEnemy.position;
         bool targetWasAlive = true;
 
         while (true)
         {
-            if (target != null)
-            {
-                lastTargetLocation = target.position;
-            }
+            if (targetEnemy != null)
+                lastTargetLocation = targetEnemy.position;
             else
-            {
                 targetWasAlive = false;
-            }
 
-            transform.position = Vector3.MoveTowards(transform.position, lastTargetLocation, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, lastTargetLocation, Speed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, lastTargetLocation) <= 0.05f)
                 break;
@@ -39,23 +35,20 @@ public class Bullet : MonoBehaviour
             yield return null;
         }
 
-        if (targetWasAlive && target != null)
+        if (targetWasAlive && targetEnemy != null)
         {
-            ApplyDamage(target);
-            tower.OnBulletHit(target);
+            ApplyDamage(targetEnemy);
         }
 
         Destroy(gameObject);
     }
 
-
     private void ApplyDamage(Transform target)
     {
         IDamageable damageableTarget = target.GetComponent<IDamageable>();
-
         if (damageableTarget != null)
         {
-            damageableTarget.TakeDamage((int)bulletDamage);
+            damageableTarget.TakeDamage(Mathf.RoundToInt(Damage));
         }
         else
         {

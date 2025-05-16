@@ -1530,6 +1530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TowerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
+  Tower: {fileID: 5240556486531005110}
   hitPoint: {fileID: 2924080253024909136}
   isAlive: 1
   MaxHealth: 0
@@ -1551,7 +1552,7 @@ MonoBehaviour:
   EnemyFolder: {fileID: 0}
   PlayerFolder: {fileID: 0}
   Lane: {fileID: 0}
-  arrowPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
+  BulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
   towerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
   minionSpawnBounds: {fileID: 1797804846689096834}
 --- !u!114 &4613578245372031678

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TowerHealthManager : MonoBehaviour, IDamageable
 {
+    public static UnityAction<BaseTower> onTowerDied;
     [SerializeField] public TowerStats TowerStats;
+    [SerializeField] public BaseTower Tower;
     [SerializeField] public GameObject hitPoint;
     [SerializeField] public bool isAlive = true;
 
@@ -26,6 +29,7 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
     {
         isAlive = false;
         gameObject.SetActive(false);
+        onTowerDied.Invoke(Tower);
         //TEMP
         //Destroy(gameObject);
     }

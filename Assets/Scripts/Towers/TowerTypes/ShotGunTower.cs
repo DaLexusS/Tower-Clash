@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public class ArrowTower : BaseTower
+public class ShotGunTower : BaseTower
 {
-    [SerializeField] Bullet arrowPrefab;
+    [SerializeField] Bullet BulletPrefab;
     [SerializeField] public TowerStats towerStats;
     [SerializeField] public Renderer minionSpawnBounds;
+
+    private float DamageMultiply = 3f;
 
     public void Awake()
     {
@@ -33,15 +35,25 @@ public class ArrowTower : BaseTower
 
     protected override void SpawnBullet(Transform target)
     {
-        if (arrowPrefab == null)
+        if (BulletPrefab == null)
         {
             Debug.LogError($"ArrowTower: Bullet prefab is not assigned for {TowerName}!");
             return;
         }
 
-        Bullet bulletInstance = Instantiate(arrowPrefab, transform.position, Quaternion.identity, ProjectileParent.transform);
+        Bullet bulletInstance = Instantiate(BulletPrefab, transform.position, Quaternion.identity, ProjectileParent.transform);
 
-        bulletInstance.InitBullet(target, 4f, BaseDamage[Level], this);
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        float normalizedDistance = Mathf.Clamp01(distance / Range[Level]);
+
+        float inverseDistance = 1 - normalizedDistance;
+
+        float damageMultiplier = Mathf.Lerp(1f, DamageMultiply, inverseDistance);
+
+        float finalDamage = Mathf.RoundToInt(BaseDamage[Level] * damageMultiplier);
+
+        bulletInstance.InitBullet(target, 4f, finalDamage);
     }
 
     protected override void Attack(Transform target)
