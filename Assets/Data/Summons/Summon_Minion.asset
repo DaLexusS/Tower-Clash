@@ -14,15 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Level: 0
   DeathValue: 5
-  HealthPerLevel: 05000000
-  DamagePerLevel: 02000000
+  HealthPerLevel: 05000000050000000500000005000000
+  DamagePerLevel: 02000000020000000200000002000000
   WalkSpeedPerLevel:
   - 1.5
-  AttackRangePerLevel:
   - 1.5
+  - 1.5
+  - 1.5
+  AttackRangePerLevel:
+  - 1.3
+  - 1.3
+  - 1.3
+  - 1.3
   PreAttackTimePerLevel:
   - 1
+  - 1
+  - 1
+  - 1
   AttackCooldownPerLevel:
+  - 0.1
+  - 0.1
+  - 0.1
   - 0.1
   FirstAttackDelay:
     min: 0

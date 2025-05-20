@@ -14,8 +14,10 @@ public class Summon_Shotgun : SummonBase
         SummonStats = summonStats;
         Rigid_body = rigidbody2;
         Level = summonStats.Level;
+
         MaxHealth = summonStats.HealthPerLevel;
-        Health = summonStats.HealthPerLevel[Level];
+        if (IsValidLevel(MaxHealth)) Health = MaxHealth[Level]; else Health = 100;
+
         Damage = summonStats.DamagePerLevel;
         Value = summonStats.DeathValue;
         AttackRange = summonStats.AttackRangePerLevel;
@@ -29,6 +31,9 @@ public class Summon_Shotgun : SummonBase
 
     public override IEnumerator PerformAttack()
     {
+        if (!IsValidLevel(PreAttackTime) || !IsValidLevel(AttackCoolDown) || !IsValidLevel(Damage) || !IsValidLevel(AttackRange))
+            yield break;
+
         isAttacking = true;
         hasAttackedOnce = true;
 
@@ -46,7 +51,7 @@ public class Summon_Shotgun : SummonBase
         float maxRange = AttackRange[Level];
         float distance = Vector3.Distance(transform.position, currentTarget.transform.position);
 
-        if (distance <= maxRange)
+        if (distance <= maxRange && IsValidLevel(Damage))
         {
             float t = distance / maxRange;
             float damageMultiplier = Mathf.Lerp(DamageMultiply, 1f, t);

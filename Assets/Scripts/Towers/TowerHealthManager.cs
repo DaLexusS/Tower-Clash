@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +16,14 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
     {
         MaxHealth = TowerStats.Health;
         Health = TowerStats.Health;
+    }
+
+    public void UpgradeHealth(int newHealth)
+    {
+        float healthPercentage = (float)Health / MaxHealth;
+        int result = Mathf.RoundToInt(healthPercentage * newHealth);
+        MaxHealth = newHealth;
+        Health = result;
     }
 
     public void TakeDamage(int damage)

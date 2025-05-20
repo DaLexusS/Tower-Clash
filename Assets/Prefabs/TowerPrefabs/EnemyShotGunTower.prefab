@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 4797469842480254441}
   - component: {fileID: 5504324809985394208}
   m_Layer: 0
-  m_Name: EnemyTower
+  m_Name: EnemyShotGunTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,11 +182,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967e84cd0e3fe2e4784e6627e5733f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthManager: {fileID: 4797469842480254441}
   TowerTypeCheck: 1
   Alive: 1
   EnemyFolder: {fileID: 0}
   PlayerFolder: {fileID: 0}
   Lane: {fileID: 0}
+  lastShotTime: -Infinity
   BulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
   towerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
   minionSpawnBounds: {fileID: 2382875239591834986}

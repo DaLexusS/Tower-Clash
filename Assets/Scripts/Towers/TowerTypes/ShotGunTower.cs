@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class ShotGunTower : BaseTower
+public class ShotGunTower : ProjectileTower
 {
     [SerializeField] Bullet BulletPrefab;
-    [SerializeField] public TowerStats towerStats;
-    [SerializeField] public Renderer minionSpawnBounds;
+    [SerializeField] TowerStats towerStats;
+    [SerializeField] Renderer minionSpawnBounds;
 
     private float DamageMultiply = 3f;
 
@@ -18,6 +18,7 @@ public class ShotGunTower : BaseTower
         BaseDamage = towerStats.DamagePerLevel;
         Range = towerStats.RangePerLevel;
         UpgradeCostPerLevel = towerStats.UpgradeCostPerLevel;
+        Health = towerStats.HealthPerLevel;
 
         MinionSpawnBounds = minionSpawnBounds;
 
@@ -28,36 +29,39 @@ public class ShotGunTower : BaseTower
 
     public override void Upgrade()
     {
-        base.Upgrade();
+        if (!IsValidLevel(UpgradeCostPerLevel)) return;
 
-        if (Level > UpgradeCostPerLevel.Count - 1){ return; }
+        base.Upgrade();
     }
 
-    protected override void SpawnBullet(Transform target)
+    public override void Init(Bullet bulletPref)
     {
-        if (BulletPrefab == null)
-        {
-            Debug.LogError($"ArrowTower: Bullet prefab is not assigned for {TowerName}!");
-            return;
-        }
+        base.Init(BulletPrefab);
+    }
+
+    public override void SpawnBullet(Transform target)
+    {
+        if (BulletPrefab == null || !IsValidLevel(BaseDamage) || !IsValidLevel(Range)) return;
 
         Bullet bulletInstance = Instantiate(BulletPrefab, transform.position, Quaternion.identity, ProjectileParent.transform);
 
         float distance = Vector3.Distance(transform.position, target.position);
-
         float normalizedDistance = Mathf.Clamp01(distance / Range[Level]);
-
         float inverseDistance = 1 - normalizedDistance;
 
         float damageMultiplier = Mathf.Lerp(1f, DamageMultiply, inverseDistance);
-
         float finalDamage = Mathf.RoundToInt(BaseDamage[Level] * damageMultiplier);
 
         bulletInstance.InitBullet(target, 4f, finalDamage);
     }
 
-    protected override void Attack(Transform target)
+    private void Update()
     {
-        
+        GameObject enemy = CheckForEnemyInRange();
+        if (enemy != null && CanAttack())
+        {
+            lastShotTime = Time.time;
+            SpawnBullet(enemy.transform);
+        }
     }
 }

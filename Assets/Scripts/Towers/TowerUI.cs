@@ -136,8 +136,8 @@ public class TowerUI : MonoBehaviour
                             {
                                 inHold = false;
                                 UpdateRadialClipping.OnResetRadial.Invoke();
-                                onUpgradeFinished?.Invoke();
-                                onTowerUpgradePressed?.Invoke(towerStats, upgradePanel.gameObject);
+                                //onUpgradeFinished.Invoke();
+                                onTowerUpgradePressed.Invoke(towerStats, upgradePanel.gameObject);
                             }
                         }
                     }

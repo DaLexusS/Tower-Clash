@@ -4,8 +4,10 @@ using static EnumLists;
 
 public abstract class BaseTower : MonoBehaviour
 {
+    [SerializeField] TowerHealthManager healthManager;
     public string TowerName { get; protected set; }
     public int Level { get; protected set; } = 1;
+    public List<int> Health { get; protected set; }
     public List<float> FireRate { get; protected set; }
     public List<float> BaseDamage { get; protected set; }
     public List<float> Range { get; protected set; }
@@ -26,17 +28,20 @@ public abstract class BaseTower : MonoBehaviour
     [SerializeField] public GameObject PlayerFolder;
     [SerializeField] public GameObject Lane;
 
-    private float lastShotTime = -Mathf.Infinity;
+    public float lastShotTime = -Mathf.Infinity;
 
     public virtual void Upgrade()
     {
-        if (Level == UpgradeCostPerLevel.Count)
+        if (Health == null || Level >= Health.Count - 1)
         {
+            Debug.LogError($"{TowerName} Upgrade failed: Health list is null or too short.");
             return;
         }
+
         Level++;
+        healthManager.UpgradeHealth(Health[Level]);
     }
-    
+
     public void Init(GameObject lane, GameObject projectileParent, GameObject unitFolder, GameObject playerUnitFolder, GameObject targetBase, GameObject targetTower)
     {
         PlayerFolder = playerUnitFolder;
@@ -46,50 +51,13 @@ public abstract class BaseTower : MonoBehaviour
         TargetTower = targetTower;
         TargetBase = targetBase;
     }
-
-    public GameObject CheckForEnemyInRange()
-    {
-        if (!EnemyFolder) return null;
-
-        Transform closestEnemy = null;
-        float closestDistance = Range[Level];
-        Vector3 currentPosition = transform.position;
-
-        foreach (Transform enemy in EnemyFolder.transform)
-        {
-            float distance = Vector3.Distance(currentPosition, enemy.position);
-            if (distance <= Range[Level] && distance < closestDistance && enemy.gameObject.GetComponent<SummonBase>().Lane == Lane)
-            {
-                closestDistance = distance;
-                closestEnemy = enemy;
-            }
-        }
-
-        return closestEnemy != null ? closestEnemy.gameObject : null;
-    }
-
     public bool CanAttack()
     {
         return Time.time >= lastShotTime + FireRate[Level];
     }
 
-    private void Update()
+    protected bool IsValidLevel<T>(List<T> list)
     {
-        GameObject enemy = CheckForEnemyInRange();
-        if (enemy != null && CanAttack())
-        {
-            lastShotTime = Time.time;
-
-            SpawnBullet(enemy.transform);
-        }
+        return list != null && Level >= 0 && Level < list.Count;
     }
-
-    protected abstract void SpawnBullet(Transform target);
-
-    public void OnBulletHit(Transform target)
-    {
-        Attack(target);
-    }
-
-    protected abstract void Attack(Transform target);
 }

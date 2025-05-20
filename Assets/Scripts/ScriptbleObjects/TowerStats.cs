@@ -13,6 +13,7 @@ public class TowerStats : ScriptableObject
     
     [Header("Per Level Data")]
     [SerializeField] public List<int> UpgradeCostPerLevel;
+    [SerializeField] public List<int> HealthPerLevel;
     [SerializeField] public List<float> DamagePerLevel;
     [SerializeField] public List<float> FireRatePerLevel;
     [SerializeField] public List<float> RangePerLevel;

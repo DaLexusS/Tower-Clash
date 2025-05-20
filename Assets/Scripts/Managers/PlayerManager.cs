@@ -51,7 +51,7 @@ public class PlayerManager : MonoBehaviour
 
     public void onUpgradePressed(BaseTower tower, GameObject ui)
     {
-        if(tower.Level == tower.UpgradeCostPerLevel.Count) { return; }
+        if (tower.Level == tower.UpgradeCostPerLevel.Count) { return; }
         if (currentCoins < tower.UpgradeCostPerLevel[tower.Level]) { return; }
         ui.SetActive(false);
 

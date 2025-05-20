@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine;
+using System.Collections;
 
 public abstract class SummonBase : MonoBehaviour, IDamageable
 {
@@ -40,6 +40,11 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public bool isAttacking = false;
     public Coroutine attackCoroutine;
     public bool initialized = false;
+
+    protected bool IsValidLevel<T>(List<T> list)
+    {
+        return list != null && Level >= 0 && Level < list.Count;
+    }
 
     void Awake()
     {
@@ -102,7 +107,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     private SummonBase FindClosestEnemyInLane()
     {
-        if (EnemyParent == null) return null;
+        if (EnemyParent == null || !IsValidLevel(AttackRange)) return null;
 
         SummonBase closestEnemy = null;
         float closestDistance = Mathf.Infinity;
@@ -126,7 +131,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     private void HandleMovement()
     {
-        if (Rigid_body == null) return;
+        if (Rigid_body == null || !IsValidLevel(WalkSpeed)) return;
 
         if (!isAttacking && movementDirection != Vector2.zero)
         {
@@ -140,7 +145,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     private void HandleAttack()
     {
-        if (isAttacking || currentTarget == null) return;
+        if (isAttacking || currentTarget == null || !IsValidLevel(AttackRange)) return;
         if (!hasAttackedOnce && Time.time < firstAttackDelayTime) return;
         if (Time.time < lastAttackTime) return;
 
@@ -153,6 +158,8 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     public virtual IEnumerator PerformAttack()
     {
+        if (!IsValidLevel(PreAttackTime) || !IsValidLevel(AttackCoolDown) || !IsValidLevel(Damage) || !IsValidLevel(AttackRange)) yield break;
+
         isAttacking = true;
         hasAttackedOnce = true;
 
@@ -222,14 +229,10 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     private void OnDrawGizmosSelected()
     {
-        if (AttackRange != null && AttackRange.Count > 0)
+        if (IsValidLevel(AttackRange))
         {
-            int drawLevel = initialized ? Level : 0;
-            if (drawLevel < AttackRange.Count)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, AttackRange[drawLevel]);
-            }
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, AttackRange[Level]);
         }
 
         if (currentTarget != null)
@@ -247,14 +250,10 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     private void OnDrawGizmos()
     {
-        if (AttackRange != null && AttackRange.Count > 0)
+        if (IsValidLevel(AttackRange))
         {
-            int drawLevel = initialized ? Level : 0;
-            if (drawLevel < AttackRange.Count)
-            {
-                Gizmos.color = new Color(1, 0, 0, 0.3f);
-                Gizmos.DrawWireSphere(transform.position, AttackRange[drawLevel]);
-            }
+            Gizmos.color = new Color(1, 0, 0, 0.3f);
+            Gizmos.DrawWireSphere(transform.position, AttackRange[Level]);
         }
     }
 

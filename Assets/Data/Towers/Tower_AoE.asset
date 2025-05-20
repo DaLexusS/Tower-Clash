@@ -10,30 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ee2a8c6b4ea7cb4ba60796ddf00248f, type: 3}
-  m_Name: Tower_Shotgun
+  m_Name: Tower_AoE
   m_EditorClassIdentifier: 
-  TowerName: Tower_Shotgun
+  TowerName: Tower_AoE
   Level: 0
-  Health: 100
-  AttackCoolDown: 2
-  MinionSpawnTimeCooldown: 5
-  UpgradeCostPerLevel: 0f0000000f0000000f000000
-  HealthPerLevel: 640000007800000091000000af000000
+  Health: 120
+  AttackCoolDown: 3
+  MinionSpawnTimeCooldown: 100
+  UpgradeCostPerLevel: 280000003c00000050000000
+  HealthPerLevel: 7800000091000000b4000000e1000000
   DamagePerLevel:
-  - 8
-  - 16
-  - 26
-  - 38
+  - 15
+  - 30
+  - 50
+  - 75
   FireRatePerLevel:
-  - 2
-  - 1.9
-  - 1.8
-  - 1.6
+  - 3
+  - 3
+  - 3
+  - 3
   RangePerLevel:
-  - 5
-  - 5
-  - 5
-  - 5
-  SummonIcon: {fileID: 21300000, guid: dc16df6fb06911242806717101bccd11, type: 3}
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
+  SummonIcon: {fileID: 1161443714384828998, guid: fe42c8b526e77e54ab91d0590272d9e8, type: 3}
   SummonPrice: 1
   Summon: {fileID: -403440844841326516, guid: 57024b55e95385044bacebb8b0f1bf77, type: 3}

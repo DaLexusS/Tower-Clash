@@ -1040,7 +1040,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 46c3c5bad2b592b4f91fa7cbf50d3645, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.56307566, b: 0.7075472, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1488,10 +1488,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1101289943887790547}
   - component: {fileID: 521438663904948936}
-  - component: {fileID: 5240556486531005110}
+  - component: {fileID: 8309286463884697950}
   - component: {fileID: 4613578245372031678}
   m_Layer: 0
-  m_Name: Tower
+  m_Name: AoETower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1529,13 +1529,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7108ada0dd097ea4397edb7d82608d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TowerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
-  Tower: {fileID: 5240556486531005110}
+  TowerStats: {fileID: 11400000, guid: 80a2f22b82493784f8a66c00e42ea1d9, type: 2}
+  Tower: {fileID: 8309286463884697950}
   hitPoint: {fileID: 2924080253024909136}
   isAlive: 1
   MaxHealth: 0
   Health: 0
---- !u!114 &5240556486531005110
+--- !u!114 &8309286463884697950
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1544,16 +1544,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5883188531073552203}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 967e84cd0e3fe2e4784e6627e5733f7d, type: 3}
+  m_Script: {fileID: 11500000, guid: 65f65bf8f4516fc48b760302fde30a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthManager: {fileID: 521438663904948936}
   TowerTypeCheck: 0
   Alive: 1
   EnemyFolder: {fileID: 0}
   PlayerFolder: {fileID: 0}
   Lane: {fileID: 0}
-  BulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
-  towerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
+  lastShotTime: -Infinity
+  towerStats: {fileID: 11400000, guid: 80a2f22b82493784f8a66c00e42ea1d9, type: 2}
   minionSpawnBounds: {fileID: 1797804846689096834}
 --- !u!114 &4613578245372031678
 MonoBehaviour:
