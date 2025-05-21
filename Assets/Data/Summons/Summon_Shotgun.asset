@@ -22,10 +22,10 @@ MonoBehaviour:
   - 2
   - 2
   AttackRangePerLevel:
-  - 5
-  - 5
-  - 5
-  - 5
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
   PreAttackTimePerLevel:
   - 2
   - 2

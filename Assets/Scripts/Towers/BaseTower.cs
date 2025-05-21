@@ -50,6 +50,8 @@ public abstract class BaseTower : MonoBehaviour
         ProjectileParent = projectileParent;
         TargetTower = targetTower;
         TargetBase = targetBase;
+
+
     }
     public bool CanAttack()
     {

@@ -9,6 +9,7 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
     [SerializeField] public BaseTower Tower;
     [SerializeField] public GameObject hitPoint;
     [SerializeField] public bool isAlive = true;
+    [SerializeField] HealthBarUi healthBarUi;
 
     public int MaxHealth;
     public int Health;
@@ -16,6 +17,7 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
     {
         MaxHealth = TowerStats.Health;
         Health = TowerStats.Health;
+        healthBarUi.InitHealth(MaxHealth);
     }
 
     public void UpgradeHealth(int newHealth)
@@ -24,11 +26,15 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
         int result = Mathf.RoundToInt(healthPercentage * newHealth);
         MaxHealth = newHealth;
         Health = result;
+
+        healthBarUi.UpgradeHealth(MaxHealth, Health);
     }
 
     public void TakeDamage(int damage)
     {
         Health = Mathf.Max(0, Health - damage);
+
+        healthBarUi.UpdateHealth(Health);
 
         if (Health <= 0) { OnDied(); }
     }

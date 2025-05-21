@@ -5,6 +5,7 @@ using System.Collections;
 
 public abstract class SummonBase : MonoBehaviour, IDamageable
 {
+    [SerializeField] HealthBarUi healthBarUi;
     public static UnityAction<int> RewardOnSummonDeath;
     public SummonStats SummonStats { get; protected set; }
     public Rigidbody2D Rigid_body { get; protected set; }
@@ -66,6 +67,8 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         firstAttackDelayTime = Time.time + Random.Range(FirstAttackCooldown.min, FirstAttackCooldown.max);
         initialized = true;
+
+        healthBarUi.InitHealth(Health);
     }
 
     void Update()
@@ -206,6 +209,9 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public virtual void TakeDamage(int amount)
     {
         Health = Mathf.Max(0, Health - amount);
+
+        healthBarUi.UpdateHealth(Health);
+
         if (Health <= 0) OnDied();
     }
 
