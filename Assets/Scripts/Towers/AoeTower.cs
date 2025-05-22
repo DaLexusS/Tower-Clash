@@ -17,7 +17,6 @@ public class AoeTower : BaseTower
         if (!EnemyFolder || !IsValidLevel(Range)) return null;
 
         Vector2 center = (Vector2)transform.position + (Vector2)transform.up * aoeDistanceFromTower;
-        Debug.Log(center);
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(center, aoeBoxSize, 0f);
 

@@ -62,8 +62,8 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         EnemyParent = towerData.EnemyFolder;
         PlayerParent = towerData.PlayerFolder;
 
-        EnemyTowerHealthManager = TargetTower?.GetComponent<TowerHealthManager>();
-        EnemyBaseHealthManager = TargetBase?.GetComponent<BaseHealthManager>();
+        EnemyTowerHealthManager = TargetTower.GetComponent<TowerHealthManager>();
+        EnemyBaseHealthManager = TargetBase.GetComponent<BaseHealthManager>();
 
         firstAttackDelayTime = Time.time + Random.Range(FirstAttackCooldown.min, FirstAttackCooldown.max);
         initialized = true;
@@ -161,7 +161,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     public virtual IEnumerator PerformAttack()
     {
-        if (!IsValidLevel(PreAttackTime) || !IsValidLevel(AttackCoolDown) || !IsValidLevel(Damage) || !IsValidLevel(AttackRange)) yield break;
+        if (!IsValidLevel(PreAttackTime) || !IsValidLevel(AttackCoolDown)) yield break;
 
         isAttacking = true;
         hasAttackedOnce = true;
@@ -171,23 +171,30 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         yield return new WaitForSeconds(PreAttackTime[Level]);
 
-        if (!IsAlive || currentTarget == null)
+        if (!IsAlive)
         {
             ResetAfterAttack(originalVelocity);
             yield break;
         }
 
-        float currentDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
-        if (currentDistance <= AttackRange[Level])
-        {
-            IDamageable damageable = currentTarget.GetComponent<IDamageable>();
-            damageable?.TakeDamage(Damage[Level]);
-        }
+        DoAttack();
 
         lastAttackTime = Time.time;
         yield return new WaitForSeconds(AttackCoolDown[Level]);
 
         ResetAfterAttack(originalVelocity);
+    }
+
+    public virtual void DoAttack()
+    {
+        if (currentTarget == null || !IsValidLevel(Damage) || !IsValidLevel(AttackRange)) return;
+
+        float distance = Vector3.Distance(transform.position, currentTarget.transform.position);
+        if (distance <= AttackRange[Level])
+        {
+            IDamageable damageable = currentTarget.GetComponent<IDamageable>();
+            damageable.TakeDamage(Damage[Level]);
+        }
     }
 
     public void ResetAfterAttack(Vector2 originalVelocity)

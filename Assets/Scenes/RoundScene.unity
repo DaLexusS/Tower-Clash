@@ -2695,7 +2695,7 @@ MonoBehaviour:
   minionManager: {fileID: 795601067}
   playerTowerList:
   - {fileID: 5240556486531005110, guid: 1f61c9dfcefc8734ebd10a8ee5e6630a, type: 3}
-  - {fileID: 5240556486531005110, guid: 1f61c9dfcefc8734ebd10a8ee5e6630a, type: 3}
+  - {fileID: 8309286463884697950, guid: 7123da6f242c7594dace65ffc940005d, type: 3}
   - {fileID: 5240556486531005110, guid: 1f61c9dfcefc8734ebd10a8ee5e6630a, type: 3}
   enemyTowerList:
   - {fileID: 5504324809985394208, guid: 6589c3fbfe7a08e499b218b5f5e8aa59, type: 3}
