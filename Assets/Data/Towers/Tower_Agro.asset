@@ -10,30 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ee2a8c6b4ea7cb4ba60796ddf00248f, type: 3}
-  m_Name: Tower_AoE
+  m_Name: Tower_Agro
   m_EditorClassIdentifier: 
-  TowerName: Tower_AoE
+  TowerName: Tower_Agro
   Level: 0
-  Health: 120
-  AttackCoolDown: 3
-  MinionSpawnTimeCooldown: 5
-  UpgradeCostPerLevel: 280000003c00000050000000
-  HealthPerLevel: 7800000091000000b4000000e1000000
+  Health: 70
+  AttackCoolDown: 1.5
+  MinionSpawnTimeCooldown: 100
+  UpgradeCostPerLevel: 14000000190000001e000000
+  HealthPerLevel: 46000000500000005a00000064000000
   DamagePerLevel:
-  - 15
-  - 30
-  - 50
-  - 75
+  - 7
+  - 9
+  - 11
+  - 13
   FireRatePerLevel:
-  - 3
-  - 3
-  - 3
-  - 3
+  - 1.5
+  - 1.45
+  - 1.4
+  - 1.35
   RangePerLevel:
-  - 2.5
-  - 2.5
-  - 2.5
-  - 2.5
-  SummonIcon: {fileID: 21300000, guid: 279657edc397ece4b8029c727adf6ddc, type: 3}
+  - 5
+  - 5
+  - 5
+  - 5
+  SummonIcon: {fileID: 21300000, guid: 6fd0b649401ca5b419a5ebf5df170c0f, type: 3}
   SummonPrice: 1
   Summon: {fileID: 5427842484906125892, guid: 66f447ec4182be247b28dd1ca50f1a2b, type: 3}

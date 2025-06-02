@@ -5,6 +5,8 @@ using static EnumLists;
 public abstract class BaseTower : MonoBehaviour
 {
     [SerializeField] TowerHealthManager healthManager;
+
+    public SpawnFormation spawnFormation;
     public string TowerName { get; protected set; }
     public int Level { get; protected set; } = 1;
     public List<int> Health { get; protected set; }
@@ -20,6 +22,7 @@ public abstract class BaseTower : MonoBehaviour
     public Renderer MinionSpawnBounds { get; protected set; }
     public Sprite SummonIcon { get; protected set; }
     public int SummonPrice { get; protected set; }
+
     public TowerType TowerTypeCheck;
 
     public bool Alive = true;
@@ -50,8 +53,6 @@ public abstract class BaseTower : MonoBehaviour
         ProjectileParent = projectileParent;
         TargetTower = targetTower;
         TargetBase = targetBase;
-
-
     }
     public bool CanAttack()
     {

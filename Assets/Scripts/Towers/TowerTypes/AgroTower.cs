@@ -1,13 +1,17 @@
+using System.Collections;
 using UnityEngine;
 
-public class ShotGunTower : ProjectileTower
+public class AgroTower : ProjectileTower
 {
     [SerializeField] Bullet BulletPrefab;
     [SerializeField] TowerStats towerStats;
     [SerializeField] Renderer minionSpawnBounds;
+
+    [SerializeField] float timeBetweenShots = 0.1f;
+    [SerializeField] int shotsAmount = 3;
     [SerializeField] float bulletSpeed = 4f;
 
-    private float DamageMultiply = 3f;
+    private Coroutine fireCoroutine;
 
     public void Awake()
     {
@@ -31,7 +35,6 @@ public class ShotGunTower : ProjectileTower
     public override void Upgrade()
     {
         if (!IsValidLevel(UpgradeCostPerLevel)) return;
-
         base.Upgrade();
     }
 
@@ -40,20 +43,23 @@ public class ShotGunTower : ProjectileTower
         base.Init(BulletPrefab);
     }
 
-    public override void SpawnBullet(Transform target)
+    private IEnumerator FireBurst(Transform target)
     {
-        if (BulletPrefab == null || !IsValidLevel(BaseDamage) || !IsValidLevel(Range)) return;
+        for (int i = 0; i < shotsAmount; i++)
+        {
+            GameObject enemy = CheckForEnemyInRange();
+            Bullet bulletInstance = Instantiate(BulletPrefab, transform.position, Quaternion.identity, ProjectileParent.transform);
 
-        Bullet bulletInstance = Instantiate(BulletPrefab, transform.position, Quaternion.identity, ProjectileParent.transform);
+            if (enemy != null)
 
-        float distance = Vector3.Distance(transform.position, target.position);
-        float normalizedDistance = Mathf.Clamp01(distance / Range[Level]);
-        float inverseDistance = 1 - normalizedDistance;
+                bulletInstance.InitBullet(enemy.transform, bulletSpeed, towerStats.DamagePerLevel[Level]);
+            else
+            {
+                Destroy(bulletInstance);
+            }
 
-        float damageMultiplier = Mathf.Lerp(1f, DamageMultiply, inverseDistance);
-        float finalDamage = Mathf.RoundToInt(BaseDamage[Level] * damageMultiplier);
-
-        bulletInstance.InitBullet(target, bulletSpeed, finalDamage);
+            yield return new WaitForSeconds(timeBetweenShots);
+        }
     }
 
     private void Update()
@@ -62,7 +68,11 @@ public class ShotGunTower : ProjectileTower
         if (enemy != null && CanAttack())
         {
             lastShotTime = Time.time;
-            SpawnBullet(enemy.transform);
+
+            if (fireCoroutine != null)
+                StopCoroutine(fireCoroutine);
+
+            fireCoroutine = StartCoroutine(FireBurst(enemy.transform));
         }
     }
 }
