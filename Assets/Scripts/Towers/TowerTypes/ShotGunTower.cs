@@ -58,6 +58,7 @@ public class ShotGunTower : ProjectileTower
 
     private void Update()
     {
+        if (!RoundManager.GameRunning) { return; }
         GameObject enemy = CheckForEnemyInRange();
         if (enemy != null && CanAttack())
         {

@@ -42,6 +42,8 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public Coroutine attackCoroutine;
     public bool initialized = false;
 
+    private bool frozen = false;
+
     protected bool IsValidLevel<T>(List<T> list)
     {
         return list != null && Level >= 0 && Level < list.Count;
@@ -73,7 +75,16 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if (!initialized || !IsAlive) return;
+        if (!initialized || !IsAlive || !RoundManager.GameRunning) 
+        {
+            if (!frozen)
+            {
+                frozen = true;
+                Rigid_body.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
+
+            return; 
+        }
 
         FindTarget();
         HandleMovement();

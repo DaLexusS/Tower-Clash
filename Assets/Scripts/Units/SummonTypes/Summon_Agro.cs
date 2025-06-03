@@ -31,6 +31,10 @@ public class Summon_Agro : SummonBase
 
     public override void DoAttack()
     {
+        if(currentTarget == null)
+        {
+            return;
+        }
         float distance = Vector3.Distance(transform.position, currentTarget.transform.position);
 
         Bullet bullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity);

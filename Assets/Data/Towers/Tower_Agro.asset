@@ -16,7 +16,7 @@ MonoBehaviour:
   Level: 0
   Health: 70
   AttackCoolDown: 1.5
-  MinionSpawnTimeCooldown: 100
+  MinionSpawnTimeCooldown: 5
   UpgradeCostPerLevel: 14000000190000001e000000
   HealthPerLevel: 46000000500000005a00000064000000
   DamagePerLevel:
@@ -35,5 +35,5 @@ MonoBehaviour:
   - 5
   - 5
   SummonIcon: {fileID: 21300000, guid: 6fd0b649401ca5b419a5ebf5df170c0f, type: 3}
-  SummonPrice: 1
-  Summon: {fileID: 5427842484906125892, guid: 66f447ec4182be247b28dd1ca50f1a2b, type: 3}
+  SummonPrice: 3
+  Summon: {fileID: 3486253761952614632, guid: 928245a8064780a4e8fcadd52e3d1442, type: 3}

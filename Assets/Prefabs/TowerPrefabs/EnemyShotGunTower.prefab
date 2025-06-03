@@ -495,6 +495,8 @@ MonoBehaviour:
   hitPoint: {fileID: 3937477362176418118}
   isAlive: 1
   healthBarUi: {fileID: 3653914084334590424}
+  towerVisual: {fileID: 807093640529200897}
+  towerCollider: {fileID: 9060950254326215404}
   MaxHealth: 0
   Health: 0
 --- !u!114 &5504324809985394208
@@ -510,6 +512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthManager: {fileID: 4797469842480254441}
+  spawnFormation: 0
   TowerTypeCheck: 1
   Alive: 1
   EnemyFolder: {fileID: 0}
@@ -519,6 +522,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
   towerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
   minionSpawnBounds: {fileID: 2382875239591834986}
+  bulletSpeed: 4
 --- !u!114 &3653914084334590424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,7 +653,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -1.77, z: 0}
-  m_LocalScale: {x: 1.94, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 2, y: 2, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9083458948844714535}

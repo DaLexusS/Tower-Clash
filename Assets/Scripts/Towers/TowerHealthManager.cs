@@ -11,6 +11,9 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
     [SerializeField] public bool isAlive = true;
     [SerializeField] HealthBarUi healthBarUi;
 
+    [SerializeField] GameObject towerVisual;
+    [SerializeField] GameObject towerCollider;
+
     public int MaxHealth;
     public int Health;
     private void Awake()
@@ -41,8 +44,10 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
     public void OnDied()
     {
         isAlive = false;
-        gameObject.SetActive(false);
         onTowerDied.Invoke(Tower);
+
+        towerVisual.SetActive(false);
+        towerCollider.SetActive(false);
         //TEMP
         //Destroy(gameObject);
     }

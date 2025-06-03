@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public class SummonUi : MonoBehaviour
 {
-    public static UnityAction<BaseTower> onSummonPressed;
+    public static UnityAction<BaseTower, BaseTower> onSummonPressed;
     [SerializeField] public PlayerManager playerManager;
 
     [SerializeField] public List<Button> SummonButtons;
@@ -25,11 +25,13 @@ public class SummonUi : MonoBehaviour
 
     private bool Pressed = false;
     private float lastPressTick = 0;
+    private int lastPressedSummon;
     public void Init(List<BaseTower> playerTowers)
     {
         for (int i = 0; i < SummonButtons.Count && i < playerTowers.Count; i++)
         {
             int capturedIndex = i;
+            
 
             CreateIcon(SummonButtons[capturedIndex], playerTowers[capturedIndex].SummonIcon, playerTowers[capturedIndex].SummonPrice);
 
@@ -42,6 +44,7 @@ public class SummonUi : MonoBehaviour
                     Pressed = true;
                     mainUi.SetActive(true);
                     visualPlayer.PlayFeedbacks();
+                    lastPressedSummon = capturedIndex;
                 }
                 else
                 {
@@ -55,17 +58,18 @@ public class SummonUi : MonoBehaviour
             {
                 if (!canBePressed()) return;
 
-                var tower = playerTowers[capturedIndex];
+                var laneTower = playerTowers[capturedIndex];
+                var summonTower = playerTowers[lastPressedSummon];
 
-                if (playerManager.currentCoins < tower.SummonPrice)
+                if (playerManager.currentCoins < summonTower.SummonPrice)
                 {
-                    playerManager.TryBuy(tower.SummonPrice);
+                    playerManager.TryBuy(summonTower.SummonPrice);
                     return;
                 }
 
-                OnSummonButtonPressed(tower);
+                OnSummonButtonPressed(summonTower, laneTower);
 
-                playerManager.TryBuy(tower.SummonPrice);
+                playerManager.TryBuy(summonTower.SummonPrice);
                 Pressed = false;
                 visualPlayer.StopFeedbacks();
                 mainUi.SetActive(false);
@@ -73,9 +77,9 @@ public class SummonUi : MonoBehaviour
         }
     }
 
-    private void OnSummonButtonPressed(BaseTower tower)
+    private void OnSummonButtonPressed(BaseTower Summontower, BaseTower laneTower)
     {
-        onSummonPressed.Invoke(tower);
+        onSummonPressed.Invoke(Summontower, laneTower);
     }
 
     public void CreateIcon(Button button, Sprite iconImage, int price)

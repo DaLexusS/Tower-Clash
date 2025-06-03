@@ -12,35 +12,34 @@ public class SummonUnit : MonoBehaviour
         SummonUi.onSummonPressed -= SpawnUnit;
     }
 
-    public void SpawnUnit(BaseTower tower)
+    public void SpawnUnit(BaseTower summonTower, BaseTower laneTower)
     {
-        Debug.Log(tower.Summon.name);
-        switch (tower.spawnFormation) 
+        switch (summonTower.spawnFormation) 
         {
             case EnumLists.SpawnFormation.Double:
-                SpawnDue(tower);
+                SpawnDue(summonTower, laneTower);
                 break;
              case EnumLists.SpawnFormation.Triple:
-                SpawnTriple(tower);
+                SpawnTriple(summonTower, laneTower);
                 break;
             default:
-                SpawnSolo(tower);
+                SpawnSolo(summonTower, laneTower);
                 break;
         }
     }
 
-    private void SpawnSolo(BaseTower tower)
+    private void SpawnSolo(BaseTower tower, BaseTower otherLane)
     {
-        Vector2 spawnPos = tower.MinionSpawnBounds.transform.position;
+        Vector2 spawnPos = otherLane.MinionSpawnBounds.transform.position;
 
         SummonBase summonClone = Instantiate(tower.Summon, spawnPos, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
 
-        summonClone.Init(tower);
+        summonClone.Init(otherLane);
     }
 
-    private void SpawnDue(BaseTower tower)
+    private void SpawnDue(BaseTower tower, BaseTower otherLane)
     {
-        Transform t = tower.MinionSpawnBounds.transform;
+        Transform t = otherLane.MinionSpawnBounds.transform;
         float halfWidth = t.localScale.x * 0.5f;
 
         float left = t.position.x - halfWidth;
@@ -52,13 +51,13 @@ public class SummonUnit : MonoBehaviour
         SummonBase summonClone1 = Instantiate(tower.Summon, leftPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
         SummonBase summonClone2 = Instantiate(tower.Summon, rightPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
 
-        summonClone1.Init(tower);
-        summonClone2.Init(tower);
+        summonClone1.Init(otherLane);
+        summonClone2.Init(otherLane);
     }
 
-    private void SpawnTriple(BaseTower tower)
+    private void SpawnTriple(BaseTower tower, BaseTower otherLane)
     {
-        Transform t = tower.MinionSpawnBounds.transform;
+        Transform t = otherLane.MinionSpawnBounds.transform;
         float halfWidth = t.localScale.x * 0.5f;
         float halfHight = t.localScale.y * 0.5f;
 
@@ -77,9 +76,9 @@ public class SummonUnit : MonoBehaviour
         SummonBase summonClone2 = Instantiate(tower.Summon, rightPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
         SummonBase summonClone3 = Instantiate(tower.Summon, TopPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
 
-        summonClone1.Init(tower);
-        summonClone2.Init(tower);
-        summonClone3.Init(tower);
+        summonClone1.Init(otherLane);
+        summonClone2.Init(otherLane);
+        summonClone3.Init(otherLane);
     }
 
     Vector2 GetRandomPointInsideBounds(GameObject spawner)

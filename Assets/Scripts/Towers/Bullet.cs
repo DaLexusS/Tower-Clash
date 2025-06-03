@@ -40,7 +40,9 @@ public class Bullet : MonoBehaviour
             ApplyDamage(targetEnemy);
         }
 
-        Destroy(gameObject);
+        if (gameObject != null){
+            Destroy(gameObject);
+        }
     }
 
     private void ApplyDamage(Transform target)

@@ -31,6 +31,7 @@ public class GrenadeTower : AoeTower
 
     private void Update()
     {
+        if (!RoundManager.GameRunning) { return; }
         if (CanAttack())
         {
             lastShotTime = Time.time;

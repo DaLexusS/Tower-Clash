@@ -84,6 +84,8 @@ public class TowerManager : MonoBehaviour
 
     private void Update()
     {
+        if (!RoundManager.GameRunning){ return; }
+
         foreach (var pair in towerLanes)
         {
             GameObject lane = Lanes[pair.Key];
