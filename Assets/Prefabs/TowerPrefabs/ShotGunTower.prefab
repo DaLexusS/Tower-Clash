@@ -1225,7 +1225,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9a2db2cfd610f0c4b89222b3c0ce26ea, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f760b2d6693c5cb4381f07d9f37df619, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1724,6 +1724,7 @@ MonoBehaviour:
   healthBarUi: {fileID: 3395299908358797938}
   towerVisual: {fileID: 4457827308442269270}
   towerCollider: {fileID: 471695921592563071}
+  StatCanvas: {fileID: 7561177398853489026}
   MaxHealth: 0
   Health: 0
 --- !u!114 &5240556486531005110
@@ -1741,7 +1742,6 @@ MonoBehaviour:
   healthManager: {fileID: 521438663904948936}
   spawnFormation: 0
   TowerTypeCheck: 0
-  Alive: 1
   EnemyFolder: {fileID: 0}
   PlayerFolder: {fileID: 0}
   Lane: {fileID: 0}

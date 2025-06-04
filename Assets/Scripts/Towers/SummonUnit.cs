@@ -58,10 +58,10 @@ public class SummonUnit : MonoBehaviour
     private void SpawnTriple(BaseTower tower, BaseTower otherLane)
     {
         Transform t = otherLane.MinionSpawnBounds.transform;
-        float halfWidth = t.localScale.x * 0.5f;
-        float halfHight = t.localScale.y * 0.5f;
+        float halfWidth = t.localScale.x * 0.25f;
+        float halfHight = t.localScale.y * 0.25f;
 
-        float offsetY =  t.localScale.y * 0.3f;
+        float offsetY =  t.localScale.y * 0.25f;
 
 
         float left = t.position.x - halfWidth;

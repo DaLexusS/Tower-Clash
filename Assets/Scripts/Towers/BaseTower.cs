@@ -25,13 +25,18 @@ public abstract class BaseTower : MonoBehaviour
 
     public TowerType TowerTypeCheck;
 
-    public bool Alive = true;
+    public bool Alive { get; protected set; } = true;
 
     [SerializeField] public GameObject EnemyFolder;
     [SerializeField] public GameObject PlayerFolder;
     [SerializeField] public GameObject Lane;
 
     public float lastShotTime = -Mathf.Infinity;
+
+    public void KillTower()
+    {
+        Alive = false;
+    }
 
     public virtual void Upgrade()
     {

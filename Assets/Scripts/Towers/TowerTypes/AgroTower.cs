@@ -64,6 +64,7 @@ public class AgroTower : ProjectileTower
 
     private void Update()
     {
+        if (!Alive) { return; }
         if (!RoundManager.GameRunning) { return; }
         GameObject enemy = CheckForEnemyInRange();
         if (enemy != null && CanAttack())

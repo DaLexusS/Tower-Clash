@@ -34,6 +34,6 @@ MonoBehaviour:
   - 5
   - 5
   - 5
-  SummonIcon: {fileID: 21300000, guid: 6fd0b649401ca5b419a5ebf5df170c0f, type: 3}
-  SummonPrice: 3
+  SummonIcon: {fileID: 21300000, guid: 87529e0fd28c3774fa086315a42b1860, type: 3}
+  SummonPrice: 10
   Summon: {fileID: 3486253761952614632, guid: 928245a8064780a4e8fcadd52e3d1442, type: 3}

@@ -15,12 +15,12 @@ MonoBehaviour:
   Level: 0
   DeathValue: 5
   HealthPerLevel: 0a0000000d0000001000000013000000
-  DamagePerLevel: 64000000080000000a0000000c000000
+  DamagePerLevel: 06000000080000000a0000000c000000
   WalkSpeedPerLevel:
-  - 2
-  - 2
-  - 2
-  - 2
+  - 0.8
+  - 0.8
+  - 0.8
+  - 0.8
   AttackRangePerLevel:
   - 3
   - 3

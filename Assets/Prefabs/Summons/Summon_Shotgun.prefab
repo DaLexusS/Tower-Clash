@@ -220,7 +220,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 5cb088dbb704c4c44bc79bad4b7b1728, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 86c93b5aa8fd97e43b51d1589f4963a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -370,8 +370,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.74, y: 1.3}
+  m_Offset: {x: -0.39, y: 0}
+  m_Size: {x: 1.46, y: 1.72}
   m_Direction: 0
 --- !u!1 &7276593498726922775
 GameObject:
@@ -733,6 +733,7 @@ MonoBehaviour:
   summonStats: {fileID: 11400000, guid: 9262e541eadd50a45bc2a0acdfb66649, type: 2}
   rigidbody2: {fileID: 3341532622225977169}
   BulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
+  bulletSpeed: 4
 --- !u!114 &7410035921521872664
 MonoBehaviour:
   m_ObjectHideFlags: 0

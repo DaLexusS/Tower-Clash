@@ -54,6 +54,7 @@ public class TowerManager : MonoBehaviour
 
     private void Awake()
     {
+        RoundManager.SetGameRunning(true);
         activeTowers = new List<BaseTower>();
         PreLoadSpawnPoints();
         InitTowers();

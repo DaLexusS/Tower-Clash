@@ -31,6 +31,7 @@ public class GrenadeTower : AoeTower
 
     private void Update()
     {
+        if (!Alive) { return; }
         if (!RoundManager.GameRunning) { return; }
         if (CanAttack())
         {

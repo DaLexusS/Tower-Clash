@@ -6,7 +6,6 @@ public class ShotGunTower : ProjectileTower
     [SerializeField] TowerStats towerStats;
     [SerializeField] Renderer minionSpawnBounds;
     [SerializeField] float bulletSpeed = 4f;
-
     private float DamageMultiply = 3f;
 
     public void Awake()
@@ -58,6 +57,7 @@ public class ShotGunTower : ProjectileTower
 
     private void Update()
     {
+        if (!Alive) { return; }
         if (!RoundManager.GameRunning) { return; }
         GameObject enemy = CheckForEnemyInRange();
         if (enemy != null && CanAttack())
