@@ -75,7 +75,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if (!initialized || !IsAlive || !RoundManager.GameRunning) 
+        if (!initialized || !IsAlive || !RoundManager.GameRunning)
         {
             if (!frozen)
             {
@@ -83,7 +83,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
                 Rigid_body.constraints = RigidbodyConstraints2D.FreezeAll;
             }
 
-            return; 
+            return;
         }
 
         FindTarget();
@@ -100,17 +100,20 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         if (targetEnemy != null)
         {
             currentTarget = targetEnemy.gameObject;
-            movementDirection = (targetEnemy.transform.position - transform.position).normalized;
+            Vector3 point = GetClosestPointOnTarget(currentTarget);
+            movementDirection = (point - transform.position).normalized;
         }
         else if (EnemyTowerHealthManager != null && EnemyTowerHealthManager.isAlive)
         {
             currentTarget = TargetTower;
-            movementDirection = (TargetTower.transform.position - transform.position).normalized;
+            Vector3 point = GetClosestPointOnTarget(currentTarget);
+            movementDirection = (point - transform.position).normalized;
         }
         else if (EnemyBaseHealthManager != null && EnemyBaseHealthManager.isAlive)
         {
             currentTarget = TargetBase;
-            movementDirection = (TargetBase.transform.position - transform.position).normalized;
+            Vector3 point = GetClosestPointOnTarget(currentTarget);
+            movementDirection = (point - transform.position).normalized;
         }
         else
         {
@@ -132,7 +135,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             SummonBase enemy = child.GetComponent<SummonBase>();
             if (enemy == null || !enemy.IsAlive || enemy.Lane != Lane) continue;
 
-            float distance = Vector3.Distance(currentPosition, enemy.transform.position);
+            float distance = Vector3.Distance(currentPosition, GetClosestPointOnTarget(enemy.gameObject));
             if (distance < closestDistance && distance <= AttackRange[Level])
             {
                 closestDistance = distance;
@@ -163,7 +166,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         if (!hasAttackedOnce && Time.time < firstAttackDelayTime) return;
         if (Time.time < lastAttackTime) return;
 
-        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.transform.position);
+        float distanceToTarget = Vector3.Distance(transform.position, GetClosestPointOnTarget(currentTarget));
         if (distanceToTarget > AttackRange[Level]) return;
 
         if (attackCoroutine != null) StopCoroutine(attackCoroutine);
@@ -173,6 +176,9 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public virtual IEnumerator PerformAttack()
     {
         if (!IsValidLevel(PreAttackTime) || !IsValidLevel(AttackCoolDown)) yield break;
+
+        if (Time.time < lastAttackTime)
+            yield break;
 
         isAttacking = true;
         hasAttackedOnce = true;
@@ -188,9 +194,13 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             yield break;
         }
 
-        DoAttack();
+        float distanceToTarget = GetDistanceToTarget();
+        if (distanceToTarget <= AttackRange[Level])
+        {
+            DoAttack();
+            lastAttackTime = Time.time;
+        }
 
-        lastAttackTime = Time.time;
         yield return new WaitForSeconds(AttackCoolDown[Level]);
 
         ResetAfterAttack(originalVelocity);
@@ -200,7 +210,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     {
         if (currentTarget == null || !IsValidLevel(Damage) || !IsValidLevel(AttackRange)) return;
 
-        float distance = Vector3.Distance(transform.position, currentTarget.transform.position);
+        float distance = Vector3.Distance(transform.position, GetClosestPointOnTarget(currentTarget));
         if (distance <= AttackRange[Level])
         {
             IDamageable damageable = currentTarget.GetComponent<IDamageable>();
@@ -262,14 +272,14 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         if (currentTarget != null)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, currentTarget.transform.position);
+            Gizmos.DrawLine(transform.position, GetClosestPointOnTarget(currentTarget));
         }
     }
 
     protected float GetDistanceToTarget()
     {
         if (currentTarget == null) return Mathf.Infinity;
-        return Vector3.Distance(transform.position, currentTarget.transform.position);
+        return Vector3.Distance(transform.position, GetClosestPointOnTarget(currentTarget));
     }
 
     private void OnDrawGizmos()
@@ -284,5 +294,12 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public virtual void ColorSummon(Color color)
     {
         SpriteVisual.color = color;
+    }
+
+    private Vector3 GetClosestPointOnTarget(GameObject target)
+    {
+        if (target == null) return target.transform.position;
+        Collider2D col = target.GetComponent<Collider2D>();
+        return col != null ? col.ClosestPoint(transform.position) : target.transform.position;
     }
 }

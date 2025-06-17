@@ -17,15 +17,19 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator MoveToTarget()
     {
-        Vector3 lastTargetLocation = targetEnemy.position;
+        Vector3 lastTargetLocation = GetClosestPointOnTarget();
         bool targetWasAlive = true;
 
         while (true)
         {
             if (targetEnemy != null)
-                lastTargetLocation = targetEnemy.position;
+            {
+                lastTargetLocation = GetClosestPointOnTarget();
+            }
             else
+            {
                 targetWasAlive = false;
+            }
 
             transform.position = Vector3.MoveTowards(transform.position, lastTargetLocation, Speed * Time.deltaTime);
 
@@ -40,7 +44,8 @@ public class Bullet : MonoBehaviour
             ApplyDamage(targetEnemy);
         }
 
-        if (gameObject != null){
+        if (gameObject != null)
+        {
             Destroy(gameObject);
         }
     }
@@ -56,5 +61,12 @@ public class Bullet : MonoBehaviour
         {
             Debug.LogWarning($"Bullet hit {target.name}, but it does not implement IDamageable!");
         }
+    }
+
+    private Vector3 GetClosestPointOnTarget()
+    {
+        if (targetEnemy == null) return transform.position;
+        Collider2D col = targetEnemy.GetComponent<Collider2D>();
+        return col != null ? col.ClosestPoint(transform.position) : targetEnemy.position;
     }
 }

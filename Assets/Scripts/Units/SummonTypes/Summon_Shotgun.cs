@@ -32,6 +32,10 @@ public class Summon_Shotgun : SummonBase
 
     public override void DoAttack()
     {
+        if (currentTarget == null)
+        {
+            return;
+        }
         float distance = Vector3.Distance(transform.position, currentTarget.transform.position);
         float t = Mathf.Clamp01(distance / AttackRange[Level]);
         float damageMultiplier = Mathf.Lerp(1f, DamageMultiply, 1f - t);

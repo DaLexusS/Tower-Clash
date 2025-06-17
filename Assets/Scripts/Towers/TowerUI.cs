@@ -8,8 +8,6 @@ public class TowerUI : MonoBehaviour
 {
     public static UnityAction<BaseTower, GameObject> onTowerUpgradePressed;
     //public static UnityAction<BaseTower> onUpdateStats;
-    public static UnityAction<bool, float> onUpgradeProgress;
-    public static UnityAction onUpgradeFinished;
     public static UnityAction onUpgradeToExpensive;
 
     private PlayerManager Player;
@@ -129,13 +127,10 @@ public class TowerUI : MonoBehaviour
                             float progress = Mathf.Clamp01((holdTime - 0.25f) / holdTimeToUpgrade);
                             float radialValue = Mathf.Lerp(360f, 0f, progress);
 
-                            UpdateRadialClipping.OnUpdateRadial.Invoke(radialValue);
-                            onUpgradeProgress?.Invoke(true, progress);
 
                             if (progress >= 1f)
                             {
                                 inHold = false;
-                                UpdateRadialClipping.OnResetRadial.Invoke();
                                 //onUpgradeFinished.Invoke();
                                 onTowerUpgradePressed.Invoke(towerStats, upgradePanel.gameObject);
                             }
@@ -155,8 +150,6 @@ public class TowerUI : MonoBehaviour
 
                         inHold = false;
                         holdTime = 0;
-                        UpdateRadialClipping.OnResetRadial?.Invoke();
-                        onUpgradeProgress?.Invoke(false, 0);
                     }
                     else if (!onPanel)
                     {
