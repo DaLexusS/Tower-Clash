@@ -49,7 +49,7 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-    private void GameStarted()
+    public void StartGame()
     {
         GameRunning = true;
     }
