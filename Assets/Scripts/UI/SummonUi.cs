@@ -9,97 +9,93 @@ using UnityEngine.Events;
 public class SummonUi : MonoBehaviour
 {
     public static UnityAction<BaseTower, BaseTower> onSummonPressed;
+
     [SerializeField] public PlayerManager playerManager;
+    [SerializeField] public List<SummonButtonHandler> SummonButtons;
+    [SerializeField] public List<Button> LaneButtons;
 
-    [SerializeField] public List<Button> SummonButtons;
-    [SerializeField] public List<Button> laneButtons;
-
-    [SerializeField] public GameObject IconPrefab;
     [SerializeField] public GameObject mainUi;
-
     [SerializeField] public MMF_Player visualPlayer;
+    [SerializeField][Range(0.05f, 2f)] public float pressCooldown = 0.1f;
 
-    [Range(0.05f, 2f)]
-    [SerializeField] public float pressCooldown = 0.1f;
-
-
-    private bool Pressed = false;
+    private bool isSelectingLane = false;
     private float lastPressTick = 0;
-    private int lastPressedSummon;
+    private BaseTower selectedTower;
+
     public void Init(List<BaseTower> playerTowers)
     {
-        for (int i = 0; i < SummonButtons.Count && i < playerTowers.Count; i++)
+        int count = Mathf.Min(SummonButtons.Count, playerTowers.Count);
+
+        for (int i = 0; i < count; i++)
         {
             int capturedIndex = i;
-            
 
-            CreateIcon(SummonButtons[capturedIndex], playerTowers[capturedIndex].SummonIcon, playerTowers[capturedIndex].SummonPrice);
+            var tower = playerTowers[capturedIndex];
 
-            SummonButtons[capturedIndex].onClick.AddListener(() =>
+            SummonButtons[capturedIndex].Init(
+                tower.SummonIcon,
+                tower.SummonPrice,
+                () => OnSummonPressed(capturedIndex, playerTowers)
+            );
+
+
+        }
+
+        for (int i = 0; i < LaneButtons.Count; i++)
+        {
+            int capturedIndex = i;
+
+            LaneButtons[capturedIndex].onClick.RemoveAllListeners();
+            LaneButtons[capturedIndex].onClick.AddListener(() =>
             {
-                if (!canBePressed()) return;
-
-                if (!Pressed)
-                {
-                    Pressed = true;
-                    mainUi.SetActive(true);
-                    visualPlayer.PlayFeedbacks();
-                    lastPressedSummon = capturedIndex;
-                }
-                else
-                {
-                    Pressed = false;
-                    mainUi.SetActive(false);
-                    visualPlayer.StopFeedbacks();
-                }
-            });
-
-            laneButtons[capturedIndex].onClick.AddListener(() =>
-            {
-                if (!canBePressed()) return;
+                if (!isSelectingLane) return;
 
                 var laneTower = playerTowers[capturedIndex];
-                var summonTower = playerTowers[lastPressedSummon];
-
-                if (playerManager.currentCoins < summonTower.SummonPrice)
-                {
-                    playerManager.TryBuy(summonTower.SummonPrice);
-                    return;
-                }
-
-                OnSummonButtonPressed(summonTower, laneTower);
-
-                playerManager.TryBuy(summonTower.SummonPrice);
-                Pressed = false;
-                visualPlayer.StopFeedbacks();
-                mainUi.SetActive(false);
+                HandleLaneSelection(laneTower);
             });
         }
     }
 
-    private void OnSummonButtonPressed(BaseTower Summontower, BaseTower laneTower)
+    private void OnSummonPressed(int index, List<BaseTower> towers)
     {
-        onSummonPressed.Invoke(Summontower, laneTower);
-    }
+        if (!CanBePressed()) return;
 
-    public void CreateIcon(Button button, Sprite iconImage, int price)
-    {
-        GameObject icon = Instantiate(IconPrefab, button.transform);
-        icon.GetComponent<Image>().sprite = iconImage;
-
-        TMP_Text price_text = icon.GetComponentInChildren<TMP_Text>();
-        price_text.text = $"{price}G";
-
-
-    }
-
-    private bool canBePressed()
-    {
-        if (Time.time < lastPressTick) { return false; }
+        if (!isSelectingLane)
+        {
+            isSelectingLane = true;
+            selectedTower = towers[index];
+            mainUi.SetActive(true);
+            visualPlayer.PlayFeedbacks();
+        }
         else
         {
-            lastPressTick = Time.time + pressCooldown;
-            return true;
+            isSelectingLane = false;
+            mainUi.SetActive(false);
+            visualPlayer.StopFeedbacks();
         }
+    }
+     private void HandleLaneSelection(BaseTower laneTower)
+     {
+         if (selectedTower == null) return;
+
+         if (playerManager.currentCoins < selectedTower.SummonPrice)
+         {
+             playerManager.TryBuy(selectedTower.SummonPrice);
+             return;
+         }
+
+         playerManager.TryBuy(selectedTower.SummonPrice);
+         onSummonPressed?.Invoke(selectedTower, laneTower);
+
+         isSelectingLane = false;
+         mainUi.SetActive(false);
+         visualPlayer.StopFeedbacks();
+     }
+    private bool CanBePressed()
+    {
+        if (Time.time < lastPressTick) return false;
+
+        lastPressTick = Time.time + pressCooldown;
+        return true;
     }
 }

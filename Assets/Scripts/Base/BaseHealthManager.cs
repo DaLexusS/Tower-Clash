@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class BaseHealthManager : MonoBehaviour, IDamageable
 {
     public static UnityAction<bool> BaseDied;
+    public HealthBarUi healthBarUi;
     [SerializeField] public BaseHealthStats healthStats;
     [SerializeField] public GameObject hitPoint;
     [SerializeField] public bool isAlive = true;
@@ -19,11 +20,14 @@ public class BaseHealthManager : MonoBehaviour, IDamageable
     {
         MaxHealth = healthStats.Health;
         Health = healthStats.Health;
+        healthBarUi.InitHealth(Health);
     }
 
     public void TakeDamage(int damage)
     {
         Health = math.max(0, Health - damage);
+
+        healthBarUi.UpdateHealth(Health);
 
         if (Health <= 0) { OnDied(); }
     }

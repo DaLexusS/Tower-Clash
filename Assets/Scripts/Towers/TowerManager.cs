@@ -219,7 +219,6 @@ public class TowerManager : MonoBehaviour
             }
         }
 
-        // Now all components are confirmed
         UpdateUi();
     }
 

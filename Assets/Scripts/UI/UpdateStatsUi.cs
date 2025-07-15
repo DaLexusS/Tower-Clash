@@ -1,70 +1,80 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UpdateStatsUi : MonoBehaviour
 {
+    [SerializeField] Button upgradeButton;
     [SerializeField] public TMP_Text level;
     [SerializeField] public TMP_Text damage;
-    [SerializeField] public TMP_Text fireRate;
     [SerializeField] public TMP_Text range;
-    [SerializeField] public TMP_Text price;
+    [SerializeField] public TMP_Text health;
 
-    /*
-    private void OnEnable()
-    {
-        TowerUI.onUpdateStats += UpdateStats;
-    }
+    [SerializeField] public TMP_Text Price;
 
-    private void OnDisable()
-    {
-       TowerUI.onUpdateStats -= UpdateStats;
-    }
-    */
+    BaseTower _tower;
+
     public void UpdateStats(BaseTower towerStats)
     {
+        _tower = towerStats;
 
         int levelIndex = towerStats.Level;
-        float currentDamage = towerStats.BaseDamage[levelIndex];
-        float currentFireRate = towerStats.FireRate[levelIndex];
-        float currentRange = towerStats.Range[levelIndex];
-        
-        if (levelIndex >= towerStats.UpgradeCostPerLevel.Count)
+        bool isMaxLevel = levelIndex >= towerStats.UpgradeCostPerLevel.Count;
+
+        if (isMaxLevel)
         {
             level.text = $"<color=green>Max Level</color>";
-            damage.text = $"<color=green>Damage : {currentDamage}</color>";
-            fireRate.text = $"<color=green>Fire Rate : {currentFireRate}</color>";
-            range.text = $"<color=green>Range : {currentRange}</color>";
-            price.text = $"<color=green>Price : MAXED</color>";
+            damage.text = $"<color=green>{towerStats.BaseDamage[levelIndex]}</color>";
+            range.text = $"<color=green>{towerStats.Range[levelIndex]}</color>";
+            health.text = $"<color=green>{towerStats.Health[levelIndex]}</color>";
+            upgradeButton.gameObject.SetActive(false);
+            Price.text = "MAX";
+            return;
         }
-        else
+
+        float currentPrice = towerStats.UpgradeCostPerLevel[levelIndex];
+        float currentHealth = towerStats.Health[levelIndex];
+        float currentDamage = towerStats.BaseDamage[levelIndex];
+        float currentRange = towerStats.Range[levelIndex];
+
+        // Level
+        string levelText = $"<color=red>{levelIndex}</color>";
+        if (levelIndex + 1 < towerStats.BaseDamage.Count)
         {
-            level.text = $"<color=white>Level: {levelIndex}</color>";
-            price.text = $"<color=yellow>Price: {towerStats.UpgradeCostPerLevel[levelIndex]}G</color>";
-
-            string damageText = $"<color=white>Damage: {currentDamage}</color>";
-            if (levelIndex + 1 < towerStats.BaseDamage.Count)
-            {
-                float nextDamage = towerStats.BaseDamage[levelIndex + 1];
-                damageText += $" <color=green>> {nextDamage}</color>";
-            }
-            damage.text = damageText;
-
-            string fireRateText = $"<color=white>Fire Rate: {currentFireRate:F2}</color>";
-            if (levelIndex + 1 < towerStats.FireRate.Count)
-            {
-                float nextFireRate = towerStats.FireRate[levelIndex + 1];
-                fireRateText += $" <color=green>> {nextFireRate:F2}</color>";
-            }
-            fireRate.text = fireRateText;
-
-            string rangeText = $"<color=white>Range: {currentRange:F1}</color>";
-            if (levelIndex + 1 < towerStats.Range.Count)
-            {
-                float nextRange = towerStats.Range[levelIndex + 1];
-                rangeText += $" <color=green>> {nextRange:F1}</color>";
-            }
-
-            range.text = rangeText;
+            int nextLevel = levelIndex + 1;
+            levelText += $" <color=green>- {nextLevel}</color>";
         }
+        level.text = levelText;
+
+        // Damage
+        string damageText = $"<color=red>{currentDamage}</color>";
+        if (levelIndex + 1 < towerStats.BaseDamage.Count)
+        {
+            float nextDamage = towerStats.BaseDamage[levelIndex + 1];
+            damageText += $" <color=green>- {nextDamage}</color>";
+        }
+        damage.text = damageText;
+
+        // Range
+        string rangeText = $"<color=red>{currentRange:F1}</color>";
+        if (levelIndex + 1 < towerStats.Range.Count)
+        {
+            float nextRange = towerStats.Range[levelIndex + 1];
+            rangeText += $" <color=green>- {nextRange:F1}</color>";
+        }
+        range.text = rangeText;
+
+        // Health
+        string healthText = $"<color=red>{currentHealth}</color>";
+        if (levelIndex + 1 < towerStats.Health.Count)
+        {
+            float nextHealth = towerStats.Health[levelIndex + 1];
+            healthText += $" <color=green>- {nextHealth}</color>";
+        }
+        health.text = healthText;
+
+        // Price
+        Price.text = currentPrice.ToString();
+        upgradeButton.gameObject.SetActive(true);
     }
 }

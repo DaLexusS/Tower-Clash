@@ -89,6 +89,20 @@ public class TowerUI : MonoBehaviour
         return towerStats.Level >= towerStats.UpgradeCostPerLevel.Count;
     }
 
+    public void TryUpgrade()
+    {
+        if(!IsMaxLevel() && holdTime >= 0.20f && Player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
+                        {
+            if (onUpgradeToExpensive == null) return;
+            onUpgradeToExpensive.Invoke();
+            return;
+        }
+        else
+        {
+            onTowerUpgradePressed.Invoke(towerStats, upgradePanel.gameObject);
+        }
+    }
+
     private void CheckTapOnSprite()
     {
         if (Input.touchCount > 0)
@@ -115,7 +129,7 @@ public class TowerUI : MonoBehaviour
                     {
                         holdTime += Time.deltaTime;
 
-                        if (!IsMaxLevel() && holdTime >= 0.20f && Player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
+                       /* if (!IsMaxLevel() && holdTime >= 0.20f && Player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
                         {
                             if (onUpgradeToExpensive == null) return;
                             onUpgradeToExpensive.Invoke();
@@ -134,7 +148,7 @@ public class TowerUI : MonoBehaviour
                                 //onUpgradeFinished.Invoke();
                                 onTowerUpgradePressed.Invoke(towerStats, upgradePanel.gameObject);
                             }
-                        }
+                        }*/
                     }
                     break;
 
@@ -159,7 +173,6 @@ public class TowerUI : MonoBehaviour
             }
         }
     }
-
 
     bool IsTapOnPanel(Vector2 screenPosition)
     {

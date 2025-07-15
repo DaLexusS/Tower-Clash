@@ -15,6 +15,8 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] public Color minionColor;
     [SerializeField] public bool isEnemy;
 
+    [SerializeField] SummonBase test;
+
     private float minionSpawnTime;
     private float lastTick;
 
