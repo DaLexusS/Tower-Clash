@@ -15,6 +15,7 @@ public class AgroTower : ProjectileTower
 
     public void Awake()
     {
+        Config = towerStats;
         TowerName = towerStats.TowerName;
         Level = towerStats.Level;
         MinionSpawnTimeCooldown = towerStats.MinionSpawnTimeCooldown;

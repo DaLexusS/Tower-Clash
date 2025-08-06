@@ -18,12 +18,24 @@ public class SummonUi : MonoBehaviour
     [SerializeField] public MMF_Player visualPlayer;
     [SerializeField][Range(0.05f, 2f)] public float pressCooldown = 0.1f;
 
+    private List<BaseTower> _playerTowers;
     private bool isSelectingLane = false;
     private float lastPressTick = 0;
     private BaseTower selectedTower;
 
+    private void OnEnable()
+    {
+        SummonButtonHandler.OnTrySummon += TrySummon;
+    }
+    private void OnDisable()
+    {
+        SummonButtonHandler.OnTrySummon -= TrySummon;
+    }
+
     public void Init(List<BaseTower> playerTowers)
     {
+        _playerTowers = playerTowers;
+
         int count = Mathf.Min(SummonButtons.Count, playerTowers.Count);
 
         for (int i = 0; i < count; i++)
@@ -32,16 +44,18 @@ public class SummonUi : MonoBehaviour
 
             var tower = playerTowers[capturedIndex];
 
-            SummonButtons[capturedIndex].Init(
+            SummonButtons[capturedIndex].Init(tower);
+
+           /* SummonButtons[capturedIndex].Init(
                 tower.SummonIcon,
                 tower.SummonPrice,
                 () => OnSummonPressed(capturedIndex, playerTowers)
             );
 
-
+*/
         }
 
-        for (int i = 0; i < LaneButtons.Count; i++)
+       /* for (int i = 0; i < LaneButtons.Count; i++)
         {
             int capturedIndex = i;
 
@@ -53,7 +67,23 @@ public class SummonUi : MonoBehaviour
                 var laneTower = playerTowers[capturedIndex];
                 HandleLaneSelection(laneTower);
             });
+        }*/
+    }
+
+    private void TrySummon(int laneNumber, BaseTower summonTowerOwner)
+    {
+        var laneTower = _playerTowers[laneNumber - 1];
+
+        if (playerManager.currentCoins < summonTowerOwner.SummonPrice)
+        {
+            playerManager.TryBuy(summonTowerOwner.SummonPrice);
+
+            return;
         }
+
+        playerManager.TryBuy(summonTowerOwner.SummonPrice);
+
+        onSummonPressed?.Invoke(summonTowerOwner, laneTower);
     }
 
     private void OnSummonPressed(int index, List<BaseTower> towers)

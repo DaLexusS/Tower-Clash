@@ -10,6 +10,7 @@ public class ShotGunTower : ProjectileTower
 
     public void Awake()
     {
+        Config = towerStats;
         TowerName = towerStats.TowerName;
         Level = towerStats.Level;
         MinionSpawnTimeCooldown = towerStats.MinionSpawnTimeCooldown;

@@ -10,13 +10,18 @@ public class TowerUI : MonoBehaviour
     //public static UnityAction<BaseTower> onUpdateStats;
     public static UnityAction onUpgradeToExpensive;
 
+    public static TowerUI activePanel = null;
+
     private PlayerManager Player;
     private BaseTower towerStats = null;
 
     [SerializeField] public Image mark;
     [SerializeField] public Image upgradePanel;
     //[SerializeField] public Slider upgradeSlider;
-    
+
+    public RectTransform upgradePanelRect;
+    public RectTransform towerUIRoot;
+
     [SerializeField] public GameObject towerVisual;
     [SerializeField] public float tapCooldown = 0.01f;
     [SerializeField] public float holdTimeToUpgrade = 1;
@@ -25,7 +30,7 @@ public class TowerUI : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private RectTransform panelRect;
 
-    private bool inHold = false;
+   //private bool inHold = false;
 
     private float holdTime = 0;
     private float lastTap;
@@ -50,6 +55,8 @@ public class TowerUI : MonoBehaviour
             return;
         }
         CheckTapOnSprite();
+
+
     }
 
     private void OnEnable()
@@ -105,6 +112,25 @@ public class TowerUI : MonoBehaviour
 
     private void CheckTapOnSprite()
     {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            Vector2 touchPos = Input.GetTouch(0).position;
+
+            if (TowerUI.activePanel != null)
+            {
+                RectTransform panel = TowerUI.activePanel.upgradePanel.GetComponent<RectTransform>();
+                if (!RectTransformUtility.RectangleContainsScreenPoint(panel, touchPos, Camera.main))
+                {
+                    TowerUI.activePanel.upgradePanel.gameObject.SetActive(false);
+                    TowerUI.activePanel = null;
+                }
+            }
+        }
+    }
+
+    /*private void CheckTapOnSprite()
+    {
+        *//*
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -148,7 +174,7 @@ public class TowerUI : MonoBehaviour
                                 //onUpgradeFinished.Invoke();
                                 onTowerUpgradePressed.Invoke(towerStats, upgradePanel.gameObject);
                             }
-                        }*/
+                        }*//*
                     }
                     break;
 
@@ -171,6 +197,28 @@ public class TowerUI : MonoBehaviour
                     }
                     break;
             }
+        }
+    }*/
+
+    public void OpenStats()
+    {
+        if (activePanel != null && activePanel != this)
+        {
+            activePanel.upgradePanel.gameObject.SetActive(false);
+        }
+
+        bool isActive = upgradePanel.gameObject.activeSelf;
+
+        upgradePanel.gameObject.SetActive(!isActive);
+
+        if (!isActive)
+        {
+            UpdateStats.UpdateStats(towerStats);
+            activePanel = this;
+        }
+        else
+        {
+            if (activePanel == this) activePanel = null;
         }
     }
 

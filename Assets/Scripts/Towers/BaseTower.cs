@@ -24,6 +24,7 @@ public abstract class BaseTower : MonoBehaviour
     public int SummonPrice { get; protected set; }
 
     public TowerType TowerTypeCheck;
+    public TowerStats Config { get; protected set; }
 
     public bool Alive { get; protected set; } = true;
 
