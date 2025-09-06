@@ -1,4 +1,6 @@
-public static class UiUtils
+using UnityEngine;
+
+public static class Util
 {
     /// <summary>
     /// Converts seconds into a MM:SS format (e.g., 92 -> "01:32").
@@ -17,5 +19,13 @@ public static class UiUtils
     public static string FormatWithCommas(int number)
     {
         return number.ToString("N0");
+    }
+
+    /// <summary>
+    /// Returns true or false chance roll.
+    /// </summary>
+    public static bool RollChance(int percent)
+    {
+        return Random.Range(0, 100) < percent;
     }
 }

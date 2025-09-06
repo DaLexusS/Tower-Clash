@@ -26,6 +26,7 @@ public class GrenadeTower : AoeTower
         SummonIcon = towerStats.SummonIcon;
         SummonPrice = towerStats.SummonPrice;
         Summon = towerStats.Summon;
+        EnemySideSummon = towerStats.EnemySideSummon;
 
         base.Init(Range[Level], distanceFromTower);
     }

@@ -23,7 +23,7 @@ public class SummonButtonHandler : MonoBehaviour, IPointerDownHandler, IPointerU
     {
         Tower = towerData;
 
-        Price.text = UiUtils.FormatWithCommas(towerData.SummonPrice);
+        Price.text = Util.FormatWithCommas(towerData.SummonPrice);
     }
 
     void Start()

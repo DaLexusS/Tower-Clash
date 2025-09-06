@@ -5,11 +5,13 @@ public class SummonUnit : MonoBehaviour
     private void OnEnable()
     {
         SummonUi.onSummonPressed += SpawnUnit;
+        AiEnemy.onEnemySummons += SpawnUnit;
     }
 
     private void OnDestroy()
     {
         SummonUi.onSummonPressed -= SpawnUnit;
+        AiEnemy.onEnemySummons -= SpawnUnit;
     }
 
     public void SpawnUnit(BaseTower summonTower, BaseTower laneTower)
@@ -32,7 +34,18 @@ public class SummonUnit : MonoBehaviour
     {
         Vector2 spawnPos = otherLane.MinionSpawnBounds.transform.position;
 
-        SummonBase summonClone = Instantiate(tower.Summon, spawnPos, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
+        SummonBase summonType;
+        
+        if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
+        {
+            summonType = tower.Summon;
+        }
+        else
+        {
+            summonType = tower.EnemySideSummon;
+        }
+
+        SummonBase summonClone = Instantiate(summonType, spawnPos, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
 
         summonClone.Init(otherLane);
     }
@@ -48,8 +61,19 @@ public class SummonUnit : MonoBehaviour
         Vector2 leftPoint = new Vector2(left, t.position.y);
         Vector2 rightPoint = new Vector2(right, t.position.y);
 
-        SummonBase summonClone1 = Instantiate(tower.Summon, leftPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
-        SummonBase summonClone2 = Instantiate(tower.Summon, rightPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
+        SummonBase summonType;
+
+        if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
+        {
+            summonType = tower.Summon;
+        }
+        else
+        {
+            summonType = tower.EnemySideSummon;
+        }
+
+        SummonBase summonClone1 = Instantiate(summonType, leftPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
+        SummonBase summonClone2 = Instantiate(summonType, rightPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
 
         summonClone1.Init(otherLane);
         summonClone2.Init(otherLane);
@@ -72,9 +96,20 @@ public class SummonUnit : MonoBehaviour
         Vector2 rightPoint = new Vector2(right, t.position.y - offsetY);
         Vector2 TopPoint = new Vector2(t.position.x, top);
 
-        SummonBase summonClone1 = Instantiate(tower.Summon, leftPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
-        SummonBase summonClone2 = Instantiate(tower.Summon, rightPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
-        SummonBase summonClone3 = Instantiate(tower.Summon, TopPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
+        SummonBase summonType;
+
+        if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
+        {
+            summonType = tower.Summon;
+        }
+        else
+        {
+            summonType = tower.EnemySideSummon;
+        }
+
+        SummonBase summonClone1 = Instantiate(summonType, leftPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
+        SummonBase summonClone2 = Instantiate(summonType, rightPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
+        SummonBase summonClone3 = Instantiate(summonType, TopPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
 
         summonClone1.Init(otherLane);
         summonClone2.Init(otherLane);

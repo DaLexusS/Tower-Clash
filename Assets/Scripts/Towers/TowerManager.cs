@@ -7,6 +7,8 @@ public class LaneTowers
     public BaseTower playerTower;
     public BaseTower enemyTower;
 
+    
+
     public LaneTowers(BaseTower player, BaseTower enemy)
     {
         playerTower = player;
@@ -27,6 +29,8 @@ public class TowerManager : MonoBehaviour
     [SerializeField] public SummonUi summonUi;
     [SerializeField] public GameObject playerBase;
     [SerializeField] public GameObject enemyBase;
+
+    [SerializeField] public AiEnemy aiEnemy;
 
     private List<Transform> playerTowerSpawns;
     private List<Transform> enemyTowerSpawns;
@@ -205,6 +209,7 @@ public class TowerManager : MonoBehaviour
             towerLanes[i] = new LaneTowers(playerTower, enemyTower);
             activeTowers.Add(playerTower);
             activeTowers.Add(enemyTower);
+            aiEnemy.InitTower(enemyTower);
 
             towerSpawnTimers[playerTower] = Time.time + playerTower.MinionSpawnTimeCooldown;
             towerSpawnTimers[enemyTower] = Time.time + enemyTower.MinionSpawnTimeCooldown;

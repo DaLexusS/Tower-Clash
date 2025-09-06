@@ -3304,6 +3304,7 @@ GameObject:
   - component: {fileID: 795601065}
   - component: {fileID: 795601066}
   - component: {fileID: 795601067}
+  - component: {fileID: 795601068}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -3383,6 +3384,7 @@ MonoBehaviour:
   summonUi: {fileID: 1481456454}
   playerBase: {fileID: 113296296}
   enemyBase: {fileID: 1921106504}
+  aiEnemy: {fileID: 795601068}
 --- !u!114 &795601067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3404,6 +3406,20 @@ MonoBehaviour:
   enemyUnitsParent: {fileID: 243891997}
   playerColor: {r: 0, g: 0.8746934, b: 1, a: 1}
   enemyColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &795601068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795601061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9968b4612d834964f8eed5cdcf32c358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decisionTime: 7
+  AiMoney: 15
 --- !u!1 &801486211
 GameObject:
   m_ObjectHideFlags: 0

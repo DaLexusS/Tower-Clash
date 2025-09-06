@@ -7,6 +7,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 {
     [SerializeField] HealthBarUi healthBarUi;
     public static UnityAction<int> RewardOnSummonDeath;
+    public static UnityAction<int> RewardOnSummonDeathEnemy;
     public SummonStats SummonStats { get; protected set; }
     public Rigidbody2D Rigid_body { get; protected set; }
     public SpriteRenderer SpriteVisual { get; protected set; }
@@ -257,8 +258,12 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         {
             RewardOnSummonDeath?.Invoke(Value);
         }
+        else
+        {
+            RewardOnSummonDeathEnemy?.Invoke(Value);
+        }
 
-        Destroy(gameObject);
+            Destroy(gameObject);
     }
 
     private void OnDrawGizmosSelected()

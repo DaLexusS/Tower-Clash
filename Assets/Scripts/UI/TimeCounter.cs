@@ -15,7 +15,7 @@ public class TimeCounter : MonoBehaviour
         elapsedTime += Time.deltaTime;
 
         int totalSeconds = Mathf.FloorToInt(elapsedTime);
-        timerText.text = UiUtils.FormatTime(totalSeconds);
+        timerText.text = Util.FormatTime(totalSeconds);
     }
 
     public void StopTimer()

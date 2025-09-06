@@ -26,6 +26,7 @@ public class ShotGunTower : ProjectileTower
         SummonIcon = towerStats.SummonIcon;
         SummonPrice = towerStats.SummonPrice;
         Summon = towerStats.Summon;
+        EnemySideSummon = towerStats.EnemySideSummon;
     }
 
     public override void Upgrade()
