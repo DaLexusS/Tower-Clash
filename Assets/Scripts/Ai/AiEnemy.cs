@@ -8,6 +8,9 @@ public class AiEnemy : MonoBehaviour
     public static UnityAction<BaseTower, BaseTower> onEnemySummons;
     [SerializeField] float decisionTime = 7f;
 
+    [SerializeField] int decideChance = 50;
+    [SerializeField] int summonOrUpgradeChance = 50;
+
     private List<BaseTower> Towers;
 
     public int AiMoney = 15;
@@ -45,9 +48,9 @@ public class AiEnemy : MonoBehaviour
 
         lastDecisionTick = Time.time;
 
-        if (!Util.RollChance(50)) { return;}
+        if (!Util.RollChance(decideChance)) { return;}
 
-        if (Util.RollChance(50))
+        if (Util.RollChance(summonOrUpgradeChance))
         {
             SummonMinion();
         }
