@@ -7,6 +7,8 @@ public class Summon_Minion : SummonBase
 
     [SerializeField] public SpriteRenderer visualSprite;
 
+    [SerializeField] public Animator animator;
+
     public override void Init(BaseTower towerData)
     {
         SummonStats = summonStats;
@@ -22,6 +24,7 @@ public class Summon_Minion : SummonBase
         FirstAttackCooldown = summonStats.FirstAttackDelay;
         PreAttackTime = summonStats.PreAttackTimePerLevel;
         SpriteVisual = visualSprite;
+        SummonAnimator = animator;
 
         base.Init(towerData);
     }

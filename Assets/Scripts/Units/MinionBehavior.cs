@@ -17,6 +17,8 @@ public class MinionBehavior : MonoBehaviour, IDamageable
 
     [SerializeField] public SpriteRenderer MinionSprite;
 
+    public Animator animator;
+
     public int health;
     public int maxHealth;
     public int deathValue;
@@ -193,6 +195,7 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         else if(baseHealthManager != null && baseHealthManager.isAlive &&
                  Vector3.Distance(transform.position, targetBase.transform.position) <= attackRange + 2 && IsAlive)
         {
+            animator.SetTrigger("Attack");
             baseHealthManager.TakeDamage((int)damage);
         }
     }

@@ -21,6 +21,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public FirstAttackDelayRange FirstAttackCooldown { get; protected set; }
     public List<float> PreAttackTime { get; protected set; }
     public List<float> AttackCoolDown { get; protected set; }
+    public Animator SummonAnimator { get; protected set; }
 
     public bool IsAlive = true;
     public bool IsEnemy = false;
@@ -154,9 +155,23 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         if (!isAttacking && movementDirection != Vector2.zero)
         {
             Rigid_body.velocity = movementDirection * WalkSpeed[Level];
+
+            if (SummonAnimator != null)
+            {
+                if (SummonAnimator.GetBool("Idle"))
+                {
+                    SummonAnimator.SetBool("Idle", false);
+                }
+            }
         }
         else
         {
+
+            if (SummonAnimator != null)
+            {
+                SummonAnimator.SetBool("Idle", true);
+            }
+
             Rigid_body.velocity = Vector2.zero;
         }
     }
@@ -214,6 +229,11 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         float distance = Vector3.Distance(transform.position, GetClosestPointOnTarget(currentTarget));
         if (distance <= AttackRange[Level])
         {
+            if (SummonAnimator != null)
+            {
+               SummonAnimator.SetTrigger("Attack");
+            }
+
             IDamageable damageable = currentTarget.GetComponent<IDamageable>();
             damageable.TakeDamage(Damage[Level]);
         }

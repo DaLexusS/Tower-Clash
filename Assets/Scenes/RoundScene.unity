@@ -3419,6 +3419,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decisionTime: 7
+  decideChance: 50
+  summonOrUpgradeChance: 50
   AiMoney: 15
 --- !u!1 &801486211
 GameObject:
