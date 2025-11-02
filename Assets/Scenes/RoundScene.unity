@@ -3305,6 +3305,7 @@ GameObject:
   - component: {fileID: 795601066}
   - component: {fileID: 795601067}
   - component: {fileID: 795601068}
+  - component: {fileID: 795601069}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -3422,6 +3423,22 @@ MonoBehaviour:
   decideChance: 50
   summonOrUpgradeChance: 50
   AiMoney: 15
+--- !u!114 &795601069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795601061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0efe366a52732264397f71ed30521759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerText: {fileID: 1751357245}
+  RoundTime: 40
+  RewardPerSecond: 5
+  RewardPerSecondOnTimeEnded: 10
 --- !u!1 &801486211
 GameObject:
   m_ObjectHideFlags: 0
@@ -5410,7 +5427,6 @@ GameObject:
   - component: {fileID: 1481456453}
   - component: {fileID: 1481456454}
   - component: {fileID: 1481456455}
-  - component: {fileID: 1481456456}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5557,19 +5573,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   victoryLabel: {fileID: 614264559}
   defeatLabel: {fileID: 119083509}
---- !u!114 &1481456456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481456448}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4506a60bd94d9344392246a297a5f341, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timerText: {fileID: 1751357245}
 --- !u!1 &1489244152
 GameObject:
   m_ObjectHideFlags: 0
