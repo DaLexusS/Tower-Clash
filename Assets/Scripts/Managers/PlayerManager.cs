@@ -11,9 +11,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        // MinionBehavior.onEnemyMinionKilled += GiveCoins;
         SummonBase.RewardOnSummonDeath += GiveCoins;
         TowerUI.onTowerUpgradePressed += onUpgradePressed;
+        TimerManager.OnRewardPerSecond += GiveCoins;
         currentCoins = playerData.Coins;
     }
 
@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour
     private void OnDestroy()
     {
         SummonBase.RewardOnSummonDeath -= GiveCoins;
-        //MinionBehavior.onEnemyMinionKilled -= GiveCoins;
+        TimerManager.OnRewardPerSecond -= GiveCoins;
         TowerUI.onTowerUpgradePressed -= onUpgradePressed;
     }
     public void GiveCoins(int amount)
