@@ -88,6 +88,16 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             return;
         }
 
+        if (currentTarget != null)
+        {
+            SummonBase enemy = currentTarget.GetComponent<SummonBase>();
+            if (enemy != null && !enemy.IsAlive)
+            {
+                currentTarget = null;
+                targetEnemy = null;
+            }
+        }
+
         FindTarget();
         HandleMovement();
         HandleAttack();
@@ -282,8 +292,18 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         {
             RewardOnSummonDeathEnemy?.Invoke(Value);
         }
+        if (SummonAnimator != null)
+        {
+            SummonAnimator.SetTrigger("Death");
+        }
 
-            Destroy(gameObject);
+        StartCoroutine(DestroyAfterDelay(2f));
+    }
+
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmosSelected()
