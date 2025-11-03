@@ -756,9 +756,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3169113472720434340}
     m_Modifications:
+    - target: {fileID: -8839614863169635150, guid: 4fc06db8d04e53743accceb6408af5a8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.049999952
+      objectReference: {fileID: 0}
     - target: {fileID: -8653719598885068355, guid: 4fc06db8d04e53743accceb6408af5a8, type: 3}
       propertyPath: m_Name
       value: minionassets
+      objectReference: {fileID: 0}
+    - target: {fileID: -8172261211446949467, guid: 4fc06db8d04e53743accceb6408af5a8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4fc06db8d04e53743accceb6408af5a8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -799,6 +807,14 @@ PrefabInstance:
     - target: {fileID: -7552582706839291426, guid: 4fc06db8d04e53743accceb6408af5a8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089039080347568208, guid: 4fc06db8d04e53743accceb6408af5a8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8269710407852144107, guid: 4fc06db8d04e53743accceb6408af5a8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.13499999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
