@@ -4,7 +4,7 @@ public class Summon_Aoe : SummonBase
 {
     [SerializeField] SummonStats summonStats;
     [SerializeField] Rigidbody2D rigidbody2;
-
+    [SerializeField] public Animator animator;
     public override void Init(BaseTower towerData)
     {
         SummonStats = summonStats;
@@ -21,6 +21,7 @@ public class Summon_Aoe : SummonBase
         WalkSpeed = summonStats.WalkSpeedPerLevel;
         FirstAttackCooldown = summonStats.FirstAttackDelay;
         PreAttackTime = summonStats.PreAttackTimePerLevel;
+        SummonAnimator = animator;
 
         base.Init(towerData);
     }

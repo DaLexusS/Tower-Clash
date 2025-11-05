@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MoreMountains.Feedbacks;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,6 +23,7 @@ public class TimerManager : MonoBehaviour
 {
     public static UnityAction<int> OnRewardPerSecond;
     [SerializeField] TMP_Text timerText;
+    [SerializeField] MMF_Player TimerFeedback;
 
     public int RoundTime = 180;
     public int RewardPerSecond = 5;
@@ -46,6 +48,7 @@ public class TimerManager : MonoBehaviour
         AddTrigger(30f, () =>
         {
             inLastThirtySeconds = true;
+            TimerFeedback.PlayFeedbacks();
             Debug.Log("⚠️ 30 seconds left — Reward phase active");
         });
 

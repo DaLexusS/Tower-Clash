@@ -734,7 +734,7 @@ MonoBehaviour:
   summonStats: {fileID: 11400000, guid: c8503c99cd312644cadd7f786abf388c, type: 2}
   rigidbody2: {fileID: 3341532622225977169}
   visualSprite: {fileID: 918636987699841023}
-  animator: {fileID: 0}
+  animator: {fileID: 7918418763444215819}
 --- !u!114 &5051564791437077903
 MonoBehaviour:
   m_ObjectHideFlags: 0
