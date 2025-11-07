@@ -66,6 +66,19 @@ public abstract class BaseTower : MonoBehaviour
         return Time.time >= lastShotTime + FireRate[Level];
     }
 
+    protected bool IsTargetEnemy(SummonBase summon)
+    {
+        if (summon == null || !summon.IsAlive) return false;
+
+        if (TowerTypeCheck == TowerType.Player)
+            return summon.IsEnemy;
+
+        
+        if (TowerTypeCheck == TowerType.Enemy)
+            return !summon.IsEnemy;
+
+        return false;
+    }
     protected bool IsValidLevel<T>(List<T> list)
     {
         return list != null && Level >= 0 && Level < list.Count;

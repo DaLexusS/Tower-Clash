@@ -613,7 +613,7 @@ MonoBehaviour:
   lastShotTime: -Infinity
   towerStats: {fileID: 11400000, guid: 80a2f22b82493784f8a66c00e42ea1d9, type: 2}
   minionSpawnBounds: {fileID: 2382875239591834986}
-  distanceFromTower: 2
+  distanceFromTower: -2
 --- !u!114 &3653914084334590424
 MonoBehaviour:
   m_ObjectHideFlags: 0

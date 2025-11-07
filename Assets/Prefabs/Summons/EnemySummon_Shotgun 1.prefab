@@ -718,7 +718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarUi: {fileID: 7410035921521872664}
   IsAlive: 1
-  IsEnemy: 0
+  IsEnemy: 1
   Lane: {fileID: 0}
   EnemyTowerHealthManager: {fileID: 0}
   EnemyBaseHealthManager: {fileID: 0}

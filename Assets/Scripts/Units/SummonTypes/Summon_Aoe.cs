@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 public class Summon_Aoe : SummonBase
@@ -5,6 +6,8 @@ public class Summon_Aoe : SummonBase
     [SerializeField] SummonStats summonStats;
     [SerializeField] Rigidbody2D rigidbody2;
     [SerializeField] public Animator animator;
+
+    [SerializeField] public MMF_Player ShotSFX;
     public override void Init(BaseTower towerData)
     {
         SummonStats = summonStats;
@@ -56,6 +59,8 @@ public class Summon_Aoe : SummonBase
                 baseHealth.TakeDamage(Damage[Level]);
             }
         }
+
+        ShotSFX.PlayFeedbacks();
     }
 
     private void OnDrawGizmosSelected()
