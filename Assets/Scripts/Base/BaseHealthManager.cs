@@ -35,8 +35,7 @@ public class BaseHealthManager : MonoBehaviour, IDamageable
     {
         isAlive = false;
         //TEMP
-
-        BaseDied.Invoke(IsPlayer);
+        BaseDied?.Invoke(IsPlayer);
 
         Visual.SetActive(false);
         //Destroy(gameObject);
