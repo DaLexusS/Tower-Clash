@@ -43,7 +43,10 @@ public class GrenadeTower : AoeTower
 
             foreach (var enemy in enemies)
             {
-                enemy.TakeDamage((int)BaseDamage[Level]);
+                if (IsTargetEnemy(enemy))
+                {
+                    enemy.TakeDamage((int)BaseDamage[Level]);
+                }
             }
         }
     }

@@ -24,6 +24,7 @@ public class SummonButtonHandler : MonoBehaviour, IPointerDownHandler, IPointerU
         Tower = towerData;
 
         Price.text = Util.FormatWithCommas(towerData.SummonPrice);
+        Icon.sprite = towerData.SummonIcon;
     }
 
     void Start()

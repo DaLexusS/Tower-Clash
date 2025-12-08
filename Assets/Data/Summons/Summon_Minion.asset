@@ -22,7 +22,7 @@ MonoBehaviour:
   - 0.8
   - 0.8
   AttackRangePerLevel:
-  - 0.9
+  - 1.25
   - 1.25
   - 1.25
   - 1.25
