@@ -810,6 +810,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1088698407705578933}
     m_Modifications:
+    - target: {fileID: -9024002662662727719, guid: 70ae811fb828cfb49b49722a382b9396, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8653719598885068355, guid: 70ae811fb828cfb49b49722a382b9396, type: 3}
       propertyPath: m_Name
       value: minionback
@@ -852,6 +856,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 70ae811fb828cfb49b49722a382b9396, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2218584200417435251, guid: 70ae811fb828cfb49b49722a382b9396, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -3925,14 +3925,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5836931062156835123, guid: 5bb61c0f5c540c342ac43b8eb3c8c509, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6378935614004240979, guid: 5bb61c0f5c540c342ac43b8eb3c8c509, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9061980688468620666, guid: 5bb61c0f5c540c342ac43b8eb3c8c509, type: 3}
       propertyPath: m_Name
       value: Minion
