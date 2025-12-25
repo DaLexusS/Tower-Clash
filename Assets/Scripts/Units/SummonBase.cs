@@ -6,372 +6,255 @@ using static EnumLists;
 
 public abstract class SummonBase : MonoBehaviour, IDamageable
 {
-    [SerializeField] HealthBarUi healthBarUi;
-    public static UnityAction<int> RewardOnSummonDeath;
-    public static UnityAction<int> RewardOnSummonDeathEnemy;
-    public SummonStats SummonStats { get; protected set; }
-    public Rigidbody2D Rigid_body { get; protected set; }
-    public SpriteRenderer SpriteVisual { get; protected set; }
-    public int Level { get; protected set; }
-    public List<int> MaxHealth { get; protected set; }
-    public int Health { get; protected set; }
-    public List<int> Damage { get; protected set; }
-    public int Value { get; protected set; }
-    public List<float> AttackRange { get; protected set; }
-    public List<float> SpotRange { get; protected set; }
-    public List<float> WalkSpeed { get; protected set; }
-    public FirstAttackDelayRange FirstAttackCooldown { get; protected set; }
-    public List<float> PreAttackTime { get; protected set; }
-    public List<float> AttackCoolDown { get; protected set; }
-    public Animator SummonAnimator { get; protected set; }
-
-    public bool IsAlive = true;
-    public bool IsEnemy = false;
-    public GameObject Lane;
-
-    public TowerHealthManager EnemyTowerHealthManager;
-    public BaseHealthManager EnemyBaseHealthManager;
-    private GameObject TargetBase;
-    private GameObject TargetTower;
-    private GameObject EnemyParent;
-    private GameObject PlayerParent;
-
-    public SummonBase targetEnemy;
-    public GameObject currentTarget;
-    public Vector2 movementDirection;
-    public float lastAttackTime = 0f;
-    public float firstAttackDelayTime;
-    public bool hasAttackedOnce = false;
-    public bool isAttacking = false;
-    public Coroutine attackCoroutine;
-    public bool initialized = false;
-
-    private bool frozen = false;
-    private bool isHitStateActive = false;
-    private Coroutine hitCoroutine;
-    public SummonState CurrentState { get; private set; }
+    [Header("Base References")]
+    [SerializeField] protected SummonStats summonStats;
+    [SerializeField] protected HealthBarUi healthBarUi;
+    [SerializeField] protected SpriteRenderer spriteVisual;
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected Rigidbody2D rb;
 
     public static UnityAction<SummonBase, SummonState> OnStateChanged;
+    public static UnityAction<int> RewardOnSummonDeath;
+    public static UnityAction<int> RewardOnSummonDeathEnemy;
 
-    protected bool IsValidLevel<T>(List<T> list)
-    {
-        return list != null && Level >= 0 && Level < list.Count;
-    }
+    #region Properties
+    public int Level { get; protected set; }
+    public int Health { get; protected set; }
+    public bool IsAlive { get; protected set; } = true;
+    public bool IsEnemy { get; set; }
+    public GameObject Lane { get; private set; }
+    public SummonState CurrentState { get; private set; }
+    #endregion
 
-    void Awake()
-    {
-        if (Rigid_body == null) Rigid_body = GetComponent<Rigidbody2D>();
-        if (SpriteVisual == null) SpriteVisual = GetComponent<SpriteRenderer>();
-    }
+    protected GameObject currentTarget;
+    protected bool initialized = false;
+    protected bool isAttacking = false;
+    protected float lastAttackTime = 0f;
+
+    protected TowerHealthManager enemyTowerHealth;
+    protected BaseHealthManager enemyBaseHealth;
+    protected GameObject enemyParent;
 
     public virtual void Init(BaseTower towerData)
     {
         Level = towerData.Level;
-        TargetBase = towerData.TargetBase;
-        TargetTower = towerData.TargetTower;
         Lane = towerData.Lane;
-        EnemyParent = towerData.EnemyFolder;
-        PlayerParent = towerData.PlayerFolder;
+        enemyParent = towerData.EnemyFolder;
 
-        EnemyTowerHealthManager = TargetTower.GetComponent<TowerHealthManager>();
-        EnemyBaseHealthManager = TargetBase.GetComponent<BaseHealthManager>();
+        Health = summonStats.HealthPerLevel[Level];
 
-        firstAttackDelayTime = Time.time + Random.Range(FirstAttackCooldown.min, FirstAttackCooldown.max);
+        enemyTowerHealth = towerData.TargetTower.GetComponent<TowerHealthManager>();
+        enemyBaseHealth = towerData.TargetBase.GetComponent<BaseHealthManager>();
+
+        healthBarUi?.InitHealth(Health);
         initialized = true;
-
-        healthBarUi.InitHealth(Health);
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (!initialized || !IsAlive || !RoundManager.GameRunning)
         {
-            if (IsAlive)
-                SetState(SummonState.Idle);
-
-            Freeze();
+            if (IsAlive) SetState(SummonState.Idle);
+            rb.velocity = Vector2.zero;
             return;
         }
 
         FindTarget();
         HandleMovement();
-        HandleAttack();
+        HandleAttackLogic();
     }
 
-    private void Freeze()
+    #region Combat Logic
+    private void HandleAttackLogic()
     {
-        if (frozen) return;
-        frozen = true;
-        Rigid_body.constraints = RigidbodyConstraints2D.FreezeAll;
+        if (isAttacking || currentTarget == null) return;
+
+        float dist = GetDistanceToTarget();
+
+        if (dist <= summonStats.AttackRangePerLevel[Level] && Time.time >= lastAttackTime)
+        {
+            StartCoroutine(AttackRoutine());
+        }
     }
 
+    private IEnumerator AttackRoutine()
+    {
+        isAttacking = true;
+        rb.velocity = Vector2.zero;
+
+        SetState(SummonState.Attacking);
+
+        yield return new WaitForSeconds(summonStats.PreAttackTimePerLevel[Level]);
+
+        if (IsAlive)
+        {
+            DoAttack();
+            lastAttackTime = Time.time + summonStats.AttackCooldownPerLevel[Level];
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        isAttacking = false;
+
+        if (IsAlive)
+        {
+            FindTarget();
+            SetState(SummonState.Idle);
+        }
+    }
+
+    public abstract void DoAttack();
+    #endregion
+
+    #region Movement & Targeting
     private void FindTarget()
     {
         if (isAttacking) return;
 
-        targetEnemy = FindClosestEnemyInLane();
-
-        if (targetEnemy != null)
+        SummonBase closestEnemy = FindClosestEnemyInLane();
+        if (closestEnemy != null)
         {
-            currentTarget = targetEnemy.gameObject;
-            Vector3 point = GetClosestPointOnTarget(currentTarget);
-            movementDirection = (point - transform.position).normalized;
+            currentTarget = closestEnemy.gameObject;
         }
-        else if (EnemyTowerHealthManager != null && EnemyTowerHealthManager.isAlive)
+        else if (enemyTowerHealth != null && enemyTowerHealth.isAlive)
         {
-            currentTarget = TargetTower;
-            Vector3 point = GetClosestPointOnTarget(currentTarget);
-            movementDirection = (point - transform.position).normalized;
+            currentTarget = enemyTowerHealth.gameObject;
         }
-        else if (EnemyBaseHealthManager != null && EnemyBaseHealthManager.isAlive)
+        else if (enemyBaseHealth != null && enemyBaseHealth.isAlive)
         {
-            currentTarget = TargetBase;
-            Vector3 point = GetClosestPointOnTarget(currentTarget);
-            movementDirection = (point - transform.position).normalized;
+            currentTarget = enemyBaseHealth.gameObject;
         }
         else
         {
             currentTarget = null;
-            movementDirection = Vector2.zero;
         }
-    }
-
-    protected void SetState(SummonState newState)
-    {
-        if (CurrentState == newState) return;
-
-        CurrentState = newState;
-        OnStateChanged?.Invoke(this, newState);
-    }
-
-    private SummonBase FindClosestEnemyInLane()
-    {
-        if (EnemyParent == null || !IsValidLevel(SpotRange)) return null;
-
-        SummonBase closestEnemy = null;
-        float closestDistance = Mathf.Infinity;
-        Vector3 currentPosition = transform.position;
-
-        foreach (Transform child in EnemyParent.transform)
-        {
-            SummonBase enemy = child.GetComponent<SummonBase>();
-            if (enemy == null || !enemy.IsAlive || enemy.Lane != Lane) continue;
-
-            float distance = Vector3.Distance(
-                currentPosition,
-                GetClosestPointOnTarget(enemy.gameObject)
-            );
-
-            if (distance < closestDistance && distance <= SpotRange[Level])
-            {
-                closestDistance = distance;
-                closestEnemy = enemy;
-            }
-        }
-
-        return closestEnemy;
     }
 
     private void HandleMovement()
     {
-        if (Rigid_body == null || !IsValidLevel(WalkSpeed)) return;
-
-        if (!isAttacking && movementDirection != Vector2.zero)
+        if (isAttacking)
         {
-            Rigid_body.velocity = movementDirection * WalkSpeed[Level];
+            rb.velocity = Vector2.zero;
+            return;
+        }
+
+        if (currentTarget == null)
+        {
+            rb.velocity = Vector2.zero;
+            SetState(SummonState.Idle);
+            return;
+        }
+
+        Vector3 targetPos = GetClosestPoint(currentTarget);
+        Vector2 direction = (targetPos - transform.position).normalized;
+
+        float dist = Vector2.Distance(transform.position, targetPos);
+
+        if (dist > summonStats.AttackRangePerLevel[Level])
+        {
+            rb.velocity = direction * summonStats.WalkSpeedPerLevel[Level];
             SetState(SummonState.Moving);
         }
         else
         {
-            Rigid_body.velocity = Vector2.zero;
-
-            if (!isAttacking)
-                SetState(SummonState.Idle);
-        }
-    }
-
-    private void HandleAttack()
-    {
-        if (isAttacking || currentTarget == null || !IsValidLevel(AttackRange)) return;
-        if (!hasAttackedOnce && Time.time < firstAttackDelayTime) return;
-        if (Time.time < lastAttackTime) return;
-
-        float distanceToTarget = Vector3.Distance(transform.position, GetClosestPointOnTarget(currentTarget));
-        if (distanceToTarget > AttackRange[Level]) return;
-
-        if (attackCoroutine != null) StopCoroutine(attackCoroutine);
-        attackCoroutine = StartCoroutine(PerformAttack());
-        SetState(SummonState.Attacking);
-    }
-
-    public virtual IEnumerator PerformAttack()
-    {
-        if (!IsValidLevel(PreAttackTime) || !IsValidLevel(AttackCoolDown)) yield break;
-
-        if (Time.time < lastAttackTime)
-            yield break;
-
-        isAttacking = true;
-        hasAttackedOnce = true;
-
-        Vector2 originalVelocity = Rigid_body.velocity;
-        Rigid_body.velocity = Vector2.zero;
-
-        yield return new WaitForSeconds(PreAttackTime[Level]);
-
-        if (!IsAlive)
-        {
-            ResetAfterAttack(originalVelocity);
-            yield break;
-        }
-
-        float distanceToTarget = GetDistanceToTarget();
-        if (distanceToTarget <= AttackRange[Level])
-        {
-            DoAttack();
-            lastAttackTime = Time.time;
-        }
-
-        yield return new WaitForSeconds(AttackCoolDown[Level]);
-
-        ResetAfterAttack(originalVelocity);
-    }
-
-    public virtual void DoAttack()
-    {
-        if (currentTarget == null || !IsValidLevel(Damage) || !IsValidLevel(AttackRange)) return;
-
-        float distance = Vector3.Distance(transform.position, GetClosestPointOnTarget(currentTarget));
-        if (distance <= AttackRange[Level])
-        {
-            if (SummonAnimator != null)
-            {
-               SummonAnimator.SetTrigger("Attack");
-            }
-
-            IDamageable damageable = currentTarget.GetComponent<IDamageable>();
-            damageable.TakeDamage(Damage[Level]);
-        }
-    }
-
-    public void ResetAfterAttack(Vector2 originalVelocity)
-    {
-        isAttacking = false;
-
-        if (IsAlive)
+            rb.velocity = Vector2.zero;
             SetState(SummonState.Idle);
+        }
+    }
+    #endregion
 
-        Rigid_body.velocity = Vector2.zero;
-        attackCoroutine = null;
+    #region Helpers
+    protected void SetState(SummonState newState)
+    {
+        if (CurrentState == newState) return;
+        CurrentState = newState;
+        OnStateChanged?.Invoke(this, newState);
+    }
+
+    protected float GetDistanceToTarget() => currentTarget ? Vector2.Distance(transform.position, GetClosestPoint(currentTarget)) : Mathf.Infinity;
+
+    protected Vector3 GetClosestPoint(GameObject target)
+    {
+        Collider2D col = target.GetComponent<Collider2D>();
+        return col ? (Vector3)col.ClosestPoint(transform.position) : target.transform.position;
+    }
+
+    private SummonBase FindClosestEnemyInLane()
+    {
+        SummonBase closest = null;
+        float minCDist = summonStats.SpotRangePerLevel[Level];
+
+        foreach (Transform child in enemyParent.transform)
+        {
+            SummonBase enemy = child.GetComponent<SummonBase>();
+            if (enemy == null || !enemy.IsAlive || enemy.Lane != Lane) continue;
+
+            float d = Vector2.Distance(transform.position, enemy.transform.position);
+            if (d < minCDist)
+            {
+                minCDist = d;
+                closest = enemy;
+            }
+        }
+        return closest;
     }
 
     public virtual void TakeDamage(int amount)
     {
-        if (!IsAlive) return;
-
-        Health = Mathf.Max(0, Health - amount);
-        healthBarUi.UpdateHealth(Health);
-
-        if (Health > 0)
-        {
-            EnterHitState();
-        }
-        else
-        {
-            OnDied();
-        }
+        Health -= amount;
+        healthBarUi?.UpdateHealth(Health);
+        if (Health <= 0) Die();
     }
 
-    private void EnterHitState()
+    protected virtual void Die()
     {
-        if (isHitStateActive || isAttacking) return;
-
-        if (hitCoroutine != null)
-            StopCoroutine(hitCoroutine);
-
-        hitCoroutine = StartCoroutine(HitStateRoutine());
-    }
-
-    private IEnumerator HitStateRoutine()
-    {
-        isHitStateActive = true;
-        SetState(SummonState.Hit);
-
-        yield return new WaitForSeconds(0.15f);
-
-        isHitStateActive = false;
-
-        if (IsAlive)
-            SetState(SummonState.Idle);
-    }
-
-    public virtual void OnDied()
-    {
-        if (!IsAlive) return;
 
         IsAlive = false;
+        StopAllCoroutines();
         SetState(SummonState.Died);
 
-        if (attackCoroutine != null)
-        {
-            StopCoroutine(attackCoroutine);
-            attackCoroutine = null;
-        }
-
         if (IsEnemy)
-            RewardOnSummonDeath?.Invoke(Value);
+            RewardOnSummonDeath?.Invoke(summonStats.DeathValue);
         else
-            RewardOnSummonDeathEnemy?.Invoke(Value);
+            RewardOnSummonDeathEnemy?.Invoke(summonStats.DeathValue);
 
-        StartCoroutine(DestroyAfterDelay(2f));
+        Destroy(gameObject, 2f);
     }
+    #endregion
 
-    private IEnumerator DestroyAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
-    }
+    #region Gizmos & Debugging
 
     private void OnDrawGizmosSelected()
     {
-        if (IsValidLevel(AttackRange))
+        if (summonStats == null) return;
+
+        if (IsValidLevel(summonStats.SpotRangePerLevel))
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, summonStats.SpotRangePerLevel[Level]);
+        }
+
+        if (IsValidLevel(summonStats.AttackRangePerLevel))
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, AttackRange[Level]);
+            Gizmos.DrawWireSphere(transform.position, summonStats.AttackRangePerLevel[Level]);
         }
 
         if (currentTarget != null)
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, GetClosestPointOnTarget(currentTarget));
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawLine(transform.position, currentTarget.transform.position);
         }
     }
-
-    protected float GetDistanceToTarget()
+    protected bool IsValidLevel<T>(List<T> list)
     {
-        if (currentTarget == null) return Mathf.Infinity;
-        return Vector3.Distance(transform.position, GetClosestPointOnTarget(currentTarget));
+        return list != null && Level >= 0 && Level < list.Count;
     }
 
-    private void OnDrawGizmos()
+    public void OnDied()
     {
-        if (IsValidLevel(AttackRange))
-        {
-            Gizmos.color = new Color(1, 0, 0, 0.3f);
-            Gizmos.DrawWireSphere(transform.position, AttackRange[Level]);
-        }
-
-        if (IsValidLevel(SpotRange))
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, SpotRange[Level]);
-        }
+        
     }
 
-    private Vector3 GetClosestPointOnTarget(GameObject target)
-    {
-        if (target == null) return target.transform.position;
-        Collider2D col = target.GetComponent<Collider2D>();
-        return col != null ? col.ClosestPoint(transform.position) : target.transform.position;
-    }
+    #endregion
 }

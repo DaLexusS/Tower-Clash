@@ -3,73 +3,27 @@ using UnityEngine;
 
 public class Summon_Aoe : SummonBase
 {
-    [SerializeField] SummonStats summonStats;
-    [SerializeField] Rigidbody2D rigidbody2;
-    [SerializeField] public Animator animator;
-
-    [SerializeField] public MMF_Player ShotSFX;
-    public override void Init(BaseTower towerData)
-    {
-        SummonStats = summonStats;
-        Rigid_body = rigidbody2;
-        Level = summonStats.Level;
-
-        MaxHealth = summonStats.HealthPerLevel;
-        if (IsValidLevel(MaxHealth)) Health = MaxHealth[Level]; else Health = 100;
-
-        Damage = summonStats.DamagePerLevel;
-        Value = summonStats.DeathValue;
-        AttackRange = summonStats.AttackRangePerLevel;
-        AttackCoolDown = summonStats.AttackCooldownPerLevel;
-        WalkSpeed = summonStats.WalkSpeedPerLevel;
-        FirstAttackCooldown = summonStats.FirstAttackDelay;
-        PreAttackTime = summonStats.PreAttackTimePerLevel;
-        SummonAnimator = animator;
-        SpotRange = summonStats.SpotRangePerLevel;
-
-        base.Init(towerData);
-    }
+    [SerializeField] private MMF_Player shotSFX;
+    [SerializeField] private BombEffect bomb;
 
     public override void DoAttack()
     {
-        if (!IsValidLevel(Damage) || !IsValidLevel(AttackRange)) return;
-
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, AttackRange[Level]);
-
-        TowerHealthManager linkedEnemyTower = EnemyTowerHealthManager;
+        float radius = summonStats.AttackRangePerLevel[Level];
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius);
 
         foreach (var hit in hits)
         {
-            SummonBase summon = hit.GetComponentInParent<SummonBase>();
-            if (summon != null && summon != this && summon.IsAlive && summon.Lane == Lane && summon.IsEnemy)
-            {
-                summon.TakeDamage(Damage[Level]);
-                continue;
-            }
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
+            if (damageable == null || hit.gameObject == gameObject) continue;
 
-            TowerHealthManager tower = hit.GetComponentInParent<TowerHealthManager>();
-            if (tower != null && tower.isAlive && tower.Tower != null && tower.Tower.Lane == Lane && tower.Tower.TowerTypeCheck != EnumLists.TowerType.Player)
+            bool isEnemyHit = hit.CompareTag("Enemy");
+            if (isEnemyHit)
             {
-                tower.TakeDamage(Damage[Level]);
-                continue;
-            }
-
-            BaseHealthManager baseHealth = hit.GetComponentInParent<BaseHealthManager>();
-            if (baseHealth != null && baseHealth.isAlive && (linkedEnemyTower == null || !linkedEnemyTower.isAlive))
-            {
-                baseHealth.TakeDamage(Damage[Level]);
+                damageable.TakeDamage(summonStats.DamagePerLevel[Level]);
             }
         }
-
-        ShotSFX.PlayFeedbacks();
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (IsValidLevel(AttackRange))
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(transform.position, AttackRange[Level]);
-        }
+        //shotSFX?.PlayFeedbacks();
+        BombEffect bombClone = Instantiate(bomb, transform.position, Quaternion.identity);
+        bombClone.Explode(2);
     }
 }

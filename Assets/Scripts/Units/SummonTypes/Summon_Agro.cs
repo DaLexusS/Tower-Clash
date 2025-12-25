@@ -5,41 +5,22 @@ using UnityEngine;
 
 public class Summon_Agro : SummonBase
 {
-    [SerializeField] SummonStats summonStats;
-    [SerializeField] Rigidbody2D rigidbody2;
-    [SerializeField] Bullet BulletPrefab;
-    [SerializeField] float bulletSpeed = 4f;
-
-    public override void Init(BaseTower towerData)
-    {
-        SummonStats = summonStats;
-        Rigid_body = rigidbody2;
-        Level = summonStats.Level;
-
-        MaxHealth = summonStats.HealthPerLevel;
-        if (IsValidLevel(MaxHealth)) Health = MaxHealth[Level]; else Health = 100;
-
-        Damage = summonStats.DamagePerLevel;
-        Value = summonStats.DeathValue;
-        AttackRange = summonStats.AttackRangePerLevel;
-        AttackCoolDown = summonStats.AttackCooldownPerLevel;
-        WalkSpeed = summonStats.WalkSpeedPerLevel;
-        FirstAttackCooldown = summonStats.FirstAttackDelay;
-        PreAttackTime = summonStats.PreAttackTimePerLevel;
-        SpotRange = summonStats.SpotRangePerLevel;
-
-        base.Init(towerData);
-    }
+    [Header("Ranged Settings")]
+    [SerializeField] private Bullet bulletPrefab;
+    [SerializeField] private float bulletSpeed = 5f;
+    [SerializeField] private float shotgunMultiplier = 1f;
 
     public override void DoAttack()
     {
-        if(currentTarget == null)
-        {
-            return;
-        }
-        float distance = Vector3.Distance(transform.position, currentTarget.transform.position);
+        int finalDamage = summonStats.DamagePerLevel[Level];
 
-        Bullet bullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
-        bullet.InitBullet(currentTarget.transform, bulletSpeed, this.Damage[Level]);
+        if (shotgunMultiplier > 1f)
+        {
+            float distRatio = 1f - Mathf.Clamp01(GetDistanceToTarget() / summonStats.AttackRangePerLevel[Level]);
+            finalDamage = Mathf.RoundToInt(finalDamage * Mathf.Lerp(1f, shotgunMultiplier, distRatio));
+        }
+
+        Bullet bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        bullet.InitBullet(currentTarget.transform, bulletSpeed, finalDamage);
     }
 }

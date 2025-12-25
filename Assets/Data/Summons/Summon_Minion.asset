@@ -22,10 +22,10 @@ MonoBehaviour:
   - 0.8
   - 0.8
   AttackRangePerLevel:
-  - 1.25
-  - 1.25
-  - 1.25
-  - 1.25
+  - 0.4
+  - 0.4
+  - 0.4
+  - 0.4
   SpotRangePerLevel:
   - 2
   - 2
