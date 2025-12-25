@@ -26,6 +26,11 @@ MonoBehaviour:
   - 2.5
   - 2.5
   - 2.5
+  SpotRangePerLevel:
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
   PreAttackTimePerLevel:
   - 2
   - 2

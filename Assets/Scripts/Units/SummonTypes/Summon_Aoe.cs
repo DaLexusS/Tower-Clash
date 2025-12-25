@@ -25,6 +25,7 @@ public class Summon_Aoe : SummonBase
         FirstAttackCooldown = summonStats.FirstAttackDelay;
         PreAttackTime = summonStats.PreAttackTimePerLevel;
         SummonAnimator = animator;
+        SpotRange = summonStats.SpotRangePerLevel;
 
         base.Init(towerData);
     }

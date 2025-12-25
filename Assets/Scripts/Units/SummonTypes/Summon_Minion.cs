@@ -25,12 +25,8 @@ public class Summon_Minion : SummonBase
         PreAttackTime = summonStats.PreAttackTimePerLevel;
         SpriteVisual = visualSprite;
         SummonAnimator = animator;
+        SpotRange = summonStats.SpotRangePerLevel;
 
         base.Init(towerData);
-    }
-
-    public override void ColorSummon(Color color)
-    {
-        base.ColorSummon(color);
     }
 }

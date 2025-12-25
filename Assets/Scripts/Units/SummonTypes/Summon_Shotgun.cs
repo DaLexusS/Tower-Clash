@@ -26,6 +26,7 @@ public class Summon_Shotgun : SummonBase
         WalkSpeed = summonStats.WalkSpeedPerLevel;
         FirstAttackCooldown = summonStats.FirstAttackDelay;
         PreAttackTime = summonStats.PreAttackTimePerLevel;
+        SpotRange = summonStats.SpotRangePerLevel;
 
         base.Init(towerData);
     }

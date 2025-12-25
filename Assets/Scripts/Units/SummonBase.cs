@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine.Events;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
+using UnityEngine.Events;
+using static EnumLists;
 
 public abstract class SummonBase : MonoBehaviour, IDamageable
 {
@@ -17,6 +18,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public List<int> Damage { get; protected set; }
     public int Value { get; protected set; }
     public List<float> AttackRange { get; protected set; }
+    public List<float> SpotRange { get; protected set; }
     public List<float> WalkSpeed { get; protected set; }
     public FirstAttackDelayRange FirstAttackCooldown { get; protected set; }
     public List<float> PreAttackTime { get; protected set; }
@@ -45,6 +47,11 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public bool initialized = false;
 
     private bool frozen = false;
+    private bool isHitStateActive = false;
+    private Coroutine hitCoroutine;
+    public SummonState CurrentState { get; private set; }
+
+    public static UnityAction<SummonBase, SummonState> OnStateChanged;
 
     protected bool IsValidLevel<T>(List<T> list)
     {
@@ -79,28 +86,23 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     {
         if (!initialized || !IsAlive || !RoundManager.GameRunning)
         {
-            if (!frozen)
-            {
-                frozen = true;
-                Rigid_body.constraints = RigidbodyConstraints2D.FreezeAll;
-            }
+            if (IsAlive)
+                SetState(SummonState.Idle);
 
+            Freeze();
             return;
-        }
-
-        if (currentTarget != null)
-        {
-            SummonBase enemy = currentTarget.GetComponent<SummonBase>();
-            if (enemy != null && !enemy.IsAlive)
-            {
-                currentTarget = null;
-                targetEnemy = null;
-            }
         }
 
         FindTarget();
         HandleMovement();
         HandleAttack();
+    }
+
+    private void Freeze()
+    {
+        if (frozen) return;
+        frozen = true;
+        Rigid_body.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     private void FindTarget()
@@ -134,9 +136,17 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         }
     }
 
+    protected void SetState(SummonState newState)
+    {
+        if (CurrentState == newState) return;
+
+        CurrentState = newState;
+        OnStateChanged?.Invoke(this, newState);
+    }
+
     private SummonBase FindClosestEnemyInLane()
     {
-        if (EnemyParent == null || !IsValidLevel(AttackRange)) return null;
+        if (EnemyParent == null || !IsValidLevel(SpotRange)) return null;
 
         SummonBase closestEnemy = null;
         float closestDistance = Mathf.Infinity;
@@ -147,8 +157,12 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             SummonBase enemy = child.GetComponent<SummonBase>();
             if (enemy == null || !enemy.IsAlive || enemy.Lane != Lane) continue;
 
-            float distance = Vector3.Distance(currentPosition, GetClosestPointOnTarget(enemy.gameObject));
-            if (distance < closestDistance && distance <= AttackRange[Level])
+            float distance = Vector3.Distance(
+                currentPosition,
+                GetClosestPointOnTarget(enemy.gameObject)
+            );
+
+            if (distance < closestDistance && distance <= SpotRange[Level])
             {
                 closestDistance = distance;
                 closestEnemy = enemy;
@@ -165,24 +179,14 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         if (!isAttacking && movementDirection != Vector2.zero)
         {
             Rigid_body.velocity = movementDirection * WalkSpeed[Level];
-
-            if (SummonAnimator != null)
-            {
-                if (SummonAnimator.GetBool("Idle"))
-                {
-                    SummonAnimator.SetBool("Idle", false);
-                }
-            }
+            SetState(SummonState.Moving);
         }
         else
         {
-
-            if (SummonAnimator != null)
-            {
-                SummonAnimator.SetBool("Idle", true);
-            }
-
             Rigid_body.velocity = Vector2.zero;
+
+            if (!isAttacking)
+                SetState(SummonState.Idle);
         }
     }
 
@@ -197,6 +201,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         if (attackCoroutine != null) StopCoroutine(attackCoroutine);
         attackCoroutine = StartCoroutine(PerformAttack());
+        SetState(SummonState.Attacking);
     }
 
     public virtual IEnumerator PerformAttack()
@@ -253,30 +258,59 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     {
         isAttacking = false;
 
-        if (IsAlive && currentTarget != null)
-        {
-            Rigid_body.velocity = originalVelocity;
-        }
-        else
-        {
-            Rigid_body.velocity = Vector2.zero;
-        }
+        if (IsAlive)
+            SetState(SummonState.Idle);
 
+        Rigid_body.velocity = Vector2.zero;
         attackCoroutine = null;
     }
 
     public virtual void TakeDamage(int amount)
     {
-        Health = Mathf.Max(0, Health - amount);
+        if (!IsAlive) return;
 
+        Health = Mathf.Max(0, Health - amount);
         healthBarUi.UpdateHealth(Health);
 
-        if (Health <= 0) OnDied();
+        if (Health > 0)
+        {
+            EnterHitState();
+        }
+        else
+        {
+            OnDied();
+        }
+    }
+
+    private void EnterHitState()
+    {
+        if (isHitStateActive || isAttacking) return;
+
+        if (hitCoroutine != null)
+            StopCoroutine(hitCoroutine);
+
+        hitCoroutine = StartCoroutine(HitStateRoutine());
+    }
+
+    private IEnumerator HitStateRoutine()
+    {
+        isHitStateActive = true;
+        SetState(SummonState.Hit);
+
+        yield return new WaitForSeconds(0.15f);
+
+        isHitStateActive = false;
+
+        if (IsAlive)
+            SetState(SummonState.Idle);
     }
 
     public virtual void OnDied()
     {
+        if (!IsAlive) return;
+
         IsAlive = false;
+        SetState(SummonState.Died);
 
         if (attackCoroutine != null)
         {
@@ -285,17 +319,9 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         }
 
         if (IsEnemy)
-        {
             RewardOnSummonDeath?.Invoke(Value);
-        }
         else
-        {
             RewardOnSummonDeathEnemy?.Invoke(Value);
-        }
-        if (SummonAnimator != null)
-        {
-            SummonAnimator.SetTrigger("Death");
-        }
 
         StartCoroutine(DestroyAfterDelay(2f));
     }
@@ -334,11 +360,12 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             Gizmos.color = new Color(1, 0, 0, 0.3f);
             Gizmos.DrawWireSphere(transform.position, AttackRange[Level]);
         }
-    }
 
-    public virtual void ColorSummon(Color color)
-    {
-        SpriteVisual.color = color;
+        if (IsValidLevel(SpotRange))
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, SpotRange[Level]);
+        }
     }
 
     private Vector3 GetClosestPointOnTarget(GameObject target)
