@@ -35,11 +35,13 @@ public class PlayerManager : MonoBehaviour
         onCoinsUpdated.Invoke(currentCoins);
     }
 
-    public void TryBuy(int price)
+    public bool TryBuy(int price)
     {
         if (currentCoins < price)
         {
             onNoMoneyForUpgrade.Invoke();
+
+            return false;
         }
         else
         {
@@ -47,6 +49,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         onCoinsUpdated.Invoke(currentCoins);
+
+        return true;
     }
 
     public void onUpgradePressed(BaseTower tower, GameObject ui)

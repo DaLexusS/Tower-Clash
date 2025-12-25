@@ -1724,6 +1724,7 @@ GameObject:
   - component: {fileID: 3341532622225977169}
   - component: {fileID: -403440844841326516}
   - component: {fileID: 7410035921521872664}
+  - component: {fileID: 6202049755905508186}
   m_Layer: 0
   m_Name: EnemySummon_Shotgun 1
   m_TagString: Enemy
@@ -1811,6 +1812,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 4878942630944877901}
+--- !u!114 &6202049755905508186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9061980688468620666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93983ad0181003b498dcd814628a378e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DeathFeedback: {fileID: 7096247710506870353}
+  summon: {fileID: -403440844841326516}
+  animator: {fileID: 395007591871770520}
 --- !u!1001 &7119733484312727387
 PrefabInstance:
   m_ObjectHideFlags: 0

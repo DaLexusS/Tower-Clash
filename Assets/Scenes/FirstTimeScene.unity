@@ -174,6 +174,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lane_1
       objectReference: {fileID: 0}
+    - target: {fileID: 1108258763664764250, guid: b25929a28740e94498da04caf09a76a9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6881757915863291274, guid: b25929a28740e94498da04caf09a76a9, type: 3}
       propertyPath: m_Name
       value: WalkLane1
@@ -183,11 +187,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b25929a28740e94498da04caf09a76a9, type: 3}
---- !u!1 &74945129 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1108258763664764250, guid: b25929a28740e94498da04caf09a76a9, type: 3}
-  m_PrefabInstance: {fileID: 261984460}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &74945130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 293289533464613104, guid: b25929a28740e94498da04caf09a76a9, type: 3}
@@ -292,11 +291,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1108258763664764250, guid: b25929a28740e94498da04caf09a76a9, type: 3}
       propertyPath: m_Name
-      value: Lane_2
+      value: Lane_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1108258763664764250, guid: b25929a28740e94498da04caf09a76a9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822286397805403176, guid: b25929a28740e94498da04caf09a76a9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6881757915863291274, guid: b25929a28740e94498da04caf09a76a9, type: 3}
       propertyPath: m_Name
-      value: WalkLane2
+      value: WalkLane1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1759,6 +1766,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lane_3
       objectReference: {fileID: 0}
+    - target: {fileID: 1108258763664764250, guid: b25929a28740e94498da04caf09a76a9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6881757915863291274, guid: b25929a28740e94498da04caf09a76a9, type: 3}
       propertyPath: m_Name
       value: WalkLane3
@@ -1784,7 +1795,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &327216821
 Transform:
   m_ObjectHideFlags: 0
@@ -2424,7 +2435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &550866977
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3368,18 +3379,12 @@ MonoBehaviour:
   minionManager: {fileID: 795601067}
   playerTowerList:
   - {fileID: 5240556486531005110, guid: 1f61c9dfcefc8734ebd10a8ee5e6630a, type: 3}
-  - {fileID: 7372341375320925419, guid: 6e084945ab024db478fc53380692ec2f, type: 3}
-  - {fileID: 5240556486531005110, guid: 1f61c9dfcefc8734ebd10a8ee5e6630a, type: 3}
   enemyTowerList:
-  - {fileID: 5504324809985394208, guid: 6589c3fbfe7a08e499b218b5f5e8aa59, type: 3}
-  - {fileID: 2863598826056464696, guid: adcf4fe9d07cfd040970c9455e7c28c3, type: 3}
   - {fileID: 5504324809985394208, guid: 6589c3fbfe7a08e499b218b5f5e8aa59, type: 3}
   enemyMinionParent: {fileID: 243891997}
   playerMinionParent: {fileID: 1392854926}
   Lanes:
-  - {fileID: 1625250221}
   - {fileID: 626162277}
-  - {fileID: 74945129}
   projectileParent: {fileID: 1811481016}
   playerManager: {fileID: 795601064}
   summonUi: {fileID: 1481456454}
@@ -4080,7 +4085,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &973199330
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4495,7 +4500,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1173638963
 Transform:
   m_ObjectHideFlags: 0
@@ -5550,13 +5555,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 795601064}
   SummonButtons:
-  - {fileID: 973199334}
   - {fileID: 1607682544}
-  - {fileID: 550866981}
   LaneButtons:
-  - {fileID: 1082279832}
   - {fileID: 2011362175}
-  - {fileID: 205438370}
   mainUi: {fileID: 1603923502}
   visualPlayer: {fileID: 226814265}
   pressCooldown: 0.1
@@ -6819,11 +6820,6 @@ MonoBehaviour:
   Price: {fileID: 432075570}
   Icon: {fileID: 1357463983}
   Parent: {fileID: 2067764989}
---- !u!1 &1625250221 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1108258763664764250, guid: b25929a28740e94498da04caf09a76a9, type: 3}
-  m_PrefabInstance: {fileID: 53900810}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1625250222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 293289533464613104, guid: b25929a28740e94498da04caf09a76a9, type: 3}
@@ -7674,7 +7670,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8378,15 +8374,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7531050434007932148, guid: 053950dbb419fe34db2d3b67b2562436, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7531050434007932148, guid: 053950dbb419fe34db2d3b67b2562436, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7531050434007932148, guid: 053950dbb419fe34db2d3b67b2562436, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

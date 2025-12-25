@@ -8,6 +8,14 @@ public class MenuUi : MonoBehaviour
     public void PlayPressed() 
     {
         RoundManager.SetGameRunning(true);
-        SceneManager.LoadScene(1);
+
+        if (RoundManager.Instance.firstGame)
+        {
+            SceneManager.LoadScene("FirstTimeScene");
+        }
+        else
+        {
+            SceneManager.LoadScene("RoundScene");
+        }
     }
 }

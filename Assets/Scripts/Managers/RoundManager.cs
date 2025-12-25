@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class RoundManager : MonoBehaviour
 {
+    public bool firstGame = true;
+
     public static UnityAction OnLose;
     public static UnityAction OnWin;
     public static RoundManager Instance { get; private set; }
@@ -47,6 +50,8 @@ public class RoundManager : MonoBehaviour
         {
             OnWin.Invoke();
         }
+
+        firstGame = false;
     }
 
     public void StartGame()

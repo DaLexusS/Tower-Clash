@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using TMPro;
-using System.Diagnostics;
 using MoreMountains.Feedbacks;
 using UnityEngine.Events;
 
@@ -47,17 +45,24 @@ public class SummonUi : MonoBehaviour
 
     private void TrySummon(int laneNumber, BaseTower summonTowerOwner)
     {
-        var laneTower = _playerTowers[laneNumber - 1];
-
-        if (playerManager.currentCoins < summonTowerOwner.SummonPrice)
+        int index = laneNumber - 1;
+        if (index < 0 || index >= _playerTowers.Count)
         {
-            playerManager.TryBuy(summonTowerOwner.SummonPrice);
-
+            Debug.Log($"Lane {laneNumber} is out of bounds! List size is {_playerTowers.Count}");
             return;
         }
 
-        playerManager.TryBuy(summonTowerOwner.SummonPrice);
+        var laneTower = _playerTowers[index];
 
-        onSummonPressed?.Invoke(summonTowerOwner, laneTower);
+        if (playerManager.currentCoins < summonTowerOwner.SummonPrice)
+        {
+            Debug.Log("Not enough coins!");
+            return;
+        }
+
+        if (playerManager.TryBuy(summonTowerOwner.SummonPrice))
+        {
+            onSummonPressed?.Invoke(summonTowerOwner, laneTower);
+        }
     }
 }
