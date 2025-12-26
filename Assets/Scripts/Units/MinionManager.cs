@@ -23,6 +23,7 @@ public class MinionManager : MonoBehaviour
         {
             SummonBase summonClone = Instantiate(PlayerMinion, spawnPos, PlayerMinion.transform.rotation, tower.PlayerFolder.transform);
             summonClone.Init(tower);
+            summonClone.IsEnemy = false;
         }
         else
         {

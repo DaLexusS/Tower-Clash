@@ -11,18 +11,17 @@ public class SummonButtonHandler : MonoBehaviour, IPointerDownHandler, IPointerU
     public Image Icon;
     public Transform Parent;
 
-    private bool isPressed = true;
-
-    BaseTower Tower = null;
-
-    GameObject summonClone = null;
-
+    //private bool isPressed = false;
+    private BaseTower Tower = null;
+    private GameObject summonClone = null;
     private Camera mainCamera;
+
+    private Vector3 targetPosition;
+    private float smoothSpeed = 20f;
 
     public void Init(BaseTower towerData)
     {
         Tower = towerData;
-
         Price.text = Util.FormatWithCommas(towerData.SummonPrice);
         Icon.sprite = towerData.SummonIcon;
     }
@@ -32,108 +31,70 @@ public class SummonButtonHandler : MonoBehaviour, IPointerDownHandler, IPointerU
         mainCamera = Camera.main;
     }
 
-    void Update()
+    void LateUpdate()
     {
-        FollowTouchPosition();
+        if (summonClone != null)
+        {
+            FollowTouchPosition();
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (isPressed)
-        {
-            isPressed = false;
+        if (Tower == null || !Tower.Alive) return;
 
-            Release();
-        }
-
-        if (Tower == null)
-        {
-            return;
-        }
-
-        if (!Tower.Alive)
-        {
-            return;
-        }
-
-        isPressed = true;
-
+        //isPressed = true;
         AttachIcon();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         CheckLane();
-
         Release();
     }
 
     private void CheckLane()
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
-        Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
-
+        Vector2 worldPos2D = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
 
         if (hit.collider != null && hit.collider.CompareTag("WalkLane"))
         {
             string laneName = hit.collider.name;
-
             if (laneName.StartsWith("WalkLane"))
             {
                 string numberPart = laneName.Substring("WalkLane".Length);
                 if (int.TryParse(numberPart, out int laneNumber))
                 {
-
                     OnTrySummon?.Invoke(laneNumber, Tower);
-                    // You can pass this laneNumber to your tower or summon logic here.
-                    return;
                 }
             }
-
-            Debug.LogWarning("WalkLane hit, but name format invalid: " + laneName);
-        }
-        else
-        {
-            //Cancel
         }
     }
 
     private void AttachIcon()
     {
-        if (Tower.Config == null || Tower.Config.SummonPreSummonPrefab == null)
-        {
-            return;
-        }
-
+        if (Tower.Config?.SummonPreSummonPrefab == null) return;
         summonClone = Instantiate(Tower.Config.SummonPreSummonPrefab, Parent);
+
+        Vector3 initialPos = Input.mousePosition;
+        initialPos.z = 10f;
+        summonClone.transform.position = mainCamera.ScreenToWorldPoint(initialPos);
     }
 
     private void Release()
     {
-        if (summonClone != null)
-        {
-            Destroy(summonClone);
-        }
-
+        if (summonClone != null) Destroy(summonClone);
         summonClone = null;
-        isPressed = false;
+        //isPressed = false;
     }
 
     private void FollowTouchPosition()
     {
-        if (summonClone == null)
-        {
-            return;
-        }
-
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f;
+        targetPosition = mainCamera.ScreenToWorldPoint(mousePos);
 
-        Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
-
-
-        summonClone.transform.position = worldPos;
+        summonClone.transform.position = Vector3.Lerp(summonClone.transform.position, targetPosition, smoothSpeed * Time.unscaledDeltaTime);
     }
 }

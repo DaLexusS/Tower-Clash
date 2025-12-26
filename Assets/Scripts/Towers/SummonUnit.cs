@@ -32,17 +32,20 @@ public class SummonUnit : MonoBehaviour
 
     private void SpawnSolo(BaseTower tower, BaseTower otherLane)
     {
-        Vector2 spawnPos = otherLane.MinionSpawnBounds.transform.position;
+        //Vector2 spawnPos = otherLane.MinionSpawnBounds.transform.position;
+        Vector2 spawnPos = GetRandomPointInsideBounds(otherLane.MinionSpawnBounds.gameObject);
 
         SummonBase summonType;
         
         if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
         {
             summonType = tower.Summon;
+            summonType.IsEnemy = false;
         }
         else
         {
             summonType = tower.EnemySideSummon;
+            summonType.IsEnemy = true;
         }
 
         SummonBase summonClone = Instantiate(summonType, spawnPos, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
@@ -66,10 +69,12 @@ public class SummonUnit : MonoBehaviour
         if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
         {
             summonType = tower.Summon;
+            summonType.IsEnemy = false;
         }
         else
         {
             summonType = tower.EnemySideSummon;
+            summonType.IsEnemy = true;
         }
 
         SummonBase summonClone1 = Instantiate(summonType, leftPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);
@@ -101,10 +106,12 @@ public class SummonUnit : MonoBehaviour
         if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
         {
             summonType = tower.Summon;
+            summonType.IsEnemy = false;
         }
         else
         {
             summonType = tower.EnemySideSummon;
+            summonType.IsEnemy = true;
         }
 
         SummonBase summonClone1 = Instantiate(summonType, leftPoint, tower.Summon.transform.rotation, tower.PlayerFolder.transform);

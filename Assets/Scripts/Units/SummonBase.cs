@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,7 +22,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public int Level { get; protected set; }
     public int Health { get; protected set; }
     public bool IsAlive { get; protected set; } = true;
-    public bool IsEnemy { get; set; }
+    [field: SerializeField] public bool IsEnemy { get; set; }
     public GameObject Lane { get; private set; }
     public SummonState CurrentState { get; private set; }
     #endregion
@@ -61,6 +62,18 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         FindTarget();
         HandleMovement();
+        
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if (!initialized || !IsAlive || !RoundManager.GameRunning)
+        {
+            if (IsAlive) SetState(SummonState.Idle);
+            rb.velocity = Vector2.zero;
+            return;
+
+        }
         HandleAttackLogic();
     }
 
@@ -77,7 +90,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         }
     }
 
-    private IEnumerator AttackRoutine()
+    public virtual IEnumerator AttackRoutine()
     {
         isAttacking = true;
         rb.velocity = Vector2.zero;
@@ -107,7 +120,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     #endregion
 
     #region Movement & Targeting
-    private void FindTarget()
+    protected virtual void FindTarget()
     {
         if (isAttacking) return;
 
@@ -224,7 +237,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     #region Gizmos & Debugging
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (summonStats == null) return;
 
@@ -245,10 +258,71 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             Gizmos.color = Color.magenta;
             Gizmos.DrawLine(transform.position, currentTarget.transform.position);
         }
+
     }
+
+    /*private void OnDrawGizmosSelected()
+    {
+        if (summonStats == null) return;
+
+        if (IsValidLevel(summonStats.SpotRangePerLevel))
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, summonStats.SpotRangePerLevel[Level]);
+        }
+
+        if (IsValidLevel(summonStats.AttackRangePerLevel))
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, summonStats.AttackRangePerLevel[Level]);
+        }
+
+        if (currentTarget != null)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawLine(transform.position, currentTarget.transform.position);
+        }
+    }*/
     protected bool IsValidLevel<T>(List<T> list)
     {
         return list != null && Level >= 0 && Level < list.Count;
+    }
+
+    protected bool IsOpponent(GameObject target)
+    {
+        if (target == null || target == gameObject) return false;
+
+        SummonBase otherSummon = target.GetComponentInParent<SummonBase>();
+        if (otherSummon != null)
+        {
+            bool isDifferentTeam = this.IsEnemy != otherSummon.IsEnemy;
+
+            bool isSameLane = this.Lane == otherSummon.Lane;
+
+            return isDifferentTeam && isSameLane;
+        }
+
+        BaseTower tower = target.GetComponentInParent<BaseTower>();
+        if (tower != null)
+        {
+            if (this.IsEnemy)
+            {
+                return tower.TowerTypeCheck == EnumLists.TowerType.Player;
+            }
+            else
+            {
+                return tower.TowerTypeCheck == EnumLists.TowerType.Enemy;
+            }
+        }
+
+        if (enemyTowerHealth != null && target.transform.IsChildOf(enemyTowerHealth.transform))
+        {
+            return true;
+        }
+
+        if (enemyBaseHealth != null && target.transform.IsChildOf(enemyBaseHealth.transform)) return true;
+
+        return false;
     }
 
     public void OnDied()

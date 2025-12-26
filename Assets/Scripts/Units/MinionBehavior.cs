@@ -103,17 +103,6 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         Attack();
     }
 
-    public void StopForSeconds(float duration)
-    {
-        isStopped = true;
-        stopUntil = Time.time + duration;
-        minionRigid.velocity = Vector2.zero;
-    }
-    public void ColorMinions(Color color)
-    {
-        MinionSprite.color = color;
-    }
-
     private GameObject CheckForEnemyInRange()
     {
         Transform closestEnemy = null;
@@ -195,7 +184,6 @@ public class MinionBehavior : MonoBehaviour, IDamageable
         else if(baseHealthManager != null && baseHealthManager.isAlive &&
                  Vector3.Distance(transform.position, targetBase.transform.position) <= attackRange + 2 && IsAlive)
         {
-            animator.SetTrigger("Attack");
             baseHealthManager.TakeDamage((int)damage);
         }
     }

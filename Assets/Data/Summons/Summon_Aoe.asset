@@ -37,7 +37,7 @@ MonoBehaviour:
   - 2
   - 2
   AttackCooldownPerLevel:
-  - 0.5
+  - 2
   - 1.9
   - 1.8
   - 0.17

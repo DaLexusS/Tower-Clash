@@ -2281,8 +2281,9 @@ MonoBehaviour:
   spriteVisual: {fileID: 0}
   animator: {fileID: 1849011346356668432}
   rb: {fileID: 3341532622225977169}
-  shotSFX: {fileID: 5781801314940667041}
+  <IsEnemy>k__BackingField: 0
   bomb: {fileID: 8992570734603394148, guid: 6e04d6ab4f077b4489c4a1a2b08c23c7, type: 3}
+  attackOffSet: {x: 0, y: 1, z: 0}
 --- !u!114 &-3866205678661330028
 MonoBehaviour:
   m_ObjectHideFlags: 0

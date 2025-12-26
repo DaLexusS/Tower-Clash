@@ -54,9 +54,14 @@ public class TowerUI : MonoBehaviour
         {
             return;
         }
+
+        if (!towerStats.Alive) {
+            mark.gameObject.SetActive(false);
+            upgradePanel.gameObject.SetActive(false);
+            return;
+        }
+
         CheckTapOnSprite();
-
-
     }
 
     private void OnEnable()
