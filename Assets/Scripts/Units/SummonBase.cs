@@ -214,6 +214,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(int amount)
     {
+        SetState(SummonState.Hit);
         Health -= amount;
         healthBarUi?.UpdateHealth(Health);
         if (Health <= 0) Die();
