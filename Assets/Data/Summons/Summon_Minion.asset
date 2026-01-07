@@ -17,10 +17,10 @@ MonoBehaviour:
   HealthPerLevel: 07000000070000000700000007000000
   DamagePerLevel: 05000000050000000500000005000000
   WalkSpeedPerLevel:
-  - 0.8
-  - 0.8
-  - 0.8
-  - 0.8
+  - 0.55
+  - 0.55
+  - 0.55
+  - 0.55
   AttackRangePerLevel:
   - 0.4
   - 0.4

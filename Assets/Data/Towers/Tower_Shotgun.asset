@@ -16,7 +16,7 @@ MonoBehaviour:
   Level: 0
   Health: 100
   AttackCoolDown: 2
-  MinionSpawnTimeCooldown: 5
+  MinionSpawnTimeCooldown: 10
   UpgradeCostPerLevel: 0f0000000f0000000f000000
   HealthPerLevel: 640000007800000091000000af000000
   DamagePerLevel:

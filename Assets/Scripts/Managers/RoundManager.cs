@@ -58,4 +58,14 @@ public class RoundManager : MonoBehaviour
     {
         GameRunning = true;
     }
+
+    public void ResetFirstTime()
+    {
+        firstGame = false;
+    }
+
+    public void NotFirstTime()
+    {
+        firstGame = true;
+    }
 }
