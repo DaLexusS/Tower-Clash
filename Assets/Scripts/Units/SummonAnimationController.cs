@@ -39,7 +39,7 @@ public class SummonAnimationController : MonoBehaviour
                 break;
 
             case SummonState.Hit:
-                animator.Play("Hit");
+                //animator.Play("Hit");
                 break;
 
             case SummonState.Died:

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using static EnumLists;
@@ -17,6 +18,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     public static UnityAction<SummonBase, SummonState> OnStateChanged;
     public static UnityAction<int> RewardOnSummonDeath;
     public static UnityAction<int> RewardOnSummonDeathEnemy;
+    public static UnityAction<SummonBase, bool> onEnemyWipedFromList;
 
     #region Properties
     public int Level { get; protected set; }
@@ -36,6 +38,8 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     protected BaseHealthManager enemyBaseHealth;
     protected GameObject enemyParent;
 
+    [SerializeField] private float attackRandomOffset = 0.05f;
+    private float attackStartOffset;
     public virtual void Init(BaseTower towerData)
     {
         Level = towerData.Level;
@@ -49,6 +53,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         healthBarUi?.InitHealth(Health);
         initialized = true;
+        attackStartOffset = UnityEngine.Random.Range(0f, attackRandomOffset);
     }
 
     protected virtual void Update()
@@ -84,7 +89,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         float dist = GetDistanceToTarget();
 
-        if (dist <= summonStats.AttackRangePerLevel[Level] && Time.time >= lastAttackTime)
+        if (dist <= summonStats.AttackRangePerLevel[Level] &&  Time.time >= lastAttackTime + attackStartOffset)
         {
             StartCoroutine(AttackRoutine());
         }
@@ -97,15 +102,13 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         SetState(SummonState.Attacking);
 
-        yield return new WaitForSeconds(summonStats.PreAttackTimePerLevel[Level]);
+        yield return new WaitForSeconds(summonStats.PreAttackTimePerLevel[Level] + attackStartOffset);
 
         if (IsAlive)
         {
             DoAttack();
             lastAttackTime = Time.time + summonStats.AttackCooldownPerLevel[Level];
         }
-
-        yield return new WaitForSeconds(0.1f);
 
         isAttacking = false;
 
@@ -233,6 +236,8 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             RewardOnSummonDeathEnemy?.Invoke(summonStats.DeathValue);
 
         Destroy(gameObject, 2f);
+
+        onEnemyWipedFromList?.Invoke(this, IsEnemy);
     }
     #endregion
 

@@ -46,13 +46,13 @@ public class TowerManager : MonoBehaviour
 
     private void OnEnable()
     {
-        MinionBehavior.onEnemyWipedFromList += UpdateMinionDeath;
+        SummonBase.onEnemyWipedFromList += UpdateMinionDeath;
         TowerHealthManager.onTowerDied += TowerDestroyed;
     }
 
     private void OnDisable()
     {
-        MinionBehavior.onEnemyWipedFromList -= UpdateMinionDeath;
+        SummonBase.onEnemyWipedFromList -= UpdateMinionDeath;
         TowerHealthManager.onTowerDied -= TowerDestroyed;
     }
 
@@ -131,7 +131,7 @@ public class TowerManager : MonoBehaviour
         }
     }
 
-    private void UpdateMinionDeath(MinionBehavior minion, bool isEnemy)
+    private void UpdateMinionDeath(SummonBase minion, bool isEnemy)
     {
         if (isEnemy)
         {

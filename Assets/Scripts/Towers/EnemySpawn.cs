@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemySpawn : MonoBehaviour
 {
     [SerializeField] public GameObject spawnPoint;
-    [SerializeField] public GameObject minion;
+    [SerializeField] public SummonBase minion;
     [SerializeField] public GameObject minionFolder;
    
     [SerializeField] public TowerStats towerStats;
@@ -15,7 +15,6 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] public Color minionColor;
     [SerializeField] public bool isEnemy;
 
-    [SerializeField] SummonBase test;
 
     private float minionSpawnTime;
     private float lastTick;
@@ -51,14 +50,8 @@ public class EnemySpawn : MonoBehaviour
     {
         Vector2 spawnPos = GetRandomPointInsideBounds(LaneRenderer);
 
-        GameObject cloneMinion = Instantiate(minion, spawnPos, minion.transform.rotation, minionFolder.transform);
-        MinionBehavior minionBehavior = cloneMinion.GetComponent<MinionBehavior>();
-        ColorMinion(cloneMinion);
-        minionBehavior.IsEnemy = isEnemy;
-        minionBehavior.targetBase = targetBase;
-        minionBehavior.targetTower = targetTower;
-        minionBehavior.enemyFolder = enemyMinionFolder;
-        minionBehavior.lane = lane;
+        SummonBase cloneMinion = Instantiate(minion, spawnPos, minion.transform.rotation, minionFolder.transform);
+        cloneMinion.IsEnemy = isEnemy;
     }
 
     public void ColorMinion(GameObject minion)

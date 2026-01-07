@@ -32,10 +32,10 @@ MonoBehaviour:
   - 2
   - 2
   PreAttackTimePerLevel:
-  - 0
-  - 0
-  - 0
-  - 0
+  - 1
+  - 1
+  - 1
+  - 1
   AttackCooldownPerLevel:
   - 0.5
   - 0.5

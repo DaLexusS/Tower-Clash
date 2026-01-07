@@ -4,17 +4,6 @@ public class MinionManager : MonoBehaviour
 {
     [SerializeField] public SummonBase PlayerMinion;
     [SerializeField] public SummonBase EnemyMinion;
-    [SerializeField] public GameObject unitParent;
-
-    [SerializeField] public GameObject playerBase;
-    [SerializeField] public GameObject enemyBase;
-
-    [SerializeField] public GameObject playerUnitsParent;
-    [SerializeField] public GameObject enemyUnitsParent;
-
-    [SerializeField] public Color playerColor;
-    [SerializeField] public Color enemyColor;
-
     public void SpawnMinion(BaseTower tower)
     {
         Vector2 spawnPos = GetRandomPointInsideBounds(tower.MinionSpawnBounds);
