@@ -7,8 +7,6 @@ public class LaneTowers
     public BaseTower playerTower;
     public BaseTower enemyTower;
 
-    
-
     public LaneTowers(BaseTower player, BaseTower enemy)
     {
         playerTower = player;
@@ -18,6 +16,7 @@ public class LaneTowers
 
 public class TowerManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] public MinionManager minionManager;
     [SerializeField] public List<BaseTower> playerTowerList;
     [SerializeField] public List<BaseTower> enemyTowerList;
@@ -29,8 +28,10 @@ public class TowerManager : MonoBehaviour
     [SerializeField] public SummonUi summonUi;
     [SerializeField] public GameObject playerBase;
     [SerializeField] public GameObject enemyBase;
-
     [SerializeField] public AiEnemy aiEnemy;
+
+    [Header("Spawn Settings")]
+    [SerializeField] private float firstMinionSpawnDelay = 3;
 
     private List<Transform> playerTowerSpawns;
     private List<Transform> enemyTowerSpawns;
@@ -41,7 +42,6 @@ public class TowerManager : MonoBehaviour
     private List<BaseTower> activeTowers;
 
     public Dictionary<int, LaneTowers> towerLanes = new Dictionary<int, LaneTowers>();
-
     private Dictionary<BaseTower, float> towerSpawnTimers = new Dictionary<BaseTower, float>();
 
     private void OnEnable()
@@ -62,6 +62,43 @@ public class TowerManager : MonoBehaviour
         activeTowers = new List<BaseTower>();
         PreLoadSpawnPoints();
         InitTowers();
+    }
+
+    private void Update()
+    {
+        if (!RoundManager.GameRunning)
+            return;
+
+        foreach (var pair in towerLanes)
+        {
+            BaseTower playerTower = pair.Value.playerTower;
+            BaseTower enemyTower = pair.Value.enemyTower;
+
+            if (playerTower != null && Time.time >= towerSpawnTimers[playerTower])
+            {
+                minionManager.SpawnMinion(playerTower);
+                towerSpawnTimers[playerTower] = Time.time + playerTower.MinionSpawnTimeCooldown;
+            }
+
+            if (enemyTower != null && Time.time >= towerSpawnTimers[enemyTower])
+            {
+                minionManager.SpawnMinion(enemyTower);
+                towerSpawnTimers[enemyTower] = Time.time + enemyTower.MinionSpawnTimeCooldown;
+            }
+        }
+
+        UpdateList();
+    }
+
+    private void UpdateList()
+    {
+        foreach (var tower in activeTowers)
+        {
+            if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
+                tower.EnemyFolder = enemyMinionParent;
+            else
+                tower.EnemyFolder = playerMinionParent;
+        }
     }
 
     private void TowerDestroyed(BaseTower tower)
@@ -87,60 +124,12 @@ public class TowerManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (!RoundManager.GameRunning){ return; }
-
-        foreach (var pair in towerLanes)
-        {
-            GameObject lane = Lanes[pair.Key];
-
-            BaseTower playerTower = pair.Value.playerTower;
-            BaseTower enemyTower = pair.Value.enemyTower;
-
-            if (playerTower != null && Time.time >= towerSpawnTimers[playerTower])
-            {
-                minionManager.SpawnMinion(playerTower);
-
-                towerSpawnTimers[playerTower] = Time.time + playerTower.MinionSpawnTimeCooldown;
-            }
-
-            if (enemyTower != null && Time.time >= towerSpawnTimers[enemyTower])
-            {
-                minionManager.SpawnMinion(enemyTower);
-
-                towerSpawnTimers[enemyTower] = Time.time + enemyTower.MinionSpawnTimeCooldown;
-            }
-        }
-
-        UpdateList();
-    }
-
-    private void UpdateList()
-    {
-        foreach ( var tower in activeTowers)
-        {
-            if (tower.TowerTypeCheck == EnumLists.TowerType.Player)
-            {
-                tower.EnemyFolder = enemyMinionParent;
-            }
-            else
-            {
-                tower.EnemyFolder = playerMinionParent;
-            }
-        }
-    }
-
     private void UpdateMinionDeath(SummonBase minion, bool isEnemy)
     {
         if (isEnemy)
-        {
             enemyUnits.Remove(minion.transform);
-        }
         else
-        {
             playerUnits.Remove(minion.transform);
-        }
     }
 
     private void PreLoadSpawnPoints()
@@ -160,19 +149,13 @@ public class TowerManager : MonoBehaviour
         }
     }
 
-    private void UpdateUi()
-    {
-        List<BaseTower> realPlayerTowers = GetPlayerTowers();
-        summonUi.Init(realPlayerTowers);
-    }
-
     private void InitTowers()
     {
         int laneCount = Mathf.Min(
-            playerTowerList.Count, 
-            enemyTowerList.Count, 
-            playerTowerSpawns.Count, 
-            enemyTowerSpawns.Count, 
+            playerTowerList.Count,
+            enemyTowerList.Count,
+            playerTowerSpawns.Count,
+            enemyTowerSpawns.Count,
             Lanes.Count
         );
 
@@ -192,10 +175,7 @@ public class TowerManager : MonoBehaviour
             }
 
             if (playerSpawn == null || enemySpawn == null)
-            {
-                Debug.LogWarning($"Lane {i} is missing spawn points.");
                 continue;
-            }
 
             BaseTower playerTower = Instantiate(playerTowerList[i], playerSpawn.position, Quaternion.identity, lane.transform);
             BaseTower enemyTower = Instantiate(enemyTowerList[i], enemySpawn.position, Quaternion.identity, lane.transform);
@@ -207,12 +187,14 @@ public class TowerManager : MonoBehaviour
             enemyTower.Init(lane, projectileParent, playerMinionParent, enemyMinionParent, playerBase, playerTower.gameObject);
 
             towerLanes[i] = new LaneTowers(playerTower, enemyTower);
+
             activeTowers.Add(playerTower);
             activeTowers.Add(enemyTower);
+
             aiEnemy.InitTower(enemyTower);
 
-            towerSpawnTimers[playerTower] = Time.time + playerTower.MinionSpawnTimeCooldown;
-            towerSpawnTimers[enemyTower] = Time.time + enemyTower.MinionSpawnTimeCooldown;
+            towerSpawnTimers[playerTower] = Time.time + firstMinionSpawnDelay;
+            towerSpawnTimers[enemyTower] = Time.time + firstMinionSpawnDelay;
         }
 
         foreach (BaseTower tower in activeTowers)
@@ -227,10 +209,13 @@ public class TowerManager : MonoBehaviour
         UpdateUi();
     }
 
+    private void UpdateUi()
+    {
+        summonUi.Init(GetPlayerTowers());
+    }
+
     public List<BaseTower> GetPlayerTowers()
     {
         return activeTowers.FindAll(t => t.TowerTypeCheck == EnumLists.TowerType.Player);
     }
-
-
 }

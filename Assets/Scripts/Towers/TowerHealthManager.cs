@@ -51,7 +51,5 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
         towerVisual.SetActive(false);
         towerCollider.SetActive(false);
         StatCanvas.SetActive(false);
-        //TEMP
-        //Destroy(gameObject);
     }
 }

@@ -2058,6 +2058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee90d63b3d2b4043b05ded859aaf756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthManager: {fileID: 521438663904948936}
   mark: {fileID: 5900146296569392831}
   upgradePanel: {fileID: 8581836487250365812}
   upgradePanelRect: {fileID: 6438022989742007968}

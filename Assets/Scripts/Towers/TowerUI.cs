@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class TowerUI : MonoBehaviour
 {
+    [SerializeField] private TowerHealthManager healthManager;
     public static UnityAction<BaseTower, GameObject> onTowerUpgradePressed;
-    //public static UnityAction<BaseTower> onUpdateStats;
     public static UnityAction onUpgradeToExpensive;
 
     public static TowerUI activePanel = null;
@@ -17,7 +17,6 @@ public class TowerUI : MonoBehaviour
 
     [SerializeField] public Image mark;
     [SerializeField] public Image upgradePanel;
-    //[SerializeField] public Slider upgradeSlider;
 
     public RectTransform upgradePanelRect;
     public RectTransform towerUIRoot;
@@ -29,8 +28,6 @@ public class TowerUI : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private RectTransform panelRect;
-
-   //private bool inHold = false;
 
     private float holdTime = 0;
     private float lastTap;
@@ -50,6 +47,12 @@ public class TowerUI : MonoBehaviour
 
     private void Update()
     {
+        if (!healthManager.isAlive)
+        {
+            mark.gameObject.SetActive(false);
+            return;
+        }
+
         if (towerStats == null)
         {
             return;
@@ -132,79 +135,6 @@ public class TowerUI : MonoBehaviour
             }
         }
     }
-
-    /*private void CheckTapOnSprite()
-    {
-        *//*
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            Vector2 touchWorldPos = Camera.main.ScreenToWorldPoint(touch.position);
-
-            bool onTower = spriteRenderer != null && spriteRenderer.bounds.Contains(touchWorldPos);
-            bool onPanel = IsTapOnPanel(touch.position);
-
-            switch (touch.phase)
-            {
-                case TouchPhase.Began:
-                    if (onTower)
-                    {
-                        inHold = true;
-                        holdTime = 0;
-                    }
-                    break;
-
-                case TouchPhase.Stationary:
-                case TouchPhase.Moved:
-                    if (inHold)
-                    {
-                        holdTime += Time.deltaTime;
-
-                       /* if (!IsMaxLevel() && holdTime >= 0.20f && Player.currentCoins < towerStats.UpgradeCostPerLevel[towerStats.Level])
-                        {
-                            if (onUpgradeToExpensive == null) return;
-                            onUpgradeToExpensive.Invoke();
-                            return;
-                        }
-
-                        if (holdTime >= 0.20f)
-                        {
-                            float progress = Mathf.Clamp01((holdTime - 0.25f) / holdTimeToUpgrade);
-                            float radialValue = Mathf.Lerp(360f, 0f, progress);
-
-
-                            if (progress >= 1f)
-                            {
-                                inHold = false;
-                                //onUpgradeFinished.Invoke();
-                                onTowerUpgradePressed.Invoke(towerStats, upgradePanel.gameObject);
-                            }
-                        }*//*
-                    }
-                    break;
-
-                case TouchPhase.Ended:
-                case TouchPhase.Canceled:
-                    if (inHold)
-                    {
-                        if (holdTime < 0.25f && onTower)
-                        {
-                            UpdateStats.UpdateStats(towerStats);
-                            upgradePanel.gameObject.SetActive(true);
-                        }
-
-                        inHold = false;
-                        holdTime = 0;
-                    }
-                    else if (!onPanel)
-                    {
-                        upgradePanel.gameObject.SetActive(false);
-                    }
-                    break;
-            }
-        }
-    }*/
-
     public void OpenStats()
     {
         if (activePanel != null && activePanel != this)
@@ -225,14 +155,5 @@ public class TowerUI : MonoBehaviour
         {
             if (activePanel == this) activePanel = null;
         }
-    }
-
-    bool IsTapOnPanel(Vector2 screenPosition)
-    {
-        if (upgradePanel.gameObject.activeSelf)
-        {
-            return RectTransformUtility.RectangleContainsScreenPoint(panelRect, screenPosition, Camera.main);
-        }
-        return false;
     }
 }
