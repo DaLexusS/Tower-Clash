@@ -3386,6 +3386,7 @@ MonoBehaviour:
   playerBase: {fileID: 113296296}
   enemyBase: {fileID: 1921106504}
   aiEnemy: {fileID: 795601068}
+  firstMinionSpawnDelay: 3
 --- !u!114 &795601067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3400,13 +3401,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerMinion: {fileID: 6109227029386824633, guid: f47805979c8a9214ab171e6c9a771342, type: 3}
   EnemyMinion: {fileID: 6109227029386824633, guid: 5bb61c0f5c540c342ac43b8eb3c8c509, type: 3}
-  unitParent: {fileID: 948555390}
-  playerBase: {fileID: 113296296}
-  enemyBase: {fileID: 1921106504}
-  playerUnitsParent: {fileID: 1392854926}
-  enemyUnitsParent: {fileID: 243891997}
-  playerColor: {r: 0, g: 0.8746934, b: 1, a: 1}
-  enemyColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &795601068
 MonoBehaviour:
   m_ObjectHideFlags: 0
