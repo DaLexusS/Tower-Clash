@@ -16,21 +16,9 @@ MonoBehaviour:
   DeathValue: 5
   HealthPerLevel: 0a0000000d0000001000000013000000
   DamagePerLevel: 06000000080000000a0000000c000000
-  WalkSpeedPerLevel:
-  - 0.55
-  - 0.55
-  - 0.55
-  - 0.55
-  AttackRangePerLevel:
-  - 3
-  - 3
-  - 3
-  - 3
-  SpotRangePerLevel:
-  - 3
-  - 3
-  - 3
-  - 3
+  WalkSpeedPerLevel: 2c01000090010000f401000058020000
+  AttackRangePerLevel: 64000000640000006400000064000000
+  SpotRangePerLevel: 64000000640000006400000064000000
   PreAttackTimePerLevel:
   - 2
   - 2

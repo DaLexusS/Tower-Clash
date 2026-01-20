@@ -36,4 +36,6 @@ MonoBehaviour:
   - 5
   SummonIcon: {fileID: 21300000, guid: 87529e0fd28c3774fa086315a42b1860, type: 3}
   SummonPrice: 10
-  Summon: {fileID: 3486253761952614632, guid: 928245a8064780a4e8fcadd52e3d1442, type: 3}
+  Summon: {fileID: 9042755813955597102, guid: 37ed5dcd30f0eb94691ff8fc515907c4, type: 3}
+  EnemySideSummon: {fileID: 5357247397536817788, guid: edf0ce5bf23a6e741be588770c9775bf, type: 3}
+  SummonPreSummonPrefab: {fileID: 5940291366536876981, guid: 08787865ddd041f419cb67e259a41911, type: 3}

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class Summon_Shotgun : SummonBase
@@ -14,11 +13,26 @@ public class Summon_Shotgun : SummonBase
 
         if (shotgunMultiplier > 1f)
         {
-            float distRatio = 1f - Mathf.Clamp01(GetDistanceToTarget() / summonStats.AttackRangePerLevel[Level]);
-            finalDamage = Mathf.RoundToInt(finalDamage * Mathf.Lerp(1f, shotgunMultiplier, distRatio));
+            float attackRange = summonStats.GetAttackRange(Level);
+
+            float distRatio =
+                1f - Mathf.Clamp01(GetDistanceToTarget() / attackRange);
+
+            finalDamage = Mathf.RoundToInt(
+                finalDamage * Mathf.Lerp(1f, shotgunMultiplier, distRatio)
+            );
         }
 
-        Bullet bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        bullet.InitBullet(currentTarget.transform, bulletSpeed, finalDamage);
+        Bullet bullet = Instantiate(
+            bulletPrefab,
+            transform.position,
+            Quaternion.identity
+        );
+
+        bullet.InitBullet(
+            currentTarget.transform,
+            bulletSpeed,
+            finalDamage
+        );
     }
 }

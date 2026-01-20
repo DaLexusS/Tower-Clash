@@ -282,7 +282,7 @@ MonoBehaviour:
           ButtonText: 
         Owner: {fileID: 5091331774990487042}
         DebugActive: 0
-        BoundSpriteRenderer: {fileID: 0}
+        BoundSpriteRenderer: {fileID: 7041415296761643513}
         Mode: 0
         Duration: 0.5
         StartsOff: 0
@@ -426,7 +426,7 @@ MonoBehaviour:
           ButtonText: 
         Owner: {fileID: 5091331774990487042}
         DebugActive: 0
-        BoundSpriteRenderer: {fileID: 0}
+        BoundSpriteRenderer: {fileID: 1466628394545503665}
         Mode: 0
         Duration: 0.5
         StartsOff: 0
@@ -570,7 +570,7 @@ MonoBehaviour:
           ButtonText: 
         Owner: {fileID: 5091331774990487042}
         DebugActive: 0
-        BoundSpriteRenderer: {fileID: 0}
+        BoundSpriteRenderer: {fileID: 5053815909633761174}
         Mode: 0
         Duration: 0.5
         StartsOff: 0
@@ -714,7 +714,7 @@ MonoBehaviour:
           ButtonText: 
         Owner: {fileID: 5091331774990487042}
         DebugActive: 0
-        BoundSpriteRenderer: {fileID: 0}
+        BoundSpriteRenderer: {fileID: 5958941303638686802}
         Mode: 0
         Duration: 0.5
         StartsOff: 0
@@ -858,7 +858,7 @@ MonoBehaviour:
           ButtonText: 
         Owner: {fileID: 5091331774990487042}
         DebugActive: 0
-        BoundSpriteRenderer: {fileID: 0}
+        BoundSpriteRenderer: {fileID: 6984678832145187326}
         Mode: 0
         Duration: 0.5
         StartsOff: 0
@@ -1002,7 +1002,7 @@ MonoBehaviour:
           ButtonText: 
         Owner: {fileID: 5091331774990487042}
         DebugActive: 0
-        BoundSpriteRenderer: {fileID: 0}
+        BoundSpriteRenderer: {fileID: 6167654719667972178}
         Mode: 0
         Duration: 0.5
         StartsOff: 0
@@ -1722,7 +1722,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3169113472720434340}
   - component: {fileID: 3341532622225977169}
-  - component: {fileID: -403440844841326516}
+  - component: {fileID: 9042755813955597102}
   - component: {fileID: 7410035921521872664}
   - component: {fileID: 8105513975339980311}
   m_Layer: 0
@@ -1779,7 +1779,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &-403440844841326516
+--- !u!114 &9042755813955597102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1788,19 +1788,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 9061980688468620666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 224906e1e16480749b31d9fa97ffb394, type: 3}
+  m_Script: {fileID: 11500000, guid: affd08c76b0e19e40b0be4841ea47f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonStats: {fileID: 11400000, guid: 9262e541eadd50a45bc2a0acdfb66649, type: 2}
+  summonStats: {fileID: 11400000, guid: cd4a64bb28265744181a23359ad478f1, type: 2}
   healthBarUi: {fileID: 7410035921521872664}
-  spriteVisual: {fileID: 0}
-  animator: {fileID: 0}
+  spriteVisual: {fileID: 918636987699841023}
+  animator: {fileID: 1051542891488052400}
   rb: {fileID: 3341532622225977169}
   <IsEnemy>k__BackingField: 0
   attackRandomOffset: 0.05
   bulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
-  bulletSpeed: 4
-  shotgunMultiplier: 3
+  bulletSpeed: 5
+  shotgunMultiplier: 1
 --- !u!114 &7410035921521872664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1827,8 +1827,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeathFeedback: {fileID: 5091331774990487042}
-  summon: {fileID: -403440844841326516}
-  animator: {fileID: 0}
+  summon: {fileID: 9042755813955597102}
+  animator: {fileID: 1051542891488052400}
 --- !u!1001 &7246291688706815925
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1889,6 +1889,36 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1051542891488052400}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: d816f1effb161464cb365853e6ee7f94, type: 3}
+--- !u!212 &1466628394545503665 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8130542299724573188, guid: d816f1effb161464cb365853e6ee7f94, type: 3}
+  m_PrefabInstance: {fileID: 7246291688706815925}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5053815909633761174 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: -6724651397162457053, guid: d816f1effb161464cb365853e6ee7f94, type: 3}
+  m_PrefabInstance: {fileID: 7246291688706815925}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5958941303638686802 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: -5314926582732338201, guid: d816f1effb161464cb365853e6ee7f94, type: 3}
+  m_PrefabInstance: {fileID: 7246291688706815925}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6167654719667972178 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: -5685769585271365657, guid: d816f1effb161464cb365853e6ee7f94, type: 3}
+  m_PrefabInstance: {fileID: 7246291688706815925}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6984678832145187326 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: -8907715984764668341, guid: d816f1effb161464cb365853e6ee7f94, type: 3}
+  m_PrefabInstance: {fileID: 7246291688706815925}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &7041415296761643513 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 376013195074532940, guid: d816f1effb161464cb365853e6ee7f94, type: 3}
+  m_PrefabInstance: {fileID: 7246291688706815925}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7163028233915635208 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: d816f1effb161464cb365853e6ee7f94, type: 3}

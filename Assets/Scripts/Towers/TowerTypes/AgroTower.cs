@@ -6,10 +6,9 @@ public class AgroTower : ProjectileTower
     [SerializeField] Bullet BulletPrefab;
     [SerializeField] TowerStats towerStats;
     [SerializeField] Renderer minionSpawnBounds;
-
+    [SerializeField] float bulletSpeed = 4f;
     [SerializeField] float timeBetweenShots = 0.1f;
     [SerializeField] int shotsAmount = 3;
-    [SerializeField] float bulletSpeed = 4f;
 
     private Coroutine fireCoroutine;
 

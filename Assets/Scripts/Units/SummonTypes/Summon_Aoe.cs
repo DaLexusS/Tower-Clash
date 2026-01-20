@@ -7,9 +7,7 @@ public class Summon_Aoe : SummonBase
     [SerializeField] private BombEffect bomb;
     [SerializeField] public Vector3 attackOffSet;
 
-    //Since it's a bomber maybe it should use animation event when bomb thrown
-
-
+    // Since it's a bomber maybe it should use animation event when bomb thrown
     public override IEnumerator AttackRoutine()
     {
         isAttacking = true;
@@ -34,17 +32,20 @@ public class Summon_Aoe : SummonBase
             SetState(SummonState.Idle);
         }
     }
+
     public override void DoAttack()
     {
-        float radius = summonStats.AttackRangePerLevel[Level];
+        float radius = summonStats.GetAttackRange(Level);
         int damageValue = summonStats.DamagePerLevel[Level];
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position + attackOffSet, radius);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position + attackOffSet,
+            radius
+        );
 
         if (bomb != null)
         {
             BombEffect bombClone = Instantiate(bomb, transform.position, Quaternion.identity);
-
             bombClone.Explode(2f);
         }
 
@@ -60,7 +61,5 @@ public class Summon_Aoe : SummonBase
                 }
             }
         }
-
-        
     }
 }
