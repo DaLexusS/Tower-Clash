@@ -2497,8 +2497,8 @@ MonoBehaviour:
   BulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
   towerStats: {fileID: 11400000, guid: 573fbc64c727e084ca8267212637a5e0, type: 2}
   minionSpawnBounds: {fileID: 1797804846689096834}
-  bulletSpeed: 4
-  timeBetweenShots: 0.5
+  bulletSpeed: 7
+  timeBetweenShots: 0.1
   shotsAmount: 3
 --- !u!114 &4613578245372031678
 MonoBehaviour:
