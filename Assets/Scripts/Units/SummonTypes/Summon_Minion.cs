@@ -1,9 +1,15 @@
 using UnityEngine;
+
 public class Summon_Minion : SummonBase
 {
-    public override void DoAttack()
+    protected override void DoAttack()
     {
+        if (!IsAlive || currentTarget == null) return;
+
         IDamageable victim = currentTarget.GetComponent<IDamageable>();
-        victim?.TakeDamage(summonStats.DamagePerLevel[Level]);
+        if (victim != null)
+        {
+            victim.TakeDamage(summonStats.DamagePerLevel[Level]);
+        }
     }
 }

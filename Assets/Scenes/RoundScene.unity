@@ -3367,13 +3367,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minionManager: {fileID: 795601067}
   playerTowerList:
-  - {fileID: 5240556486531005110, guid: 1f61c9dfcefc8734ebd10a8ee5e6630a, type: 3}
   - {fileID: 7372341375320925419, guid: 6e084945ab024db478fc53380692ec2f, type: 3}
-  - {fileID: 1561973050921926086, guid: d5426a3eabd008147b8e669122094aac, type: 3}
+  - {fileID: 7372341375320925419, guid: 6e084945ab024db478fc53380692ec2f, type: 3}
+  - {fileID: 7372341375320925419, guid: 6e084945ab024db478fc53380692ec2f, type: 3}
   enemyTowerList:
-  - {fileID: 4319663172342580823, guid: f5a8b515dc5e9d64b88067bcd0d2fa22, type: 3}
-  - {fileID: 4319663172342580823, guid: f5a8b515dc5e9d64b88067bcd0d2fa22, type: 3}
-  - {fileID: 4319663172342580823, guid: f5a8b515dc5e9d64b88067bcd0d2fa22, type: 3}
+  - {fileID: 2863598826056464696, guid: adcf4fe9d07cfd040970c9455e7c28c3, type: 3}
+  - {fileID: 2863598826056464696, guid: adcf4fe9d07cfd040970c9455e7c28c3, type: 3}
+  - {fileID: 2863598826056464696, guid: adcf4fe9d07cfd040970c9455e7c28c3, type: 3}
   enemyMinionParent: {fileID: 243891997}
   playerMinionParent: {fileID: 1392854926}
   Lanes:
