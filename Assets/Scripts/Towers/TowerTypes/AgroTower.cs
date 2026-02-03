@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AgroTower : ProjectileTower
@@ -9,6 +10,8 @@ public class AgroTower : ProjectileTower
     [SerializeField] float bulletSpeed = 4f;
     [SerializeField] float timeBetweenShots = 0.1f;
     [SerializeField] int shotsAmount = 3;
+
+    [SerializeField] List<Transform> shotPoints;
 
     private Coroutine fireCoroutine;
 
@@ -49,8 +52,8 @@ public class AgroTower : ProjectileTower
         for (int i = 0; i < shotsAmount; i++)
         {
             GameObject enemy = CheckForEnemyInRange();
-            Bullet bulletInstance = Instantiate(BulletPrefab, transform.position, Quaternion.identity, ProjectileParent.transform);
-
+            //Bullet bulletInstance = Instantiate(BulletPrefab, transform.position, Quaternion.identity, ProjectileParent.transform);
+            Bullet bulletInstance = Instantiate(BulletPrefab, shotPoints[i].position, Quaternion.identity, ProjectileParent.transform);
             if (enemy != null)
 
                 bulletInstance.InitBullet(enemy.transform, bulletSpeed, towerStats.DamagePerLevel[Level]);
