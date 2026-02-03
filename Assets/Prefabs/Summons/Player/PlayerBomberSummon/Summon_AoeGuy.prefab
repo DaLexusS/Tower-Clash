@@ -2282,6 +2282,7 @@ MonoBehaviour:
   animator: {fileID: 1849011346356668432}
   rb: {fileID: 3341532622225977169}
   <IsEnemy>k__BackingField: 0
+  attackRandomOffset: 0.05
   bomb: {fileID: 8992570734603394148, guid: 6e04d6ab4f077b4489c4a1a2b08c23c7, type: 3}
   attackOffSet: {x: 0, y: 1, z: 0}
 --- !u!114 &-3866205678661330028
@@ -2335,6 +2336,10 @@ PrefabInstance:
     - target: {fileID: 442907092464650958, guid: 43011aa5fdd04f44d8ee7b0ba73fe4cb, type: 3}
       propertyPath: looping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 442907092464650958, guid: 43011aa5fdd04f44d8ee7b0ba73fe4cb, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 442907092464650959, guid: 43011aa5fdd04f44d8ee7b0ba73fe4cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2450,6 +2455,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 9bbaa5c7fe5fe3843b3c29dcaa16b26d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1849011346356668432}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 9bbaa5c7fe5fe3843b3c29dcaa16b26d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2757606060234873901}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 9bbaa5c7fe5fe3843b3c29dcaa16b26d, type: 3}
 --- !u!212 &202918597849992748 stripped
 SpriteRenderer:
@@ -2482,6 +2490,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2757606060234873901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627870063686617137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de304339e11e67549a5a00ae0ee33801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  summon: {fileID: 5427842484906125892}
 --- !u!212 &703760704941404284 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 474330420789582320, guid: 9bbaa5c7fe5fe3843b3c29dcaa16b26d, type: 3}

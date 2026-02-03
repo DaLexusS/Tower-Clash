@@ -10,15 +10,11 @@ public class BombEffect : MonoBehaviour
     {
         if (bombEffect != null)
         {
+            bombEffect.StopFeedbacks();
+            bombEffect.InitialDelay = 0f;
             bombEffect.PlayFeedbacks();
         }
 
-        StartCoroutine(DestroyRoutine(lifeTime));
-    }
-
-    private IEnumerator DestroyRoutine(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
+        Destroy(gameObject, lifeTime);
     }
 }

@@ -1796,6 +1796,8 @@ MonoBehaviour:
   spriteVisual: {fileID: 0}
   animator: {fileID: 395007591871770520}
   rb: {fileID: 3341532622225977169}
+  <IsEnemy>k__BackingField: 0
+  attackRandomOffset: 0.05
   bulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
   bulletSpeed: 4
   shotgunMultiplier: 3
@@ -1886,6 +1888,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 3ca0e672f47153a4393e637eb7922021, type: 3}
       insertIndex: -1
       addedObject: {fileID: 395007591871770520}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 3ca0e672f47153a4393e637eb7922021, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6215647861014462812}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 3ca0e672f47153a4393e637eb7922021, type: 3}
 --- !u!212 &69445486753248059 stripped
 SpriteRenderer:
@@ -1938,6 +1943,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6215647861014462812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7289516067862654694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de304339e11e67549a5a00ae0ee33801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  summon: {fileID: -403440844841326516}
 --- !u!212 &7450501655172447398 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: -8814916497514597379, guid: 3ca0e672f47153a4393e637eb7922021, type: 3}
