@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using static EnumLists;
 
 public abstract class BaseTower : MonoBehaviour
@@ -23,6 +24,8 @@ public abstract class BaseTower : MonoBehaviour
     public Renderer MinionSpawnBounds { get; protected set; }
     public Sprite SummonIcon { get; protected set; }
     public int SummonPrice { get; protected set; }
+
+    public UnityEvent<int> OnUpgraded;
 
     public TowerType TowerTypeCheck;
     public TowerStats Config { get; protected set; }
@@ -50,6 +53,8 @@ public abstract class BaseTower : MonoBehaviour
 
         Level++;
         healthManager.UpgradeHealth(Health[Level]);
+
+        OnUpgraded.Invoke(Level);
     }
 
     public void Init(GameObject lane, GameObject projectileParent, GameObject unitFolder, GameObject playerUnitFolder, GameObject targetBase, GameObject targetTower)
