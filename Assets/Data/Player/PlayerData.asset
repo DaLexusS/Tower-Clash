@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36192e559fd24fe40ba5daf2fe631fa0, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  Coins: 1000
+  Coins: 15
   Level: 1
   Rating: 1
