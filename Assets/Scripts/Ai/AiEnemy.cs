@@ -11,6 +11,8 @@ public class AiEnemy : MonoBehaviour
     [SerializeField] int decideChance = 50;
     [SerializeField] int summonOrUpgradeChance = 50;
 
+    //TODO serlizedfield + first dicisiton delay time
+
     private List<BaseTower> Towers;
 
     public int AiMoney = 15;
