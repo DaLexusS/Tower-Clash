@@ -24,4 +24,6 @@ public class TowerStats : ScriptableObject
     [SerializeField] public SummonBase Summon;
     [SerializeField] public SummonBase EnemySideSummon;
     [SerializeField] public GameObject SummonPreSummonPrefab;
+
+    [SerializeField] public int SummonCooldown;
 }

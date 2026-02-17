@@ -623,7 +623,7 @@ MonoBehaviour:
           ButtonText: 
         Owner: {fileID: 4283141134635035144}
         DebugActive: 0
-        AnimatePositionTarget: {fileID: 0}
+        AnimatePositionTarget: {fileID: 4805018544481318969}
         Mode: 0
         Space: 1
         RandomizeRemap: 0
@@ -1519,12 +1519,17 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8781068081327696723, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
   m_PrefabInstance: {fileID: 7818691428564316848}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 4805018544481318969}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4805018544481318969 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3327958388621347465, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
+  m_PrefabInstance: {fileID: 7818691428564316848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4955846369494769100 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2902330720914681724, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}

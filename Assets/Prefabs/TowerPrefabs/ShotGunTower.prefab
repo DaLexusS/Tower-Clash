@@ -228,7 +228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8224758845271665549}
-  - component: {fileID: 3183276110116627902}
+  - component: {fileID: 4094997486922569922}
   m_Layer: 0
   m_Name: UpgradeVisual
   m_TagString: Untagged
@@ -251,7 +251,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3781805007809060690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3183276110116627902
+--- !u!114 &4094997486922569922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -734,7 +734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 5240556486531005110}
   towerVisual: {fileID: 5762262334250265278}
-  upgradeFeedback: {fileID: 3183276110116627902}
+  upgradeFeedback: {fileID: 5878838806068351677}
   TowerStatesVisuals:
   - {fileID: 21300000, guid: bfa6a8ebef14baa44972bb633a01f37c, type: 3}
   - {fileID: 21300000, guid: d368decc249e6f74e8cf7f2669f723c2, type: 3}
@@ -1255,7 +1255,7 @@ MonoBehaviour:
           ButtonText: 
         Owner: {fileID: 5878838806068351677}
         DebugActive: 0
-        AnimatePositionTarget: {fileID: 0}
+        AnimatePositionTarget: {fileID: 3808762794064666692}
         Mode: 0
         Space: 1
         RandomizeRemap: 0
@@ -1727,12 +1727,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2902330720914681724, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
   m_PrefabInstance: {fileID: 1942240086376344269}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3808762794064666692 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3327958388621347465, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
+  m_PrefabInstance: {fileID: 1942240086376344269}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7145145475924132254 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8781068081327696723, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
   m_PrefabInstance: {fileID: 1942240086376344269}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3808762794064666692}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}

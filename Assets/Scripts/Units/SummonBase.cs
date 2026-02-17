@@ -136,7 +136,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
     {
         if (CurrentState == newState) return;
         CurrentState = newState;
-        animator.Play(newState.ToString());
+        //animator.Play(newState.ToString());
         OnStateChanged?.Invoke(this, newState);
     }
 
@@ -251,7 +251,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(int amount)
     {
-        SetState(SummonState.Hit);
+       // SetState(SummonState.Hit);
         Health -= amount;
         healthBarUi?.UpdateHealth(Health);
         if (Health <= 0) Die();

@@ -70,10 +70,10 @@ public class AiEnemy : MonoBehaviour
             return;
         }
 
-        int randomIndex = Random.Range(0, Towers.Count - 1);
-        int randomPointIndex = Random.Range(0, Towers.Count - 1);
+        int randomIndex = Random.Range(0, Towers.Count);
+        int randomPointIndex = Random.Range(0, Towers.Count);
         BaseTower chosenTower = Towers[randomIndex];
-        BaseTower chosenTowerPoint = Towers[randomIndex];
+        BaseTower chosenTowerPoint = Towers[randomPointIndex];
 
         if (AiMoney < chosenTower.SummonPrice) { return; }
 
