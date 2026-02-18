@@ -64,6 +64,12 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
             return;
         }
 
+        if (isAttacking && currentTarget == null)
+        {
+            isAttacking = false;
+            SetState(SummonState.Idle);
+        }
+
         FindTarget();
         HandleMovement();
     }
@@ -122,13 +128,30 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         yield return new WaitForSeconds(summonStats.PreAttackTimePerLevel[Level]);
 
-        if (IsAlive)
+        if (!IsAlive)
         {
-            lastAttackTime = Time.time + summonStats.AttackCooldownPerLevel[Level];
+            isAttacking = false;
+            yield break;
         }
 
-        // Do NOT set isAttacking = false here
-        // AnimEvent_AttackFinished() will handle resetting isAttacking
+        // SAFETY: If target disappeared, cancel attack
+        if (currentTarget == null)
+        {
+            isAttacking = false;
+            SetState(SummonState.Idle);
+            yield break;
+        }
+
+        lastAttackTime = Time.time + summonStats.AttackCooldownPerLevel[Level];
+
+        // SAFETY FALLBACK — auto reset after small delay
+        yield return new WaitForSeconds(0.1f);
+
+        if (isAttacking)
+        {
+            isAttacking = false;
+            SetState(SummonState.Idle);
+        }
     }
 
 

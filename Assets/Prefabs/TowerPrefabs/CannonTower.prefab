@@ -541,7 +541,7 @@ MonoBehaviour:
         m_Calls: []
   DebugActive: 0
   FeedbacksList:
-  - rid: 9037035081667444751
+  - rid: 293538142232248321
   KeepPlayModeChanges: 0
   PerformanceMode: 0
   StopFeedbacksOnDisable: 0
@@ -549,11 +549,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 9037035081667444751
+    - rid: 293538142232248321
       type: {class: MMF_Position, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
         Active: 1
-        UniqueID: -1297268739
+        UniqueID: -1668266879
         Label: Position
         ChannelMode: 0
         Channel: 0
@@ -624,13 +624,13 @@ MonoBehaviour:
         Owner: {fileID: 4283141134635035144}
         DebugActive: 0
         AnimatePositionTarget: {fileID: 4805018544481318969}
-        Mode: 0
+        Mode: 1
         Space: 1
         RandomizeRemap: 0
         AnimatePositionDuration: 1
         AnimatePositionTween:
-          MMTweenDefinitionType: 1
-          MMTweenCurve: 4
+          MMTweenDefinitionType: 0
+          MMTweenCurve: 12
           Curve:
             serializedVersion: 2
             m_Curve:
@@ -667,7 +667,7 @@ MonoBehaviour:
           Initialized: 0
         RemapCurveZero: 0
         RemapCurveZeroAlt: 0
-        RemapCurveOne: 1
+        RemapCurveOne: 0.5
         RemapCurveOneAlt: 1
         AnimateX: 0
         AnimatePositionTweenX:
@@ -716,7 +716,7 @@ MonoBehaviour:
             m_PostInfinity: 2
             m_RotationOrder: 4
           Initialized: 0
-        AnimateY: 0
+        AnimateY: 1
         AnimatePositionTweenY:
           MMTweenDefinitionType: 1
           MMTweenCurve: 4
@@ -1196,7 +1196,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 12
   m_TargetDisplay: 0
 --- !u!114 &1992735710490166206
 MonoBehaviour:
