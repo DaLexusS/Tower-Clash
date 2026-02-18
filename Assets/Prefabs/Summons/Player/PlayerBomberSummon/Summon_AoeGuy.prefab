@@ -2410,6 +2410,10 @@ PrefabInstance:
       value: VisualAnimated
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 9bbaa5c7fe5fe3843b3c29dcaa16b26d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 9bbaa5c7fe5fe3843b3c29dcaa16b26d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
