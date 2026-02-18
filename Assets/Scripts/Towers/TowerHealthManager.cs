@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class TowerHealthManager : MonoBehaviour, IDamageable
 {
     public static UnityAction<BaseTower> onTowerDied;
+    public UnityEvent onTowerDiedEvent;
     [SerializeField] public TowerStats TowerStats;
     [SerializeField] public BaseTower Tower;
     [SerializeField] public GameObject hitPoint;
@@ -51,5 +52,7 @@ public class TowerHealthManager : MonoBehaviour, IDamageable
         towerVisual.SetActive(false);
         towerCollider.SetActive(false);
         StatCanvas.SetActive(false);
+
+        onTowerDiedEvent.Invoke();
     }
 }

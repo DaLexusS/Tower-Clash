@@ -896,6 +896,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7108ada0dd097ea4397edb7d82608d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onTowerDiedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   TowerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
   Tower: {fileID: 7372341375320925419}
   hitPoint: {fileID: 2924080253024909136}
@@ -927,6 +930,7 @@ MonoBehaviour:
   EnemyFolder: {fileID: 0}
   PlayerFolder: {fileID: 0}
   Lane: {fileID: 0}
+  UiPart: {fileID: 8866713421624840180}
   lastShotTime: -Infinity
   towerStats: {fileID: 11400000, guid: 80a2f22b82493784f8a66c00e42ea1d9, type: 2}
   minionSpawnBounds: {fileID: 1797804846689096834}
@@ -1567,3 +1571,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8866713421624840180 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1697142981927419204, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
+  m_PrefabInstance: {fileID: 7818691428564316848}
+  m_PrefabAsset: {fileID: 0}

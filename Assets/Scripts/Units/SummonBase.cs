@@ -35,10 +35,11 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     [SerializeField] private float attackRandomOffset = 0.05f;
     private float attackStartOffset;
+    protected bool attackTriggered = false;
 
     private int attackId = 0;
     private int activeAttackId = -1;
-
+    private bool attackStateSet = false;
     public virtual void Init(BaseTower towerData)
     {
         Level = towerData.Level;
@@ -88,11 +89,13 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     public virtual void AnimEvent_DoAttack()
     {
-        if (!IsAlive) return;
-        if (!isAttacking) return;
-        if (activeAttackId != attackId) return;
+        if (!IsAlive || !isAttacking || activeAttackId != attackId) return;
 
-        DoAttack();
+        if (!attackTriggered)
+        {
+            attackTriggered = true;
+            DoAttack();
+        }
     }
 
     public virtual void AnimEvent_AttackFinished()
@@ -101,6 +104,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         if (!isAttacking) return;
 
         isAttacking = false;
+        attackTriggered = false; // unlock for next attack
         SetState(SummonState.Idle);
         FindTarget();
     }
@@ -111,8 +115,9 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
         float dist = GetDistanceToTarget();
 
-        if (dist <= summonStats.GetAttackRange(Level) &&
-            Time.time >= lastAttackTime + attackStartOffset)
+        // Attack only if within range AND cooldown passed
+        if ((dist <= summonStats.GetAttackRange(Level) || dist < 0.05f) &&
+            Time.time >= lastAttackTime)
         {
             StartCoroutine(AttackRoutine());
         }
@@ -120,40 +125,20 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     public virtual IEnumerator AttackRoutine()
     {
+        if (isAttacking) yield break; // prevent multiple coroutines
+
         isAttacking = true;
+        attackTriggered = false;  // reset for this attack
         attackId++;
         activeAttackId = attackId;
         rb.velocity = Vector2.zero;
+
         SetState(SummonState.Attacking);
-
-        yield return new WaitForSeconds(summonStats.PreAttackTimePerLevel[Level]);
-
-        if (!IsAlive)
-        {
-            isAttacking = false;
-            yield break;
-        }
-
-        // SAFETY: If target disappeared, cancel attack
-        if (currentTarget == null)
-        {
-            isAttacking = false;
-            SetState(SummonState.Idle);
-            yield break;
-        }
 
         lastAttackTime = Time.time + summonStats.AttackCooldownPerLevel[Level];
 
-        // SAFETY FALLBACK — auto reset after small delay
-        yield return new WaitForSeconds(0.1f);
-
-        if (isAttacking)
-        {
-            isAttacking = false;
-            SetState(SummonState.Idle);
-        }
+        yield return new WaitForSeconds(summonStats.PreAttackTimePerLevel[Level]);
     }
-
 
     protected void SetState(SummonState newState)
     {
@@ -179,7 +164,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         if (isAttacking)
         {
             rb.velocity = Vector2.zero;
-            return;
+            return; // do not change animator state while attacking
         }
 
         if (currentTarget == null)
@@ -190,19 +175,19 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         }
 
         Vector3 targetPos = GetClosestPoint(currentTarget);
-        Vector2 direction = (targetPos - transform.position).normalized;
-        float dist = Vector2.Distance(transform.position, targetPos);
+        Vector2 direction = (targetPos - transform.position);
+        float dist = direction.magnitude;
 
-        if (dist > summonStats.GetAttackRange(Level))
-        {
-            rb.velocity = direction * summonStats.GetWalkSpeed(Level);
-            SetState(SummonState.Moving);
-        }
-        else
+        if (dist <= summonStats.GetAttackRange(Level) || dist < 0.05f)
         {
             rb.velocity = Vector2.zero;
             SetState(SummonState.Idle);
+            return;
         }
+
+        direction.Normalize();
+        rb.velocity = direction * summonStats.GetWalkSpeed(Level);
+        SetState(SummonState.Moving);
     }
 
     protected void FindTarget()
@@ -210,22 +195,27 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         if (isAttacking) return;
 
         SummonBase closestEnemy = FindClosestEnemyInLane();
-        if (closestEnemy != null)
+
+        if (closestEnemy != null && Vector2.Distance(transform.position, closestEnemy.transform.position) < summonStats.GetSpotRange(Level))
         {
             currentTarget = closestEnemy.gameObject;
+            return;
         }
-        else if (enemyTowerHealth != null && enemyTowerHealth.isAlive)
+
+        if (enemyTowerHealth != null && enemyTowerHealth.isAlive)
         {
+            float dist = Vector2.Distance(transform.position, enemyTowerHealth.transform.position);
             currentTarget = enemyTowerHealth.gameObject;
+            return;
         }
-        else if (enemyBaseHealth != null && enemyBaseHealth.isAlive)
+
+        if (enemyBaseHealth != null && enemyBaseHealth.isAlive)
         {
             currentTarget = enemyBaseHealth.gameObject;
+            return;
         }
-        else
-        {
-            currentTarget = null;
-        }
+
+        currentTarget = null;
     }
 
     private SummonBase FindClosestEnemyInLane()
@@ -248,7 +238,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
         return closest;
     }
 
-    protected bool IsOpponent(GameObject target)
+    public bool IsOpponent(GameObject target)
     {
         if (target == null || target == gameObject) return false;
 

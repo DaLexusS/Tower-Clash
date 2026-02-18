@@ -36,6 +36,8 @@ public abstract class BaseTower : MonoBehaviour
     [SerializeField] public GameObject PlayerFolder;
     [SerializeField] public GameObject Lane;
 
+    [SerializeField] public GameObject UiPart;
+
     public float lastShotTime = -Mathf.Infinity;
 
     public void KillTower()
@@ -65,10 +67,18 @@ public abstract class BaseTower : MonoBehaviour
         ProjectileParent = projectileParent;
         TargetTower = targetTower;
         TargetBase = targetBase;
+
+        healthManager.onTowerDiedEvent.AddListener(DisableAllUi);
     }
     public bool CanAttack()
     {
         return Time.time >= lastShotTime + FireRate[Level];
+    }
+
+    private void DisableAllUi()
+    {
+        if (UiPart == null) { return; }
+        UiPart.SetActive(false);
     }
 
     protected bool IsTargetEnemy(SummonBase summon)
