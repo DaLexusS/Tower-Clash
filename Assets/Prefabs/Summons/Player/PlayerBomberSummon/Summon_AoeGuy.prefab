@@ -2283,8 +2283,9 @@ MonoBehaviour:
   rb: {fileID: 3341532622225977169}
   <IsEnemy>k__BackingField: 0
   attackRandomOffset: 0.05
-  bomb: {fileID: 8992570734603394148, guid: 6e04d6ab4f077b4489c4a1a2b08c23c7, type: 3}
-  attackOffSet: {x: 0, y: 1, z: 0}
+  bomb: {fileID: 3788258967947165365, guid: ccd5ebd3bd5f31648ba2a9d2a5b8440f, type: 3}
+  throwPoint: {fileID: 7234943282914543959}
+  fakeBombSprite: {fileID: 8577815938061405829}
 --- !u!114 &-3866205678661330028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2526,6 +2527,11 @@ SpriteRenderer:
 --- !u!212 &6796348605599572902 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5836683450471533098, guid: 9bbaa5c7fe5fe3843b3c29dcaa16b26d, type: 3}
+  m_PrefabInstance: {fileID: 1103781721938733452}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7234943282914543959 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1497792992054714149, guid: 9bbaa5c7fe5fe3843b3c29dcaa16b26d, type: 3}
   m_PrefabInstance: {fileID: 1103781721938733452}
   m_PrefabAsset: {fileID: 0}
 --- !u!212 &7816504488766596532 stripped

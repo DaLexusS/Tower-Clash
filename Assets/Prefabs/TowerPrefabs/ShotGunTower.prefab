@@ -228,7 +228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8224758845271665549}
-  - component: {fileID: 3183276110116627902}
+  - component: {fileID: 4094997486922569922}
   m_Layer: 0
   m_Name: UpgradeVisual
   m_TagString: Untagged
@@ -251,7 +251,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3781805007809060690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3183276110116627902
+--- !u!114 &4094997486922569922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -605,6 +605,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7108ada0dd097ea4397edb7d82608d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onTowerDiedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   TowerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
   Tower: {fileID: 5240556486531005110}
   hitPoint: {fileID: 2924080253024909136}
@@ -636,6 +639,7 @@ MonoBehaviour:
   EnemyFolder: {fileID: 0}
   PlayerFolder: {fileID: 0}
   Lane: {fileID: 0}
+  UiPart: {fileID: 970894733258315657}
   lastShotTime: -Infinity
   BulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
   towerStats: {fileID: 11400000, guid: cf10ea6365d31b84fb1b6a24d3033414, type: 2}
@@ -734,7 +738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 5240556486531005110}
   towerVisual: {fileID: 5762262334250265278}
-  upgradeFeedback: {fileID: 3183276110116627902}
+  upgradeFeedback: {fileID: 5878838806068351677}
   TowerStatesVisuals:
   - {fileID: 21300000, guid: bfa6a8ebef14baa44972bb633a01f37c, type: 3}
   - {fileID: 21300000, guid: d368decc249e6f74e8cf7f2669f723c2, type: 3}
@@ -925,7 +929,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 12
   m_TargetDisplay: 0
 --- !u!114 &1992735710490166206
 MonoBehaviour:
@@ -1255,14 +1259,14 @@ MonoBehaviour:
           ButtonText: 
         Owner: {fileID: 5878838806068351677}
         DebugActive: 0
-        AnimatePositionTarget: {fileID: 0}
-        Mode: 0
+        AnimatePositionTarget: {fileID: 3808762794064666692}
+        Mode: 1
         Space: 1
         RandomizeRemap: 0
         AnimatePositionDuration: 1
         AnimatePositionTween:
-          MMTweenDefinitionType: 1
-          MMTweenCurve: 4
+          MMTweenDefinitionType: 0
+          MMTweenCurve: 12
           Curve:
             serializedVersion: 2
             m_Curve:
@@ -1299,7 +1303,7 @@ MonoBehaviour:
           Initialized: 0
         RemapCurveZero: 0
         RemapCurveZeroAlt: 0
-        RemapCurveOne: 1
+        RemapCurveOne: 0.5
         RemapCurveOneAlt: 1
         AnimateX: 0
         AnimatePositionTweenX:
@@ -1348,7 +1352,7 @@ MonoBehaviour:
             m_PostInfinity: 2
             m_RotationOrder: 4
           Initialized: 0
-        AnimateY: 0
+        AnimateY: 1
         AnimatePositionTweenY:
           MMTweenDefinitionType: 1
           MMTweenCurve: 4
@@ -1701,6 +1705,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &970894733258315657 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1697142981927419204, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
+  m_PrefabInstance: {fileID: 1942240086376344269}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1668017539041862859 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 995792549740957190, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
@@ -1727,12 +1736,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2902330720914681724, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
   m_PrefabInstance: {fileID: 1942240086376344269}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3808762794064666692 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3327958388621347465, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
+  m_PrefabInstance: {fileID: 1942240086376344269}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7145145475924132254 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8781068081327696723, guid: 85010264efba7d941b3868ef5e5048c5, type: 3}
   m_PrefabInstance: {fileID: 1942240086376344269}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3808762794064666692}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}

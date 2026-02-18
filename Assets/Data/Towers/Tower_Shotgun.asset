@@ -39,3 +39,4 @@ MonoBehaviour:
   Summon: {fileID: -403440844841326516, guid: 57024b55e95385044bacebb8b0f1bf77, type: 3}
   EnemySideSummon: {fileID: -403440844841326516, guid: 5cb3ac0afbd83694dbbbc06e13dddfa9, type: 3}
   SummonPreSummonPrefab: {fileID: 4968560041268380359, guid: 27d431af68818ac40b600ba90dfb7bda, type: 3}
+  SummonCooldown: 1

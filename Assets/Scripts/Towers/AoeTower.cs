@@ -14,18 +14,20 @@ public class AoeTower : BaseTower
 
     public virtual List<SummonBase> CheckForEnemiesInRange()
     {
-        if (!EnemyFolder || !IsValidLevel(Range)) return null;
+        List<SummonBase> targetsInRange = new List<SummonBase>();
+
+        if (!EnemyFolder || !IsValidLevel(Range))
+            return targetsInRange;
 
         Vector2 center = (Vector2)transform.position + (Vector2)transform.up * aoeDistanceFromTower;
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(center, aoeBoxSize, 0f);
 
-        List<SummonBase> targetsInRange = new List<SummonBase>();
-
         foreach (var hit in hits)
         {
-            SummonBase summon = hit.transform.parent.GetComponent<SummonBase>();
-            if (summon != null && summon.IsAlive && summon.Lane == Lane && summon.IsEnemy)
+            SummonBase summon = hit.GetComponentInParent<SummonBase>();
+
+            if (summon != null && summon.IsAlive && summon.Lane == Lane)
             {
                 targetsInRange.Add(summon);
             }

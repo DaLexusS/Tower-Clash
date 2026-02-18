@@ -12,7 +12,6 @@ public class EnumLists
         Idle,
         Moving,
         Attacking,
-        Hit,
         Died
     }
 }

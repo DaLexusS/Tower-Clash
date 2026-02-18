@@ -38,12 +38,12 @@ public class SummonAnimationController : MonoBehaviour
                 animator.Play("Attack");
                 break;
 
-            case SummonState.Hit:
-                animator.SetTrigger("Hit");
-                break;
+            //case SummonState.Hit:
+                //animator.SetTrigger("Hit");
+                //break;
 
             case SummonState.Died:
-                animator.Play("Death");
+                animator.Play("Died");
                 DeathFeedback.PlayFeedbacks();
                 break;
         }

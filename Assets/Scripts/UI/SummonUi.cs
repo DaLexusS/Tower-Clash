@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class SummonUi : MonoBehaviour
 {
     public static UnityAction<BaseTower, BaseTower> onSummonPressed;
+    public static UnityAction<BaseTower> onSummonSuccess;
 
     [SerializeField] public PlayerManager playerManager;
     [SerializeField] public List<SummonButtonHandler> SummonButtons;
@@ -22,6 +23,7 @@ public class SummonUi : MonoBehaviour
     {
         SummonButtonHandler.OnTrySummon += TrySummon;
     }
+
     private void OnDisable()
     {
         SummonButtonHandler.OnTrySummon -= TrySummon;
@@ -36,9 +38,7 @@ public class SummonUi : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             int capturedIndex = i;
-
             var tower = playerTowers[capturedIndex];
-
             SummonButtons[capturedIndex].Init(tower);
         }
     }
@@ -63,6 +63,8 @@ public class SummonUi : MonoBehaviour
         if (playerManager.TryBuy(summonTowerOwner.SummonPrice))
         {
             onSummonPressed?.Invoke(summonTowerOwner, laneTower);
+
+            onSummonSuccess?.Invoke(summonTowerOwner);
         }
     }
 }
