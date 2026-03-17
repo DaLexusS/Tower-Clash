@@ -6,8 +6,12 @@ public class RoundManager : MonoBehaviour
 {
     public bool firstGame = true;
 
+    public bool gamePaused = false;
+
     public static UnityAction OnLose;
     public static UnityAction OnWin;
+    public static UnityAction<bool> onPaused;
+
     public static RoundManager Instance { get; private set; }
     public static bool GameRunning { get; private set; } = true;
 
@@ -67,5 +71,31 @@ public class RoundManager : MonoBehaviour
     public void NotFirstTime()
     {
         firstGame = true;
+    }
+
+    public void PauseGame()
+    {
+        gamePaused = true;
+        onPaused?.Invoke(gamePaused);
+        Debug.Log("Game Paused");
+    }
+
+    public void UnPauseGame()
+    {
+        gamePaused = false;
+        onPaused?.Invoke(gamePaused);
+        Debug.Log("Game Unpaused");
+    }
+
+    private void Update()
+    {
+        // Debug input: Press "I" to toggle pause
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (gamePaused)
+                UnPauseGame();
+            else
+                PauseGame();
+        }
     }
 }

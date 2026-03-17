@@ -58,7 +58,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
-        if (!initialized || !IsAlive || !RoundManager.GameRunning)
+        if (!initialized || !IsAlive || !RoundManager.GameRunning || (RoundManager.Instance != null && RoundManager.Instance.gamePaused))
         {
             if (IsAlive) SetState(SummonState.Idle);
             rb.velocity = Vector2.zero;
@@ -77,7 +77,7 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     protected virtual void FixedUpdate()
     {
-        if (!initialized || !IsAlive || !RoundManager.GameRunning)
+        if (!initialized || !IsAlive || !RoundManager.GameRunning || (RoundManager.Instance != null && RoundManager.Instance.gamePaused))
         {
             if (IsAlive) SetState(SummonState.Idle);
             rb.velocity = Vector2.zero;
@@ -125,6 +125,8 @@ public abstract class SummonBase : MonoBehaviour, IDamageable
 
     public virtual IEnumerator AttackRoutine()
     {
+        if (!RoundManager.GameRunning || (RoundManager.Instance != null && RoundManager.Instance.gamePaused))
+            yield break;
         if (isAttacking) yield break; // prevent multiple coroutines
 
         isAttacking = true;

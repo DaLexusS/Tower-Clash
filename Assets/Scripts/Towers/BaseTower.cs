@@ -72,6 +72,9 @@ public abstract class BaseTower : MonoBehaviour
     }
     public bool CanAttack()
     {
+        if (!RoundManager.GameRunning || (RoundManager.Instance != null && RoundManager.Instance.gamePaused))
+            return false;
+
         return Time.time >= lastShotTime + FireRate[Level];
     }
 

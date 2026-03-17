@@ -66,6 +66,8 @@ public class TowerManager : MonoBehaviour
 
     private void Update()
     {
+        if (!RoundManager.GameRunning || (RoundManager.Instance != null && RoundManager.Instance.gamePaused))
+            return;
         if (!RoundManager.GameRunning)
             return;
 
