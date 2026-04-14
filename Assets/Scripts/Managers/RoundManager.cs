@@ -12,6 +12,8 @@ public class RoundManager : MonoBehaviour
     public static UnityAction OnWin;
     public static UnityAction<bool> onPaused;
 
+    public bool autoSpawnEnabled = true;
+
     public static RoundManager Instance { get; private set; }
     public static bool GameRunning { get; private set; } = true;
 

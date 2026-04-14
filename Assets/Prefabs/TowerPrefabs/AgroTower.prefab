@@ -1104,6 +1104,7 @@ GameObject:
   - component: {fileID: 4613578245372031678}
   - component: {fileID: -453137321434210188}
   - component: {fileID: 3322882312431936020}
+  - component: {fileID: 1825839981284916748}
   m_Layer: 0
   m_Name: AgroTower
   m_TagString: Untagged
@@ -1271,6 +1272,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.7, y: 3.11}
   m_EdgeRadius: 0
+--- !u!114 &1825839981284916748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5883188531073552203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c902b98c7fdf87c4d851957bacecff43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tower: {fileID: 1561973050921926086}
+  towerVisual: {fileID: 5762262334250265278}
+  upgradeFeedback: {fileID: 2327802966172829542}
+  TowerStatesVisuals:
+  - {fileID: 21300000, guid: 2de901aa7e8b8e440bc8f08b5050ca6f, type: 3}
+  - {fileID: 21300000, guid: 98e1b4b32845c1044a35c12ddad9d186, type: 3}
+  - {fileID: 21300000, guid: 15084ff4fa2e24f418ba3fc6c2960039, type: 3}
 --- !u!1 &7603637264669278746
 GameObject:
   m_ObjectHideFlags: 0

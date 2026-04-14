@@ -605,6 +605,7 @@ GameObject:
   - component: {fileID: 3653914084334590424}
   - component: {fileID: 4319663172342580823}
   - component: {fileID: 106811630202437468}
+  - component: {fileID: 8183200170024859571}
   m_Layer: 0
   m_Name: EnemyAgroTower
   m_TagString: Enemy
@@ -645,6 +646,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7108ada0dd097ea4397edb7d82608d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onTowerDiedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   TowerStats: {fileID: 11400000, guid: 573fbc64c727e084ca8267212637a5e0, type: 2}
   Tower: {fileID: 4319663172342580823}
   hitPoint: {fileID: 3937477362176418118}
@@ -682,10 +686,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthManager: {fileID: 4797469842480254441}
   spawnFormation: 2
+  OnUpgraded:
+    m_PersistentCalls:
+      m_Calls: []
   TowerTypeCheck: 1
   EnemyFolder: {fileID: 0}
   PlayerFolder: {fileID: 0}
   Lane: {fileID: 0}
+  UiPart: {fileID: 0}
   lastShotTime: -Infinity
   BulletPrefab: {fileID: 348168899230559103, guid: 881a00ed3c7434940a9f56c3145c7ed3, type: 3}
   towerStats: {fileID: 11400000, guid: 573fbc64c727e084ca8267212637a5e0, type: 2}
@@ -742,6 +750,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.7, y: 3.11}
   m_EdgeRadius: 0
+--- !u!114 &8183200170024859571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6851815984981708844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c902b98c7fdf87c4d851957bacecff43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tower: {fileID: 4319663172342580823}
+  towerVisual: {fileID: 1205999848662163232}
+  upgradeFeedback: {fileID: 0}
+  TowerStatesVisuals:
+  - {fileID: 21300000, guid: d76a4fca955a65e4eb0e6f1282c3800b, type: 3}
+  - {fileID: 21300000, guid: bde03df23e7f13749871b0794f2d9b16, type: 3}
+  - {fileID: 21300000, guid: cd28fa82bba75764f9a3b8a1b26e938f, type: 3}
 --- !u!1 &6865271700853051841
 GameObject:
   m_ObjectHideFlags: 0
